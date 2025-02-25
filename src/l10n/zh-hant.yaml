@@ -1,0 +1,4 @@
+esp32.menubar.device: 設備
+esp32.menubar.device.connect: 連接
+esp32.menubar.device.disconnect: 斷開連接
+esp32.menubar.device.sync: 同步腳本

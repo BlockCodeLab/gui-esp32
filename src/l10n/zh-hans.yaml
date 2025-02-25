@@ -1,0 +1,4 @@
+esp32.menubar.device: 设备
+esp32.menubar.device.connect: 连接
+esp32.menubar.device.disconnect: 断开连接
+esp32.menubar.device.sync: 同步脚本
