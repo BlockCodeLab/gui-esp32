@@ -4,34 +4,43 @@ import featureImage from './feature.png';
 
 addLocalesMessages({
   en: {
-    'esp32.name': 'ESP32 Board',
-    'esp32.description': 'Programming the ESP32 board via blocks.',
+    'esp32.name': 'ESP32',
+    'esp32.description': 'ESP32 series programming via blocks.',
+    'esp32.collaborator': 'ESPRESSIF',
   },
   'zh-Hans': {
-    'esp32.name': 'ESP32 开发板',
-    'esp32.description': '用积木为 ESP32 开发板编程。',
+    'esp32.name': 'ESP32',
+    'esp32.description': '用积木为 ESP32 编程。',
+    'esp32.collaborator': '乐鑫科技',
   },
   'zh-Hant': {
-    'esp32.name': 'ESP32 開發板',
-    'esp32.description': '用積木為 ESP32 開發板編程。',
+    'esp32.name': 'ESP32',
+    'esp32.description': '用積木為 ESP32 編程。',
+    'esp32.collaborator': 'ESPRESSIF',
   },
 });
 
 export default {
   version,
   disabled: true,
-  sortIndex: 101, // 开发板产品
+  sortIndex: 101,
   image: featureImage,
   name: (
     <Text
       id="esp32.name"
-      defaultMessage="ESP32 Board"
+      defaultMessage="ESP32 Series"
     />
   ),
   description: (
     <Text
       id="esp32.description"
-      defaultMessage="Programming the ESP32 board via blocks."
+      defaultMessage="ESP32 series programming via blocks."
+    />
+  ),
+  collaborator: (
+    <Text
+      id="esp32.collaborator"
+      defaultMessage="ESPRESSIF"
     />
   ),
   blocksRequired: true,
