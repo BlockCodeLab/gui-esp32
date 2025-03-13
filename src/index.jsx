@@ -90,7 +90,6 @@ export default {
       ...blocksTab,
       Content: () => (
         <BlocksEditor
-          disableMonitor
           generator={generator}
           onExtensionsFilter={handleExtensionsFilter}
         />
