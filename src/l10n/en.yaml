@@ -1,4 +1,2 @@
-esp32.menubar.device: Device
-esp32.menubar.device.connect: Connect
-esp32.menubar.device.disconnect: Disconnect
+esp32.menubar.device: ESP32
 esp32.menubar.device.sync: Sync blocks
