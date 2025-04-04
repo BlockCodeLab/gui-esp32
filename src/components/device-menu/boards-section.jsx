@@ -41,21 +41,6 @@ export function BoardsSection({ itemClassName }) {
       </MenuItem>
       <MenuItem
         className={itemClassName}
-        onClick={chooseBoardHandler(ESP32Boards.ESP32S2)}
-      >
-        <img
-          className={classNames(styles.checkIcon, {
-            [styles.checked]: appState.value?.boardType === ESP32Boards.ESP32S2,
-          })}
-          src={checkIcon}
-        />
-        <Text
-          id="esp32.menubar.device.esp32s2"
-          defaultMessage="ESP32-S2"
-        />
-      </MenuItem>
-      <MenuItem
-        className={itemClassName}
         onClick={chooseBoardHandler(ESP32Boards.ESP32S3)}
       >
         <img

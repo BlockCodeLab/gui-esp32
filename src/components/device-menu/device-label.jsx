@@ -6,15 +6,6 @@ import deviceIcon from './icon-device.png';
 export function DeviceLabel() {
   const { appState } = useAppContext();
 
-  if (appState.value?.boardType === ESP32Boards.ESP32S2) {
-    return (
-      <Text
-        id="esp32.menubar.device.esp32s2"
-        defaultMessage="ESP32-S2"
-      />
-    );
-  }
-
   if (appState.value?.boardType === ESP32Boards.ESP32S3) {
     return (
       <Text
