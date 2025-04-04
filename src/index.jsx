@@ -3,9 +3,9 @@ import './l10n';
 import { svgAsDataUri } from '@blockcode/utils';
 import { ScratchBlocks, MicroPythonGenerator, blocksTab, codeReviewTab } from '@blockcode/blocks';
 
-import { Text } from '@blockcode/core';
 import { BlocksEditor, CodeReview } from '@blockcode/blocks';
 import { DeviceIcon } from './components/device-menu/device-icon';
+import { DeviceLabel } from './components/device-menu/device-label';
 import { DeviceMenu } from './components/device-menu/device-menu';
 import { defaultProject } from './lib/default-project';
 
@@ -75,12 +75,7 @@ export default {
   menuItems: [
     {
       icon: <DeviceIcon />,
-      label: (
-        <Text
-          id="esp32.menubar.device"
-          defaultMessage="Device"
-        />
-      ),
+      label: <DeviceLabel />,
       Menu: DeviceMenu,
     },
   ],

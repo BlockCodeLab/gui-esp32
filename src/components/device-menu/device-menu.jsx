@@ -1,8 +1,11 @@
-import { nanoid } from '@blockcode/utils';
+import { useCallback } from 'preact/hooks';
+import { nanoid, classNames } from '@blockcode/utils';
 import { useProjectContext, setAlert, delAlert, openPromptModal } from '@blockcode/core';
 import { MPYUtils } from '@blockcode/board';
 
 import { Spinner, Text, MenuSection, MenuItem } from '@blockcode/core';
+import { BoardsSection } from './boards-section';
+import styles from './device-menu.module.css';
 
 let downloadAlertId = null;
 
@@ -21,7 +24,7 @@ const downloadingAlert = (progress) => {
       icon: <Spinner level="success" />,
       message: (
         <Text
-          id="blocks.alert.downloading"
+          id="gui.alert.downloadingProgress"
           defaultMessage="Downloading...{progress}%"
           progress={progress}
         />
@@ -39,81 +42,57 @@ const errorAlert = (err) => {
 };
 
 export function DeviceMenu({ itemClassName }) {
-  const { key, files, assets } = useProjectContext();
+  const { files, assets } = useProjectContext();
+
+  const handleDownload = useCallback(async () => {
+    if (downloadAlertId) return;
+
+    let currentDevice;
+    try {
+      currentDevice = await MPYUtils.connect([]);
+    } catch (err) {
+      errorAlert(err.name);
+    }
+    if (!currentDevice) return;
+
+    const checker = MPYUtils.check(currentDevice).catch(() => {
+      errorAlert();
+      removeDownloading();
+    });
+
+    const projectFiles = [].concat(files.value, assets.value);
+
+    downloadingAlert('0.0');
+
+    try {
+      // 开始下载
+      await MPYUtils.write(currentDevice, projectFiles, downloadingAlert);
+      currentDevice.hardReset();
+    } catch (err) {
+      errorAlert(err.name);
+    }
+
+    removeDownloading();
+    checker.cancel();
+  }, []);
 
   return (
     <>
       <MenuSection>
         <MenuItem
           disabled={downloadAlertId}
-          className={itemClassName}
+          className={classNames(itemClassName, styles.blankCheckItem)}
           label={
             <Text
               id="gui.menubar.device.download"
               defaultMessage="Download program"
             />
           }
-          onClick={async () => {
-            if (downloadAlertId) return;
-
-            let currentDevice;
-            try {
-              currentDevice = await MPYUtils.connect([]);
-            } catch (err) {
-              errorAlert(err.name);
-            }
-            if (!currentDevice) return;
-
-            const checker = MPYUtils.check(currentDevice).catch(() => {
-              errorAlert();
-              removeDownloading();
-            });
-
-            const projectFiles = [].concat(files.value, assets.value).map((file) => ({
-              ...file,
-              id: file.id.startsWith('lib/')
-                ? file.id // 库文件不放入项目文件夹
-                : `proj${key.value}/${file.id}`,
-            }));
-
-            downloadingAlert(0);
-
-            try {
-              // 检查空间
-              if (!(await MPYUtils.flashFree(currentDevice, projectFiles))) {
-                openPromptModal({
-                  title: (
-                    <Text
-                      id="gui.menubar.device"
-                      defaultMessage="Device"
-                    />
-                  ),
-                  label: (
-                    <Text
-                      id="blocks.downloadPrompt.flashOutSpace"
-                      defaultMessage="The flash is running out of space."
-                    />
-                  ),
-                });
-              }
-
-              // 开始下载
-              else {
-                await MPYUtils.write(currentDevice, projectFiles, downloadingAlert);
-                await MPYUtils.config(currentDevice, {
-                  'latest-project': key,
-                });
-                currentDevice.hardReset();
-              }
-            } catch (err) {
-              errorAlert(err.name);
-            }
-
-            removeDownloading();
-            checker.cancel();
-          }}
+          onClick={handleDownload}
         />
       </MenuSection>
+
+      <BoardsSection itemClassName={itemClassName} />
     </>
   );
 }
