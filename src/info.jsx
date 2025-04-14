@@ -44,4 +44,5 @@ export default {
     />
   ),
   blocksRequired: true,
+  micropythonRequired: true,
 };
