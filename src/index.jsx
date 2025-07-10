@@ -1,24 +1,24 @@
 import './l10n';
 
 import { svgAsDataUri } from '@blockcode/utils';
-import { ScratchBlocks, MicroPythonGenerator, blocksTab, codeReviewTab } from '@blockcode/blocks';
+import { ScratchBlocks, blocksTab } from '@blockcode/blocks';
+import { codeTab, terminalTab } from '@blockcode/code';
 
-import { BlocksEditor, CodeReview } from '@blockcode/blocks';
+import { ESP32CodeEditor } from './components/code-editor/code-editor';
+import { ESP32BlocksEditor } from './components/blocks-editor/blocks-editor';
 import { DeviceIcon } from './components/device-menu/device-icon';
 import { DeviceLabel } from './components/device-menu/device-label';
 import { DeviceMenu } from './components/device-menu/device-menu';
+import { SettingsSection } from './components/edit-menu/settings-section';
 import { defaultProject } from './lib/default-project';
-
-const generator = new MicroPythonGenerator();
-
-const handleExtensionsFilter = () => ['mpy'];
+import { ESP32Boards } from './lib/boards';
 
 export default {
   onNew() {
     return defaultProject;
   },
 
-  onSave(files, assets) {
+  onSave(files, assets, meta) {
     const extensions = [];
     files = files.map((file) => {
       extensions.push(file.extensions);
@@ -28,13 +28,14 @@ export default {
         xml: file.xml,
       };
     });
-    const meta = {
-      extensions: Array.from(new Set(extensions.flat())),
-    };
     return {
-      meta,
       files,
       assets,
+      meta: {
+        extensions: Array.from(new Set(extensions.flat())),
+        boardType: meta.boardType ?? ESP32Boards.ESP32,
+        classicEvents: meta.classicEvents ?? false,
+      },
     };
   },
 
@@ -74,6 +75,10 @@ export default {
 
   menuItems: [
     {
+      id: 'edit',
+      Menu: SettingsSection,
+    },
+    {
       icon: <DeviceIcon />,
       label: <DeviceLabel />,
       Menu: DeviceMenu,
@@ -83,16 +88,15 @@ export default {
   tabs: [
     {
       ...blocksTab,
-      Content: () => (
-        <BlocksEditor
-          generator={generator}
-          onExtensionsFilter={handleExtensionsFilter}
-        />
-      ),
+      Content: ESP32BlocksEditor,
     },
     {
-      ...codeReviewTab,
-      Content: CodeReview,
+      ...codeTab,
+      Content: ESP32CodeEditor,
+    },
+    {
+      ...terminalTab,
+      disabled: true,
     },
   ],
 };
