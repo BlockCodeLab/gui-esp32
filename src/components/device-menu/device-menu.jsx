@@ -9,6 +9,13 @@ import styles from './device-menu.module.css';
 
 let downloadAlertId = null;
 
+const deviceFilters = [
+  // {
+  //   usbVendorId: 0x303a, // Espressif Vendor ID
+  //   usbProductId: 0x8001, // Arcade Product ID
+  // },
+];
+
 const removeDownloading = () => {
   delAlert(downloadAlertId);
   downloadAlertId = null;
@@ -42,15 +49,17 @@ const errorAlert = (err) => {
 };
 
 export function DeviceMenu({ itemClassName }) {
-  const { files, assets } = useProjectContext();
+   const { meta, file } = useProjectContext();
 
   const handleDownload = useCallback(async () => {
     if (downloadAlertId) return;
 
     let currentDevice;
     try {
-      currentDevice = await MPYUtils.connect([]);
+      currentDevice = await MPYUtils.connect(deviceFilters);
+      
     } catch (err) {
+      console.log(err);
       errorAlert(err.name);
     }
     if (!currentDevice) return;
@@ -59,8 +68,9 @@ export function DeviceMenu({ itemClassName }) {
       errorAlert();
       removeDownloading();
     });
-
-    const projectFiles = [].concat(files.value, assets.value);
+    let newFile = Object.assign({}, file.value);
+    newFile.id = "main.py";
+    const projectFiles = [].concat(newFile);
 
     downloadingAlert('0.0');
 
@@ -69,10 +79,12 @@ export function DeviceMenu({ itemClassName }) {
       await MPYUtils.write(currentDevice, projectFiles, downloadingAlert);
       currentDevice.hardReset();
     } catch (err) {
-      errorAlert(err.name);
+      errorAlert(err);
+    }finally{
+      removeDownloading();
     }
 
-    removeDownloading();
+    
     checker.cancel();
   }, []);
 

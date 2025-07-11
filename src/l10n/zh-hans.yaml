@@ -24,7 +24,7 @@ esp32.blocks.dataConvert: 将 %1 类型转为 %2
 esp32.blocks.dataLengthOf: "%1 长度"
 esp32.blocks.dataConstrain: 约束 %1 在 %2 和 %3 之间
 esp32.blocks.dataMap: 映射 %1 从 %2 - %3 到 %4 - %5
-esp32.blocks.whensetup: 当 Arduino 启动
+esp32.blocks.whensetup: 当 esp32 启动
 esp32.blocks.whentimer: 当定时器每间隔 %1 毫秒
 esp32.blocks.timeron: 开启定时器
 esp32.blocks.timeroff: 关闭定时器

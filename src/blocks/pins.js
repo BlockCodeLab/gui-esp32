@@ -32,13 +32,13 @@ export default (boardType) => ({
         const mode = block.getFieldValue('MODE') || 'INPUT';
         let code = '';
         if (mode === 'INPUT') {
-          code = `pin_${pin} = Pin(${pin}, Pin.INPUT)`;
+          code = `pin_${pin} = Pin(${pin}, Pin.INPUT)\n`;
         } else if (mode === 'OUTPUT') {
-          code = `pin_${pin} = Pin(${pin}, Pin.OUTPUT)`;
+          code = `pin_${pin} = Pin(${pin}, Pin.OUTPUT)\n`;
         } else if (mode === 'INPUT_PULLUP') {
-          code = `pin_${pin} = Pin(${pin}, Pin.INPUT, Pin.PULL_UP)`;
+          code = `pin_${pin} = Pin(${pin}, Pin.INPUT, Pin.PULL_UP)\n`;
         } else if (mode === 'INPUT_PULLDOWN') {
-          code = `pin_${pin} = Pin(${pin}, Pin.INPUT, Pin.PULL_DOWN)`;
+          code = `pin_${pin} = Pin(${pin}, Pin.INPUT, Pin.PULL_DOWN)\n`;
         }
         return code;
       },
@@ -65,13 +65,13 @@ export default (boardType) => ({
       esp32(block) {
         const pin = block.getFieldValue('PIN') || 0;
         const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
-        const code = `pin_${pin}.value(${value});`;
+        const code = `pin_${pin}.value(${value})\n`;
         return code;
       },
     },
     {
       // 模拟/PWM 引脚设为
-      id: 'setanalog',
+      id: 'setPWM',
       text: translate('esp32.blocks.setanalog', 'set pwm pin %1 to %2'),
       inputs: {
         PIN: {
@@ -84,7 +84,7 @@ export default (boardType) => ({
       esp32(block) {
         const pin = block.getFieldValue('PIN') || 0;
         const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
-        const code = `analogWrite(${pin}, ${value});\n`;
+        const code = `analogWrite(${pin}, ${value})\n`;
         return code;
       },
     },
@@ -136,7 +136,7 @@ export default (boardType) => ({
       esp32(block) {
         this.definitions_['adc'] = 'from machine import ADC';
         const pin = block.getFieldValue('PIN') || 0;
-        return `ADC(Pin(${pin})).read()`;
+        return `ADC(Pin(${pin})).read()\n`;
       },
     },
     '---',
@@ -176,7 +176,7 @@ export default (boardType) => ({
           'LOW': 'Pin.IRQ_LOW_LEVEL'
         };
         const trigger = triggerMap[interrupt] || 'Pin.IRQ_RISING';
-        return `pin_${pin}.irq(trigger=${trigger}, handler=${funcName})`;
+        return `pin_${pin}.irq(trigger=${trigger}, handler=${funcName})\n`;
       },
     },
     {
@@ -190,7 +190,7 @@ export default (boardType) => ({
       },
       esp32(block) {
         const pin = block.getFieldValue('PIN') || 0;
-        return `pin_${pin}.irq(handler=None)`;
+        return `pin_${pin}.irq(handler=None)\n`;
       },
     },
   ],
