@@ -19,8 +19,9 @@ export default () => ({
         },
       },
       esp32(block) {
+        this.definitions_['time'] = 'import time';
         const seconds = this.valueToCode(block, 'seconds', this.ORDER_NONE);
-        const code = `sleep(${seconds})\n`;
+        const code = `time.sleep(${seconds})\n`;
         return code;
       },
     },

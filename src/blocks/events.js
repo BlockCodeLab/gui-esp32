@@ -21,8 +21,9 @@ export default (classicEvents) => {
         text: translate('esp32.blocks.whensetup', 'when esp32 setup'),
         hat: true,
         esp32(block) {
-          const branchCode = this.statementToCode(block) || '';
-          this.setup_ += branchCode;
+          const targetBlock =  block.nextConnection?.targetBlock();
+          let code = this.blockToCode(targetBlock);
+          return code;
         },
       },
     ],

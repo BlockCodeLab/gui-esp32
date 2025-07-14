@@ -32,9 +32,9 @@ export default (boardType) => ({
         const mode = block.getFieldValue('MODE') || 'INPUT';
         let code = '';
         if (mode === 'INPUT') {
-          code = `pin_${pin} = Pin(${pin}, Pin.INPUT)\n`;
+          code = `pin_${pin} = Pin(${pin}, Pin.IN)\n`;
         } else if (mode === 'OUTPUT') {
-          code = `pin_${pin} = Pin(${pin}, Pin.OUTPUT)\n`;
+          code = `pin_${pin} = Pin(${pin}, Pin.OUT)\n`;
         } else if (mode === 'INPUT_PULLUP') {
           code = `pin_${pin} = Pin(${pin}, Pin.INPUT, Pin.PULL_UP)\n`;
         } else if (mode === 'INPUT_PULLDOWN') {
