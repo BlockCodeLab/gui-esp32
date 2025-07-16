@@ -2,6 +2,7 @@ import { useCallback } from 'preact/hooks';
 import { nanoid, classNames } from '@blockcode/utils';
 import { useProjectContext, setAlert, delAlert, openPromptModal } from '@blockcode/core';
 import { MPYUtils } from '@blockcode/board';
+import { sleepMs } from '@blockcode/utils';
 
 import { Spinner, Text, MenuSection, MenuItem } from '@blockcode/core';
 import { BoardsSection } from './boards-section';
@@ -48,27 +49,13 @@ const errorAlert = (err) => {
   setAlert('connectionError', 1000);
 };
 
-export function DeviceMenu({ itemClassName }) {
-   const { meta, file } = useProjectContext();
+const downloadProgram = async (device, dfile) => {
 
-  const handleDownload = useCallback(async () => {
-    if (downloadAlertId) return;
-
-    let currentDevice;
-    try {
-      currentDevice = await MPYUtils.connect(deviceFilters);
-      
-    } catch (err) {
-      console.log(err);
-      errorAlert(err.name);
-    }
-    if (!currentDevice) return;
-
-    const checker = MPYUtils.check(currentDevice).catch(() => {
+   const checker = MPYUtils.check(device).catch(() => {
       errorAlert();
       removeDownloading();
     });
-    let newFile = Object.assign({}, file.value);
+    let newFile = Object.assign({}, dfile);
     newFile.id = "main.py";
     const projectFiles = [].concat(newFile);
 
@@ -76,16 +63,55 @@ export function DeviceMenu({ itemClassName }) {
 
     try {
       // 开始下载
-      await MPYUtils.write(currentDevice, projectFiles, downloadingAlert);
-      currentDevice.hardReset();
+      await MPYUtils.write(device, projectFiles, downloadingAlert);
+      //device.hardReset();
+      device.exitRawRepl();
+      await sleepMs(1000);
+      device.reset();
+      await sleepMs(1000);
     } catch (err) {
+      console.log(err);
       errorAlert(err);
-    }finally{
       removeDownloading();
+    }finally{
+      device.disconnect();
     }
 
     
     checker.cancel();
+};
+
+export function DeviceMenu({ itemClassName }) {
+   const { meta, file } = useProjectContext();
+
+  const handleDownload = useCallback(async () => {
+    if (downloadAlertId) return;
+    let currentDevice;
+    try {
+      currentDevice = await MPYUtils.connect(deviceFilters, {
+        baudRate: 115200,
+      });
+    } catch (err) {
+      console.log(err);
+      errorAlert(err.name);
+    }
+    if (!currentDevice) return;
+    downloadProgram(currentDevice, file.value);
+   
+  }, []);
+
+  const handleDownloadBLE = useCallback(async () => {
+    if (downloadAlertId) return;
+    let currentDevice;
+    try {
+      currentDevice = await MPYUtils.connectBLE();
+    } catch (err) {
+      console.log(err);
+      errorAlert(err.name);
+    }
+    if (!currentDevice) return;
+    downloadProgram(currentDevice, file.value);
+   
   }, []);
 
   return (
@@ -100,7 +126,7 @@ export function DeviceMenu({ itemClassName }) {
               defaultMessage="Download program"
             />
           }
-          onClick={handleDownload}
+          onClick={handleDownloadBLE}
         />
       </MenuSection>
 
