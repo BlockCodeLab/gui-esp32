@@ -84,7 +84,9 @@ export default (boardType) => ({
       esp32(block) {
         const pin = block.getFieldValue('PIN') || 0;
         const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
-        const code = `analogWrite(${pin}, ${value})\n`;
+        this.definitions_['pwm'] = 'from machine import Pin, PWM';
+        let code = `pwm_${pin} = PWM(Pin(${pin}), freq=500)\n`;
+        code += `pwm_${pin}.duty_u16(${value} * 257)\n`;
         return code;
       },
     },
