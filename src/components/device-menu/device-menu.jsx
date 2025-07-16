@@ -121,12 +121,23 @@ export function DeviceMenu({ itemClassName }) {
           disabled={downloadAlertId}
           className={classNames(itemClassName, styles.blankCheckItem)}
           label={
+              <Text
+                id="esp32.menubar.device.downloadBle"
+                defaultMessage="Download program via Bluetooth (BLE)"
+              />
+            }
+          onClick={handleDownloadBLE}
+        />
+        <MenuItem
+          disabled={downloadAlertId}
+          className={classNames(itemClassName, styles.blankCheckItem)}
+          label={
             <Text
-              id="gui.menubar.device.download"
-              defaultMessage="Download program"
+              id="esp32.menubar.device.download"
+              defaultMessage="Download program via Serial Port"
             />
           }
-          onClick={handleDownloadBLE}
+          onClick={handleDownload}
         />
       </MenuSection>
 

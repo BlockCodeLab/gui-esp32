@@ -7,6 +7,9 @@ esp32.menubar.device.esp32c6: ESP32-C6
 esp32.menubar.device.sync: 同步程式
 esp32.menubar.edit.classicEventsOpen: 開啟舊樣式事件積木
 
+esp32.menubar.device.download: 通過 USB 下載程式
+esp32.menubar.device.downloadBle: 通過藍牙下載程式
+
 esp32.blocks.classicEventsLabel: 经典事件積木請從「編輯」菜單開啟。
 esp32.blocks.displayMatrix: 顯示圖示 %1
 esp32.blocks.clearDisplay: 清空畫面

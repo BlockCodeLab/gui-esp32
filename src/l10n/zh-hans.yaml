@@ -7,6 +7,10 @@ esp32.menubar.device.esp32c6: ESP32-C6
 esp32.menubar.device.sync: 同步程序
 esp32.menubar.edit.classicEventsOpen: 打开经典事件积木
 
+esp32.menubar.device.download: 通过 USB 下载程序
+esp32.menubar.device.downloadBle: 通过蓝牙下载程序
+
+
 
 esp32.blocks.classicEventsLabel: 经典事件积木请从“编辑”菜单开启。
 esp32.blocks.displayMatrix: 显示 %1
