@@ -10,13 +10,11 @@ import getMyBlocks from './procedures';
 
 export { ESP32Generator } from './generator';
 
-export { VARIABLE_TYPES } from './data';
-
-export function buildBlocks(boardType, classicEvents) {
+export function buildBlocks(boardType) {
   const pinsBlocks = getPinsBlocks(boardType);
   const textBlocks = getTextBlocks();
   const serialBlocks = getSerialBlocks();
-  const eventsBlocks = getEventsBlocks(classicEvents);
+  const eventsBlocks = getEventsBlocks(boardType);
   const controlBlocks = getControlBlocks();
   const protocolsBlocks = getProtocolsBlocks();
   const operatorsBlocks = getOperatorsBlocks();

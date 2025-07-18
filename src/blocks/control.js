@@ -14,14 +14,13 @@ export default () => ({
       text: translate('esp32.blocks.wait', 'wait %1 seconds'),
       inputs: {
         seconds: {
-          type: 'integer',
+          type: 'number',
           defaultValue: 1,
         },
       },
-      esp32(block) {
-        this.definitions_['time'] = 'import time';
+      mpy(block) {
         const seconds = this.valueToCode(block, 'seconds', this.ORDER_NONE);
-        const code = `time.sleep(${seconds})\n`;
+        const code = `await asyncio.sleep(${seconds})\n`;
         return code;
       },
     },
@@ -31,12 +30,12 @@ export default () => ({
       text: ScratchBlocks.Msg.CONTROL_FOREVER,
       repeat: true,
       end: true,
-      esp32(block) {
+      mpy(block) {
         let branchCode = this.statementToCode(block, 'SUBSTACK');
         branchCode = this.addLoopTrap(branchCode, block.id) || this.PASS;
         let code = '';
         code += 'while True:\n';
-        code +=  branchCode;
+        code += branchCode;
         return code;
       },
     },
@@ -52,12 +51,11 @@ export default () => ({
           defaultValue: 10,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const times = this.valueToCode(block, 'TIMES', this.ORDER_NONE);
-
         let branchCode = this.statementToCode(block, 'SUBSTACK');
         branchCode = this.addLoopTrap(branchCode, block.id) || this.PASS;
-        
+
         let code = '';
         code += `for count in range(int(${times})):\n`;
         code += branchCode;
@@ -65,7 +63,6 @@ export default () => ({
         return code;
       },
     },
-    
     '---',
     {
       // 如果
@@ -77,7 +74,7 @@ export default () => ({
           type: 'boolean',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const condition = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'False';
         const branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
 
@@ -97,7 +94,7 @@ export default () => ({
           type: 'boolean',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const condition = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'False';
         const branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
 
@@ -113,7 +110,7 @@ export default () => ({
       id: 'else',
       text: translate('esp32.blocks.else', 'else'),
       substack: true,
-      esp32(block) {
+      mpy(block) {
         const branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
 
         // [TODO] 处理 else 前面没有 if 的错误情况
@@ -134,7 +131,7 @@ export default () => ({
           type: 'boolean',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const condition = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'False';
         let branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
         branchCode = this.addLoopTrap(branchCode, block.id);
@@ -155,7 +152,7 @@ export default () => ({
           type: 'boolean',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const condition = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'True';
         let branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
         branchCode = this.addLoopTrap(branchCode, block.id);
@@ -171,7 +168,7 @@ export default () => ({
       id: 'continue',
       text: translate('esp32.blocks.continue', 'continue'),
       end: true,
-      esp32(block) {
+      mpy(block) {
         let code = '';
         code += 'continue\n';
         return code;
@@ -182,9 +179,29 @@ export default () => ({
       id: 'break',
       text: translate('esp32.blocks.break', 'break'),
       end: true,
-      esp32(block) {
+      mpy(block) {
         let code = '';
         code += 'break\n';
+        return code;
+      },
+    },
+    '---',
+    {
+      // 运行时长
+      id: 'runtime',
+      text: translate('esp32.blocks.runtime', 'run time %1'),
+      output: 'number',
+      inputs: {
+        UNIT: {
+          menu: [
+            [translate('esp32.blocks.runtimeMilliseconds', 'milliseconds'), 'MS'],
+            [translate('esp32.blocks.runtimeSeconds', 'seconds'), 'SEC'],
+          ],
+        },
+      },
+      ino(block) {
+        const unit = block.getFieldValue('UNIT');
+        const code = `(_times__${unit === 'SEC' ? '/1000' : ''})`;
         return code;
       },
     },

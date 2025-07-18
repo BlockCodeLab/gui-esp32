@@ -24,7 +24,7 @@ export default () => ({
           defaultValue: 'arduino',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const str1 = this.valueToCode(block, 'STRING1', this.ORDER_NONE);
         const str2 = this.valueToCode(block, 'STRING2', this.ORDER_NONE);
         const code = `(${str1} + ${str2})`;
@@ -46,7 +46,7 @@ export default () => ({
           defaultValue: 'arduino',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const letterIndex = this.getAdjustedInt(block, 'LETTER'); // 将位置值换成下标值
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const code = `${str}[${letterIndex}]`;
@@ -64,7 +64,7 @@ export default () => ({
           defaultValue: 'arduino',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const code = `len(${str})`;
         return [code, this.ORDER_FUNCTION_CALL];
@@ -85,7 +85,7 @@ export default () => ({
           defaultValue: 'ino',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const str1 = this.valueToCode(block, 'STRING1', this.ORDER_NONE);
         const str2 = this.valueToCode(block, 'STRING2', this.ORDER_NONE);
         const code = `(${str2} in ${str1})`;
@@ -107,7 +107,7 @@ export default () => ({
           defaultValue: 'Arduino',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const str1 = this.valueToCode(block, 'STRING1', this.ORDER_NONE);
         const str2 = this.valueToCode(block, 'STRING2', this.ORDER_NONE);
         const code = `${str1}.lower() == ${str2}.lower()`;
@@ -133,7 +133,7 @@ export default () => ({
           defaultValue: 'arduino',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const from = this.getAdjustedInt(block, 'FROM');
         const to = this.valueToCode(block, 'TO', this.ORDER_NONE);
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
@@ -159,7 +159,7 @@ export default () => ({
           defaultValue: 'The A',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const str1 = this.valueToCode(block, 'STRING1', this.ORDER_NONE);
         const str2 = this.valueToCode(block, 'STRING2', this.ORDER_NONE);
         const str3 = this.valueToCode(block, 'STRING3', this.ORDER_NONE);
@@ -185,11 +185,11 @@ export default () => ({
           defaultValue: 'A',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const index = this.getAdjustedInt(block, 'INDEX');
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const letter = this.valueToCode(block, 'LETTER', this.ORDER_NONE);
-        const code = `${str}[:${index}] + ${letter} + ${str}[${index+1}:]`;
+        const code = `${str}[:${index}] + ${letter} + ${str}[${index + 1}:]`;
         return code;
       },
     },
@@ -212,7 +212,7 @@ export default () => ({
           defaultValue: 7,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const from = this.getAdjustedInt(block, 'FROM');
         const to = this.valueToCode(block, 'TO', this.ORDER_NONE);
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
@@ -242,7 +242,7 @@ export default () => ({
           defaultValue: 'a',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const str1 = this.valueToCode(block, 'STRING1', this.ORDER_NONE);
         const str2 = this.valueToCode(block, 'STRING2', this.ORDER_NONE);
         const with_ = block.getFieldValue('WITH') || 'START';
@@ -268,7 +268,7 @@ export default () => ({
           defaultValue: 'Arduino',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const with_ = block.getFieldValue('WITH') || 'LOWER';
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const method = with_ === 'LOWER' ? 'lower' : 'upper';
@@ -286,7 +286,7 @@ export default () => ({
           defaultValue: 'arduino',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const code = `${str}.strip()`;
         return code;
@@ -307,7 +307,7 @@ export default () => ({
           menu: ['int', 'float', 'char array', 'byte array'],
         },
       },
-      esp32(block) {
+      mpy(block) {
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const type = block.getFieldValue('TYPE') || 'int';
         let code;
@@ -336,7 +336,7 @@ export default () => ({
           defaultValue: 1,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
         const code = `str(${num})`;
         return [code, this.ORDER_FUNCTION_CALL];

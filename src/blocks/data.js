@@ -25,7 +25,7 @@ export default () => ({
           menu: ['int', 'float', 'String'],
         },
       },
-      esp32(block) {
+      mpy(block) {
         const data = this.valueToCode(block, 'DATA', this.ORDER_NONE);
         const type = block.getFieldValue('TYPE') || 'int';
         switch (type) {
@@ -52,7 +52,7 @@ export default () => ({
           defaultValue: 'arduino',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const data = this.valueToCode(block, 'DATA', this.ORDER_NONE);
         return `len(${data})`;
       },
@@ -77,7 +77,7 @@ export default () => ({
           defaultValue: 255,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const data = this.valueToCode(block, 'DATA', this.ORDER_NONE);
         const from = this.valueToCode(block, 'FROM', this.ORDER_NONE);
         const to = this.valueToCode(block, 'TO', this.ORDER_NONE);
@@ -111,7 +111,7 @@ export default () => ({
           defaultValue: 255,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const data = this.valueToCode(block, 'DATA', this.ORDER_NONE);
         const fromlow = this.valueToCode(block, 'FROMLOW', this.ORDER_NONE);
         const fromhigh = this.valueToCode(block, 'FROMHIGH', this.ORDER_NONE);
@@ -124,7 +124,7 @@ export default () => ({
     {
       // 声明变量
       id: 'setvariableto',
-      esp32(block) {
+      mpy(block) {
         const varName = this.getVariableName(block.getFieldValue('VARIABLE'));
         const code = `${varName} = None`;
 
@@ -141,7 +141,7 @@ export default () => ({
     {
       // 设置变量
       id: 'changevariableby',
-      esp32(block) {
+      mpy(block) {
         const varName = this.getVariableName(block.getFieldValue('VARIABLE'));
         const varValue = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
         return `${varName} = ${varValue}\n`;
@@ -150,7 +150,7 @@ export default () => ({
     {
       // 获取变量
       id: 'variable',
-      esp32(block) {
+      mpy(block) {
         const varName = this.getVariableName(block.getFieldValue('VARIABLE'));
         return [varName, this.ORDER_ATOMIC];
       },
@@ -158,7 +158,7 @@ export default () => ({
     {
       // 声明数组
       id: 'insertatlist',
-      esp32(block) {
+      mpy(block) {
         const arrName = 'arr' + this.getVariableName(block.getFieldValue('LIST'));
         const arrSize = this.valueToCode(block, 'INDEX', this.ORDER_NONE);
         const code = `${arrName} = [None] * int(${arrSize})`;
@@ -176,7 +176,7 @@ export default () => ({
     {
       // 设置数组项
       id: 'replaceitemoflist',
-      esp32(block) {
+      mpy(block) {
         const arrName = 'arr' + this.getVariableName(block.getFieldValue('LIST'));
         const arrValue = this.valueToCode(block, 'ITEM', this.ORDER_NONE);
         const index = this.valueToCode(block, 'INDEX', this.ORDER_NONE);
@@ -186,7 +186,7 @@ export default () => ({
     {
       // 获取数组
       id: 'listcontents',
-      esp32(block) {
+      mpy(block) {
         const arrName = 'arr' + this.getVariableName(block.getFieldValue('LIST'));
         return [arrName, this.ORDER_ATOMIC];
       },
@@ -194,7 +194,7 @@ export default () => ({
     {
       // 获取数组项
       id: 'itemoflist',
-      esp32(block) {
+      mpy(block) {
         const arrName = 'arr' + this.getVariableName(block.getFieldValue('LIST'));
         const index = this.valueToCode(block, 'INDEX', this.ORDER_NONE);
         const code = `${arrName}[int(${index})]`;
@@ -204,7 +204,7 @@ export default () => ({
     {
       // 数组长度
       id: 'lengthoflist',
-      esp32(block) {
+      mpy(block) {
         const arrName = 'arr' + this.getVariableName(block.getFieldValue('LIST'));
         const code = `len(${arrName})`;
         return [code, this.ORDER_FUNCTION_CALL];

@@ -30,7 +30,7 @@ export default () => ({
           defaultValue: 0,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const num1 = this.valueToCode(block, 'NUM1', this.ORDER_NONE);
         const num2 = this.valueToCode(block, 'NUM2', this.ORDER_NONE);
         const symbol = block.getFieldValue('SYMBOL') || '+';
@@ -61,8 +61,8 @@ export default () => ({
           defaultValue: 10,
         },
       },
-      esp32(block) {
-        this.definitions_['random'] = 'import random'
+      mpy(block) {
+        this.definitions_['random'] = 'import random';
         const from = this.valueToCode(block, 'FROM', this.ORDER_NONE);
         const to = this.valueToCode(block, 'TO', this.ORDER_NONE);
         const code = `random.randint(${from}, ${to})`;
@@ -95,7 +95,7 @@ export default () => ({
           defaultValue: 0,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const num1 = this.valueToCode(block, 'NUM1', this.ORDER_NONE);
         const num2 = this.valueToCode(block, 'NUM2', this.ORDER_NONE);
         const symbol = block.getFieldValue('SYMBOL') || '>';
@@ -126,7 +126,7 @@ export default () => ({
           type: 'boolean',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const operand1 = this.valueToCode(block, 'OPERAND1', this.ORDER_NONE);
         const operand2 = this.valueToCode(block, 'OPERAND2', this.ORDER_NONE);
         const code = `(${operand1} and ${operand2})`;
@@ -146,7 +146,7 @@ export default () => ({
           type: 'boolean',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const operand1 = this.valueToCode(block, 'OPERAND1', this.ORDER_NONE);
         const operand2 = this.valueToCode(block, 'OPERAND2', this.ORDER_NONE);
         const code = `(${operand1} or ${operand2})`;
@@ -163,7 +163,7 @@ export default () => ({
           type: 'boolean',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const operand = this.valueToCode(block, 'OPERAND', this.ORDER_NONE) || 'True';
         const code = `(not ${operand})`;
         return [code, this.ORDER_LOGICAL_NOT];
@@ -194,7 +194,7 @@ export default () => ({
           defaultValue: 0,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const num1 = this.valueToCode(block, 'NUM1', this.ORDER_NONE);
         const num2 = this.valueToCode(block, 'NUM2', this.ORDER_NONE);
         const symbol = block.getFieldValue('SYMBOL') || '&';
@@ -221,7 +221,7 @@ export default () => ({
           defaultValue: 0,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
         const code = `(~${num})`;
         return [code, this.ORDER_BITWISE_NOT];
@@ -243,7 +243,7 @@ export default () => ({
           defaultValue: 0,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const num1 = this.valueToCode(block, 'NUM1', this.ORDER_NONE);
         const num2 = this.valueToCode(block, 'NUM2', this.ORDER_NONE);
         const code = `max(${num1}, ${num2})`;
@@ -265,7 +265,7 @@ export default () => ({
           defaultValue: 0,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const num1 = this.valueToCode(block, 'NUM1', this.ORDER_NONE);
         const num2 = this.valueToCode(block, 'NUM2', this.ORDER_NONE);
         const code = `min(${num1}, ${num2})`;
@@ -287,7 +287,7 @@ export default () => ({
           defaultValue: 0,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const num1 = this.valueToCode(block, 'NUM1', this.ORDER_NONE);
         const num2 = this.valueToCode(block, 'NUM2', this.ORDER_NONE);
         const code = `(${num1} % ${num2})`;
@@ -305,8 +305,8 @@ export default () => ({
           defaultValue: 0,
         },
       },
-      esp32(block) {
-        this.definitions_['math'] = 'import math'
+      mpy(block) {
+        this.definitions_['math'] = 'import math';
         const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
         const code = `round(${num})`;
         return [code, this.ORDER_FUNCTION_CALL];
@@ -342,8 +342,8 @@ export default () => ({
           defaultValue: 0,
         },
       },
-      esp32(block) {
-        this.definitions_['math'] = 'import math'
+      mpy(block) {
+        this.definitions_['math'] = 'import math';
         const operator = block.getFieldValue('OPERATOR') || 'abs';
         const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
 

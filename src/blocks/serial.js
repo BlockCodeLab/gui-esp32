@@ -22,7 +22,7 @@ export default () => ({
           },
         },
       },
-      esp32(block) {
+      mpy(block) {
         this.definitions_['uart'] = 'from machine import UART';
         const baud = this.valueToCode(block, 'BAUDRATE', this.ORDER_NONE);
         return `uart = UART(0, baudrate=${baud})\n`;
@@ -38,7 +38,7 @@ export default () => ({
           defaultValue: 1000,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const timeout = this.valueToCode(block, 'TIMEOUT', this.ORDER_NONE);
         return `uart.timeout = ${timeout} / 1000\n`;
       },
@@ -61,7 +61,7 @@ export default () => ({
           ],
         },
       },
-      esp32(block) {
+      mpy(block) {
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const mode = block.getFieldValue('MODE') || 'WARP';
         if (mode === 'WARP') {
@@ -83,7 +83,7 @@ export default () => ({
           defaultValue: 0,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
         return `uart.write(str(${num}) + '\n')\n`;
       },
@@ -94,7 +94,7 @@ export default () => ({
       id: 'available',
       text: translate('esp32.blocks.serialAvailable', 'available data?'),
       output: 'boolean',
-      esp32(block) {
+      mpy(block) {
         return [`uart.any() > 0`, this.ORDER_RELATIONAL];
       },
     },
@@ -103,7 +103,7 @@ export default () => ({
       id: 'available_length',
       text: translate('esp32.blocks.serialAvailableLength', 'available data length'),
       output: 'number',
-      esp32(block) {
+      mpy(block) {
         return [`uart.any()`, this.ORDER_FUNCTION_CALL];
       },
     },
@@ -113,7 +113,7 @@ export default () => ({
       id: 'read_string',
       text: translate('esp32.blocks.serialReadString', 'read a string'),
       output: 'string',
-      esp32(block) {
+      mpy(block) {
         return [`uart.read().decode('utf-8')`, this.ORDER_FUNCTION_CALL];
       },
     },
@@ -128,7 +128,7 @@ export default () => ({
           defaultValue: 'a',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const char = this.valueToCode(block, 'CHAR', this.ORDER_NONE);
         return [`uart.readuntil(${char}).decode('utf-8')`, this.ORDER_FUNCTION_CALL];
       },
@@ -147,7 +147,7 @@ export default () => ({
           ],
         },
       },
-      esp32(block) {
+      mpy(block) {
         const type = block.getFieldValue('TYPE') || 'INT';
         if (type === 'INT') {
           return [`int(uart.read())`, this.ORDER_FUNCTION_CALL];
@@ -162,7 +162,7 @@ export default () => ({
       id: 'read',
       text: translate('esp32.blocks.serialRead', 'read a byte'),
       output: true,
-      esp32(block) {
+      mpy(block) {
         return [`uart.read(1)`, this.ORDER_FUNCTION_CALL];
       },
     },
@@ -177,7 +177,7 @@ export default () => ({
           defaultValue: 2,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const len = this.valueToCode(block, 'LEN', this.ORDER_NONE);
         return [`uart.read(${len})`, this.ORDER_FUNCTION_CALL];
       },

@@ -23,27 +23,28 @@ export default () => ({
   blocks: [
     {
       id: 'definition',
-      esp32(block) {
+      mpy(block) {
         const myBlock = block.childBlocks_[0];
         const funcName = this.getFunctionName(myBlock.getProcCode());
         const branchCode = this.statementToCode(block);
 
         // 参数格式：name
-        const args = myBlock.childBlocks_.map(
-          (argBlock) => `${this.getVariableName(argBlock.getFieldValue('VALUE'))}`
-        );
+        const args = myBlock.childBlocks_.map((argBlock) => `${this.getVariableName(argBlock.getFieldValue('VALUE'))}`);
 
         // 定义函数
         let code = '';
         code += `def ${funcName}(${args.join(', ')}):
 `;
-        code += branchCode.split('\n').map(line => `  ${line}`).join('\n');
+        code += branchCode
+          .split('\n')
+          .map((line) => `  ${line}`)
+          .join('\n');
         this.definitions_[funcName] = code;
       },
     },
     {
       id: 'call',
-      esp32(block) {
+      mpy(block) {
         const funcName = this.getFunctionName(block.getProcCode());
         const args = block.argumentIds_.map((arg) => this.valueToCode(block, arg, this.ORDER_NONE) || 'False');
         const code = `${funcName}(${args.join(', ')})`;
@@ -56,7 +57,7 @@ export default () => ({
     },
     {
       id: 'return',
-      esp32(block) {
+      mpy(block) {
         const valueCode = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
         const code = `return ${valueCode}\n`;
         return code;
@@ -64,7 +65,7 @@ export default () => ({
     },
     {
       id: 'return_string',
-      esp32(block) {
+      mpy(block) {
         const valueCode = this.valueToCode(block, 'STR', this.ORDER_NONE);
         const code = `return str(${valueCode})\n`;
         return code;

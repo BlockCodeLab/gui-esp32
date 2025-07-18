@@ -26,7 +26,7 @@ export default (boardType) => ({
           ],
         },
       },
-      esp32(block) {
+      mpy(block) {
         this.definitions_['pin'] = 'from machine import Pin';
         const pin = block.getFieldValue('PIN') || 0;
         const mode = block.getFieldValue('MODE') || 'INPUT';
@@ -62,7 +62,7 @@ export default (boardType) => ({
           ],
         },
       },
-      esp32(block) {
+      mpy(block) {
         const pin = block.getFieldValue('PIN') || 0;
         const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
         const code = `pin_${pin}.value(${value})\n`;
@@ -81,7 +81,7 @@ export default (boardType) => ({
           shadow: 'slider255',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const pin = block.getFieldValue('PIN') || 0;
         const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
         this.definitions_['pwm'] = 'from machine import Pin, PWM';
@@ -104,7 +104,7 @@ export default (boardType) => ({
           defaultValue: 127,
         },
       },
-      esp32(block) {
+      mpy(block) {
         const value = block.getFieldValue('VALUE') || 0;
         return [value, this.ORDER_ATOMIC];
       },
@@ -119,7 +119,7 @@ export default (boardType) => ({
           menu: 'ESP32_DIGITAL_PINS',
         },
       },
-      esp32(block) {
+      mpy(block) {
         this.definitions_['pin'] = 'from machine import Pin';
         const pin = block.getFieldValue('PIN') || 0;
         return `pin_${pin}.value() == 1`;
@@ -135,7 +135,7 @@ export default (boardType) => ({
           menu: 'ESP32_ANALOG_PINS',
         },
       },
-      esp32(block) {
+      mpy(block) {
         this.definitions_['adc'] = 'from machine import ADC';
         const pin = block.getFieldValue('PIN') || 0;
         return `ADC(Pin(${pin})).read()\n`;
@@ -161,7 +161,7 @@ export default (boardType) => ({
           ],
         },
       },
-      esp32(block) {
+      mpy(block) {
         this.definitions_['pin'] = 'from machine import Pin';
         const pin = block.getFieldValue('PIN') || 0;
         const interrupt = block.getFieldValue('INTERRUPT') || 'RISING';
@@ -169,13 +169,16 @@ export default (boardType) => ({
 
         // 定义中断回调函数
         const branchCode = this.statementToCode(block, 'SUBSTACK') || '';
-        this.definitions_[funcName] = `def ${funcName}():\n${branchCode.split('\n').map(line => `  ${line}`).join('\n')}`;
+        this.definitions_[funcName] = `def ${funcName}():\n${branchCode
+          .split('\n')
+          .map((line) => `  ${line}`)
+          .join('\n')}`;
 
         const triggerMap = {
-          'RISING': 'Pin.IRQ_RISING',
-          'FALLING': 'Pin.IRQ_FALLING',
-          'CHANGE': 'Pin.IRQ_RISING | Pin.IRQ_FALLING',
-          'LOW': 'Pin.IRQ_LOW_LEVEL'
+          RISING: 'Pin.IRQ_RISING',
+          FALLING: 'Pin.IRQ_FALLING',
+          CHANGE: 'Pin.IRQ_RISING | Pin.IRQ_FALLING',
+          LOW: 'Pin.IRQ_LOW_LEVEL',
         };
         const trigger = triggerMap[interrupt] || 'Pin.IRQ_RISING';
         return `pin_${pin}.irq(trigger=${trigger}, handler=${funcName})\n`;
@@ -190,7 +193,7 @@ export default (boardType) => ({
           menu: 'ESP32_DIGITAL_PINS',
         },
       },
-      esp32(block) {
+      mpy(block) {
         const pin = block.getFieldValue('PIN') || 0;
         return `pin_${pin}.irq(handler=None)\n`;
       },
@@ -306,7 +309,7 @@ export default (boardType) => ({
       ],
     },
 
-     ESP32_DAC_PINS: {
+    ESP32_DAC_PINS: {
       // Arduino UNO/Nano PWM 写引脚
       items: [
         ['25', '25'],
