@@ -1,15 +1,13 @@
 import './l10n';
 
 import { svgAsDataUri } from '@blockcode/utils';
-import { ScratchBlocks, blocksTab } from '@blockcode/blocks';
+import { ScratchBlocks, blocksTab, CodeReview } from '@blockcode/blocks';
 import { codeTab, terminalTab } from '@blockcode/code';
 
-import { ESP32CodeEditor } from './components/code-editor/code-editor';
 import { ESP32BlocksEditor } from './components/blocks-editor/blocks-editor';
 import { DeviceIcon } from './components/device-menu/device-icon';
 import { DeviceLabel } from './components/device-menu/device-label';
 import { DeviceMenu } from './components/device-menu/device-menu';
-import { SettingsSection } from './components/edit-menu/settings-section';
 import { defaultProject } from './lib/default-project';
 import { ESP32Boards } from './lib/boards';
 
@@ -75,10 +73,6 @@ export default {
 
   menuItems: [
     {
-      id: 'edit',
-      Menu: SettingsSection,
-    },
-    {
       icon: <DeviceIcon />,
       label: <DeviceLabel />,
       Menu: DeviceMenu,
@@ -92,7 +86,7 @@ export default {
     },
     {
       ...codeTab,
-      Content: ESP32CodeEditor,
+      Content: () => <CodeReview />,
     },
     {
       ...terminalTab,

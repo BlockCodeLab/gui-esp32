@@ -1,8 +1,9 @@
 import { useCallback } from 'preact/hooks';
 import { nanoid, classNames } from '@blockcode/utils';
-import { useProjectContext, setAlert, delAlert, openPromptModal } from '@blockcode/core';
+import { useProjectContext, setAlert, delAlert } from '@blockcode/core';
 import { MPYUtils } from '@blockcode/board';
 import { sleepMs } from '@blockcode/utils';
+import { ESP32Boards } from '../../lib/boards';
 
 import { Spinner, Text, MenuSection, MenuItem } from '@blockcode/core';
 import { BoardsSection } from './boards-section';
@@ -11,10 +12,9 @@ import styles from './device-menu.module.css';
 let downloadAlertId = null;
 
 const deviceFilters = [
-  // {
-  //   usbVendorId: 0x303a, // Espressif Vendor ID
-  //   usbProductId: 0x8001, // Arcade Product ID
-  // },
+  {
+    usbVendorId: 0x303a, // Espressif Vendor ID
+  },
 ];
 
 const removeDownloading = () => {
@@ -50,39 +50,38 @@ const errorAlert = (err) => {
 };
 
 const downloadProgram = async (device, dfile) => {
+  const checker = MPYUtils.check(device).catch(() => {
+    errorAlert();
+    removeDownloading();
+  });
 
-   const checker = MPYUtils.check(device).catch(() => {
-      errorAlert();
-      removeDownloading();
-    });
-    let newFile = Object.assign({}, dfile);
-    newFile.id = "main.py";
-    const projectFiles = [].concat(newFile);
+  let newFile = Object.assign({}, dfile);
+  newFile.id = 'main.py';
+  const projectFiles = [].concat(newFile);
 
-    downloadingAlert('0.0');
+  downloadingAlert('0.0');
 
-    try {
-      // 开始下载
-      await MPYUtils.write(device, projectFiles, downloadingAlert);
-      //device.hardReset();
-      device.exitRawRepl();
-      await sleepMs(1000);
-      device.reset();
-      await sleepMs(1000);
-    } catch (err) {
-      console.log(err);
-      errorAlert(err);
-      removeDownloading();
-    }finally{
-      device.disconnect();
-    }
+  try {
+    // 开始下载
+    await MPYUtils.write(device, projectFiles, downloadingAlert);
+    //device.hardReset();
+    device.exitRawRepl();
+    await sleepMs(1000);
+    device.reset();
+    await sleepMs(1000);
+  } catch (err) {
+    console.log(err);
+    errorAlert(err);
+    removeDownloading();
+  } finally {
+    device.disconnect();
+  }
 
-    
-    checker.cancel();
+  checker.cancel();
 };
 
 export function DeviceMenu({ itemClassName }) {
-   const { meta, file } = useProjectContext();
+  const { meta, file } = useProjectContext();
 
   const handleDownload = useCallback(async () => {
     if (downloadAlertId) return;
@@ -97,7 +96,6 @@ export function DeviceMenu({ itemClassName }) {
     }
     if (!currentDevice) return;
     downloadProgram(currentDevice, file.value);
-   
   }, []);
 
   const handleDownloadBLE = useCallback(async () => {
@@ -111,23 +109,24 @@ export function DeviceMenu({ itemClassName }) {
     }
     if (!currentDevice) return;
     downloadProgram(currentDevice, file.value);
-   
   }, []);
 
   return (
     <>
       <MenuSection>
-        <MenuItem
-          disabled={downloadAlertId}
-          className={classNames(itemClassName, styles.blankCheckItem)}
-          label={
+        {meta.value?.boardType === ESP32Boards.ESP32_IOT_BOARD && (
+          <MenuItem
+            disabled={downloadAlertId}
+            className={classNames(itemClassName, styles.blankCheckItem)}
+            label={
               <Text
                 id="esp32.menubar.device.downloadBle"
                 defaultMessage="Download program via Bluetooth (BLE)"
               />
             }
-          onClick={handleDownloadBLE}
-        />
+            onClick={handleDownloadBLE}
+          />
+        )}
         <MenuItem
           disabled={downloadAlertId}
           className={classNames(itemClassName, styles.blankCheckItem)}

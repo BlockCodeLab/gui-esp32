@@ -3,9 +3,9 @@ esp32.menubar.device.esp32: ESP32
 esp32.menubar.device.esp32s3: ESP32-S3
 esp32.menubar.device.esp32c3: ESP32-C3
 esp32.menubar.device.esp32c6: ESP32-C6
+esp32.menubar.device.esp32IotBoard: ESP32 IOT Board
 
 esp32.menubar.device.sync: 同步程式
-esp32.menubar.edit.classicEventsOpen: 開啟舊樣式事件積木
 
 esp32.menubar.device.download: 通過 USB 下載程式
 esp32.menubar.device.downloadBle: 通過藍牙下載程式
@@ -26,7 +26,7 @@ esp32.blocks.dataConvert: 將 %1 類型轉為 %2
 esp32.blocks.dataLengthOf: "%1 長度"
 esp32.blocks.dataConstrain: 約束 %1 在 %2 和 %3 之間
 esp32.blocks.dataMap: 映射 %1 從 %2 - %3 到 %4 - %5
-esp32.blocks.whensetup: 當 esp32 啟動
+esp32.blocks.whenstart: 當 {name} 開始
 esp32.blocks.whentimer: 當定時器每間隔 %1 秒
 esp32.blocks.timeron: 開啟定時器
 esp32.blocks.timeroff: 關閉定時器
@@ -37,6 +37,7 @@ esp32.blocks.setmode: 將引腳 %1 設為 %2 模式
 esp32.blocks.inputMode: 輸入
 esp32.blocks.ouputMode: 輸出
 esp32.blocks.inputPullUpMode: 上拉輸入
+esp32.blocks.inputPullDownMode: 下拉輸入
 esp32.blocks.setdigital: 將數字引腳 %1 設為 %2
 esp32.blocks.digitalHigh: 高電平
 esp32.blocks.digitalLow: 低電平
@@ -83,5 +84,3 @@ esp32.blocks.textUpperCase: 大寫
 esp32.blocks.textTrim: 清除 %1 前後空白字符
 esp32.blocks.textConvert: 將 %1 轉為 %2
 esp32.blocks.textConvertFrom: 將 %1 轉為文本
-
-

@@ -3,6 +3,83 @@ esp32.menubar.device.esp32: ESP32
 esp32.menubar.device.esp32s3: ESP32-S3
 esp32.menubar.device.esp32c3: ESP32-C3
 esp32.menubar.device.esp32c6: ESP32-C6
+esp32.menubar.device.esp32IotBoard: ESP32 IOT Board
 
-esp32.menubar.device.sync: Sync blocks
-esp32.blocks.whensetup: When esp32 setup
+esp32.menubar.device.sync: Sync program
+
+esp32.menubar.device.download: Download program via USB
+esp32.menubar.device.downloadBle: Download program via Bluetooth
+
+esp32.blocks.displayMatrix: display %1
+esp32.blocks.clearDisplay: clear display
+esp32.blocks.wait: wait %1 milliseconds
+esp32.blocks.break: break
+esp32.blocks.continue: continue
+esp32.blocks.elseif: else if %1 then
+esp32.blocks.else: else
+esp32.blocks.runtime: run time %1
+esp32.blocks.runtimeMilliseconds: milliseconds
+esp32.blocks.runtimeSeconds: seconds
+esp32.blocks.data: Data
+esp32.blocks.dataConvert: convert %1 to %2
+esp32.blocks.dataLengthOf: length of %1
+esp32.blocks.dataConstrain: constrain %1 between %2 to %3
+esp32.blocks.dataMap: map %1 from %2 - %3 to %4 - %5
+esp32.blocks.whenstart: when {name} start
+esp32.blocks.whentimer: when timer per %1 milliseconds
+esp32.blocks.timeron: start timer
+esp32.blocks.timeroff: stop timer
+esp32.blocks.operatorLarger: larger of %1 and %2
+esp32.blocks.operatorSmaller: smaller of %1 and %2
+esp32.blocks.pin: Pins
+esp32.blocks.setmode: set pin %1 mode to %2
+esp32.blocks.inputMode: input
+esp32.blocks.ouputMode: output
+esp32.blocks.inputPullUpMode: input pull-up
+esp32.blocks.inputPullDownMode: input pull-down
+esp32.blocks.setdigital: set digital pin %1 to %2
+esp32.blocks.digitalHigh: high
+esp32.blocks.digitalLow: low
+esp32.blocks.setanalog: set pwm pin %1 to %2
+esp32.blocks.isDigitalHigh: digital pin %1 is high?
+esp32.blocks.analogValue: analog pin %1
+esp32.blocks.attachinterrupt: attach pin %1 interrupt to %2
+esp32.blocks.interruptRising: rising
+esp32.blocks.interruptFalling: falling
+esp32.blocks.interruptChange: change
+esp32.blocks.interruptHigh: high
+esp32.blocks.interruptLow: low
+esp32.blocks.detachinterrupt: detach pin %1 interrupt
+esp32.blocks.protocols: Protocols
+esp32.blocks.serial: Serial
+esp32.blocks.serialBaudrate: set baudrate to %1
+esp32.blocks.serialTimeout: set timeout to %1 milliseconds
+esp32.blocks.serialPrint: print %1 with %2
+esp32.blocks.serialPrintWarp: warp
+esp32.blocks.serialPrintNoWarp: no-warp
+esp32.blocks.serialPrintHEX: hex
+esp32.blocks.serialPrintNumber: print %1
+esp32.blocks.serialAvailable: available data?
+esp32.blocks.serialAvailableLength: available data length
+esp32.blocks.serialReadString: read a string
+esp32.blocks.serialReadStringUntil: read a string until %1
+esp32.blocks.serialReadParse: read a %1 number
+esp32.blocks.serialReadParseInteger: int
+esp32.blocks.serialReadParseFloat: float
+esp32.blocks.serialRead: read a byte
+esp32.blocks.serialReadBytes: read %1 bytes
+esp32.blocks.text: Text
+esp32.blocks.textEquals: "%1 equals %2 (not case-sensitive)?"
+esp32.blocks.textRemove: remove letters from %1 to %2 of %3
+esp32.blocks.textReplace: replace %1 of %2 with %3
+esp32.blocks.textReplaceLetter: replace letter %1 of %2 with %3
+esp32.blocks.textSubstring: substring of %1 from %2 to %3
+esp32.blocks.textWith: "%1 %2 with %3?"
+esp32.blocks.textStartsWith: starts
+esp32.blocks.textEndsWith: ends
+esp32.blocks.textCase: get %1 of %2
+esp32.blocks.textLowerCase: lower-case
+esp32.blocks.textUpperCase: upper-case
+esp32.blocks.textTrim: remove %1 leading and trailing whitespace
+esp32.blocks.textConvert: convert %1 to %2
+esp32.blocks.textConvertFrom: convert %1 to String
