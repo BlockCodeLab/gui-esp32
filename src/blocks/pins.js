@@ -34,7 +34,7 @@ export default (boardType) => {
           const pin = block.getFieldValue('PIN') || 0;
           const pinName = `pin_${pin}`;
           const mode = block.getFieldValue('MODE') || 'OUTPUT';
-          this.definitions_['pin'] = 'from machine import Pin';
+          this.definitions_['import_pin'] = 'from machine import Pin';
 
           let code = '';
           if (mode === 'INPUT') {
@@ -96,8 +96,8 @@ export default (boardType) => {
               mpy(block) {
                 const pin = block.getFieldValue('PIN') || 0;
                 const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
-                this.definitions_['pin'] = 'from machine import Pin';
-                this.definitions_['dac'] = 'from machine import DAC';
+                this.definitions_['import_pin'] = 'from machine import Pin';
+                this.definitions_['import_dac'] = 'from machine import DAC';
                 this.definitions_[`dac_${pin}`] = `dac_${pin} = DAC(Pin(${pin}))`;
                 const code = `dac_${pin}.write(${value})\n`;
                 return code;
@@ -137,7 +137,7 @@ export default (boardType) => {
         mpy(block) {
           const pin = block.getFieldValue('PIN') || 0;
           const pinName = `pin_${pin}`;
-          this.definitions_['pin'] = 'from machine import Pin';
+          this.definitions_['import_pin'] = 'from machine import Pin';
           this.definitions_[pinName] = `${pinName} = Pin(${pin}, Pin.IN)`;
           return [`(${pinName}.value() == 1)`, this.ORDER_RELATIONAL];
         },
@@ -154,7 +154,7 @@ export default (boardType) => {
         },
         mpy(block) {
           const pin = block.getFieldValue('PIN') || 0;
-          this.definitions_['adc'] = 'from machine import ADC';
+          this.definitions_['import_adc'] = 'from machine import ADC';
           this.definitions_[`adc_${pin}`] = `adc_${pin} = ADC(Pin(${pin}))`;
           return [`adc_${pin}.read()`, this.ORD_FUNCTION_CALL];
         },
@@ -176,8 +176,8 @@ export default (boardType) => {
         mpy(block) {
           const pin = block.getFieldValue('PIN') || 0;
           const freq = this.valueToCode(block, 'FREQ', this.ORDER_NONE);
-          this.definitions_['pin'] = 'from machine import Pin';
-          this.definitions_['pwm'] = 'from machine import PWM';
+          this.definitions_['import_pin'] = 'from machine import Pin';
+          this.definitions_['import_pwm'] = 'from machine import PWM';
           this.definitions_[`pwm_${pin}`] = `pwm_${pin} = PWM(Pin(${pin}), freq=1000)`;
           const code = `pwm_${pin}.freq(${freq})\n`;
           return code;
@@ -198,8 +198,8 @@ export default (boardType) => {
         mpy(block) {
           const pin = block.getFieldValue('PIN') || 0;
           const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
-          this.definitions_['pin'] = 'from machine import Pin';
-          this.definitions_['pwm'] = 'from machine import PWM';
+          this.definitions_['import_pin'] = 'from machine import Pin';
+          this.definitions_['import_pwm'] = 'from machine import PWM';
           this.definitions_[`pwm_${pin}`] = `pwm_${pin} = PWM(Pin(${pin}), freq=1000)`;
           const code = `pwm_${pin}.duty_u16(${value} * 64)\n`;
           return code;
@@ -249,7 +249,7 @@ export default (boardType) => {
           const pinName = `pin_${pin}`;
           const eventName = `interrupt_${pin}_event`;
           const interrupt = block.getFieldValue('INTERRUPT') || 'RISING';
-          this.definitions_['pin'] = 'from machine import Pin';
+          this.definitions_['import_pin'] = 'from machine import Pin';
           this.definitions_[pinName] = this.definitions_[pinName] ?? `${pinName} = Pin(${pin}, Pin.IN)`;
           this.definitions_[eventName] = `${eventName} = asyncio.Event()`;
 

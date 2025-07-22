@@ -17,15 +17,17 @@ export default () => ({
         BAUDRATE: {
           menu: {
             inputMode: true,
+            type: 'integer',
             defaultValue: '115200',
             items: ['4800', '9600', '38400', '57600', '115200'],
           },
         },
       },
       mpy(block) {
-        this.definitions_['uart'] = 'from machine import UART';
         const baud = this.valueToCode(block, 'BAUDRATE', this.ORDER_NONE);
-        return `uart = UART(0, baudrate=${baud})\n`;
+        this.definitions_['import_uart'] = 'from machine import UART';
+        this.definitions_['uart'] = 'uart = UART(0)';
+        return `uart.init(${baud})\n`;
       },
     },
     {
@@ -40,6 +42,8 @@ export default () => ({
       },
       mpy(block) {
         const timeout = this.valueToCode(block, 'TIMEOUT', this.ORDER_NONE);
+        this.definitions_['import_uart'] = 'from machine import UART';
+        this.definitions_['uart'] = 'uart = UART(0)';
         return `uart.timeout = ${timeout} / 1000\n`;
       },
     },
@@ -64,8 +68,11 @@ export default () => ({
       mpy(block) {
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const mode = block.getFieldValue('MODE') || 'WARP';
+        this.definitions_['import_uart'] = 'from machine import UART';
+        this.definitions_['uart'] = 'uart = UART(0)';
+
         if (mode === 'WARP') {
-          return `uart.write(${str} + '\n')\n`;
+          return `uart.write(${str} + '\\n')\n`;
         } else if (mode === 'NOWARP') {
           return `uart.write(${str})\n`;
         } else if (mode === 'HEX') {
@@ -85,6 +92,8 @@ export default () => ({
       },
       mpy(block) {
         const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
+        this.definitions_['import_uart'] = 'from machine import UART';
+        this.definitions_['uart'] = 'uart = UART(0)';
         return `uart.write(str(${num}) + '\n')\n`;
       },
     },
@@ -95,6 +104,8 @@ export default () => ({
       text: translate('esp32.blocks.serialAvailable', 'available data?'),
       output: 'boolean',
       mpy(block) {
+        this.definitions_['import_uart'] = 'from machine import UART';
+        this.definitions_['uart'] = 'uart = UART(0)';
         return [`uart.any() > 0`, this.ORDER_RELATIONAL];
       },
     },
@@ -104,6 +115,8 @@ export default () => ({
       text: translate('esp32.blocks.serialAvailableLength', 'available data length'),
       output: 'number',
       mpy(block) {
+        this.definitions_['import_uart'] = 'from machine import UART';
+        this.definitions_['uart'] = 'uart = UART(0)';
         return [`uart.any()`, this.ORDER_FUNCTION_CALL];
       },
     },
@@ -114,6 +127,8 @@ export default () => ({
       text: translate('esp32.blocks.serialReadString', 'read a string'),
       output: 'string',
       mpy(block) {
+        this.definitions_['import_uart'] = 'from machine import UART';
+        this.definitions_['uart'] = 'uart = UART(0)';
         return [`uart.read().decode('utf-8')`, this.ORDER_FUNCTION_CALL];
       },
     },
@@ -130,6 +145,8 @@ export default () => ({
       },
       mpy(block) {
         const char = this.valueToCode(block, 'CHAR', this.ORDER_NONE);
+        this.definitions_['import_uart'] = 'from machine import UART';
+        this.definitions_['uart'] = 'uart = UART(0)';
         return [`uart.readuntil(${char}).decode('utf-8')`, this.ORDER_FUNCTION_CALL];
       },
     },
@@ -149,6 +166,8 @@ export default () => ({
       },
       mpy(block) {
         const type = block.getFieldValue('TYPE') || 'INT';
+        this.definitions_['import_uart'] = 'from machine import UART';
+        this.definitions_['uart'] = 'uart = UART(0)';
         if (type === 'INT') {
           return [`int(uart.read())`, this.ORDER_FUNCTION_CALL];
         } else if (type === 'FLOAT') {
@@ -163,6 +182,8 @@ export default () => ({
       text: translate('esp32.blocks.serialRead', 'read a byte'),
       output: true,
       mpy(block) {
+        this.definitions_['import_uart'] = 'from machine import UART';
+        this.definitions_['uart'] = 'uart = UART(0)';
         return [`uart.read(1)`, this.ORDER_FUNCTION_CALL];
       },
     },
@@ -179,6 +200,8 @@ export default () => ({
       },
       mpy(block) {
         const len = this.valueToCode(block, 'LEN', this.ORDER_NONE);
+        this.definitions_['import_uart'] = 'from machine import UART';
+        this.definitions_['uart'] = 'uart = UART(0)';
         return [`uart.read(${len})`, this.ORDER_FUNCTION_CALL];
       },
     },

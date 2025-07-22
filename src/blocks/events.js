@@ -62,7 +62,7 @@ export default (boardType) => {
           const timerName = `timer_${id}`;
           const periodName = `period_${id}`;
           const eventName = `period_${id}_event`;
-          this.definitions_['timer'] = 'from machine import Timer';
+          this.definitions_['import_timer'] = 'from machine import Timer';
           this.definitions_[timerName] = `${timerName} = Timer(${id})`;
           this.definitions_[periodName] = `${periodName} = ${period}`;
           this.definitions_[eventName] = `${eventName} = asyncio.Event()`;
@@ -96,7 +96,7 @@ export default (boardType) => {
           if (id < 0) {
             id = 0;
           }
-          this.definitions_['timer'] = 'from machine import Timer';
+          this.definitions_['import_timer'] = 'from machine import Timer';
 
           let code = '';
           code += `timer_${id}.init(`;

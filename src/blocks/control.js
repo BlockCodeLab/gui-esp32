@@ -31,7 +31,7 @@ export default () => ({
       repeat: true,
       end: true,
       mpy(block) {
-        let branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
+        let branchCode = this.statementToCode(block, 'SUBSTACK');
         branchCode = this.addLoopTrap(branchCode, block.id);
         let code = '';
         code += 'while True:\n';
@@ -53,7 +53,7 @@ export default () => ({
       },
       mpy(block) {
         const times = this.valueToCode(block, 'TIMES', this.ORDER_NONE);
-        let branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
+        let branchCode = this.statementToCode(block, 'SUBSTACK');
         branchCode = this.addLoopTrap(branchCode, block.id);
 
         let code = '';
@@ -133,7 +133,7 @@ export default () => ({
       },
       mpy(block) {
         const condition = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'False';
-        let branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
+        let branchCode = this.statementToCode(block, 'SUBSTACK');
         branchCode = this.addLoopTrap(branchCode, block.id);
 
         let code = '';
@@ -154,7 +154,7 @@ export default () => ({
       },
       mpy(block) {
         const condition = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'True';
-        let branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
+        let branchCode = this.statementToCode(block, 'SUBSTACK');
         branchCode = this.addLoopTrap(branchCode, block.id);
 
         let code = '';

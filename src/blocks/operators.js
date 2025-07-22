@@ -62,7 +62,7 @@ export default () => ({
         },
       },
       mpy(block) {
-        this.definitions_['random'] = 'import random';
+        this.definitions_['import_random'] = 'import random';
         const from = this.valueToCode(block, 'FROM', this.ORDER_NONE);
         const to = this.valueToCode(block, 'TO', this.ORDER_NONE);
         const code = `random.randint(${from}, ${to})`;
@@ -306,7 +306,7 @@ export default () => ({
         },
       },
       mpy(block) {
-        this.definitions_['math'] = 'import math';
+        this.definitions_['import_math'] = 'import math';
         const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
         const code = `round(${num})`;
         return [code, this.ORDER_FUNCTION_CALL];
@@ -343,7 +343,7 @@ export default () => ({
         },
       },
       mpy(block) {
-        this.definitions_['math'] = 'import math';
+        this.definitions_['import_math'] = 'import math';
         const operator = block.getFieldValue('OPERATOR') || 'abs';
         const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
 
