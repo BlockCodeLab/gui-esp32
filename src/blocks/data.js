@@ -1,8 +1,6 @@
 import { translate, themeColors } from '@blockcode/core';
 import { ScratchBlocks } from '@blockcode/blocks';
 
-export const VARIABLE_TYPES = ['int', 'float', 'boolean', 'char', 'byte', 'String'];
-
 export default () => ({
   id: 'data',
   name: translate('esp32.blocks.data', 'Data'),
@@ -22,22 +20,18 @@ export default () => ({
           defaultValue: '3.1415',
         },
         TYPE: {
-          menu: ['int', 'float', 'String'],
+          menu: [
+            ['esp32.blocks.dataConvert.int', 'int'],
+            ['esp32.blocks.dataConvert.float', 'float'],
+            ['esp32.blocks.dataConvert.string', 'str'],
+            ['esp32.blocks.dataConvert.list', 'list'],
+          ],
         },
       },
       mpy(block) {
         const data = this.valueToCode(block, 'DATA', this.ORDER_NONE);
         const type = block.getFieldValue('TYPE') || 'int';
-        switch (type) {
-          case 'int':
-            return `int(${data})`;
-          case 'float':
-            return `float(${data})`;
-          case 'String':
-            return `str(${data})`;
-          default:
-            return data;
-        }
+        return [`${type}(${data})`, this.ORDER_FUNCTION_CALL];
       },
     },
     '---',
@@ -49,12 +43,12 @@ export default () => ({
       inputs: {
         DATA: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
       },
       mpy(block) {
         const data = this.valueToCode(block, 'DATA', this.ORDER_NONE);
-        return `len(${data})`;
+        return [`len(${data})`, this.ORDER_FUNCTION_CALL];
       },
     },
     '---',
@@ -81,7 +75,7 @@ export default () => ({
         const data = this.valueToCode(block, 'DATA', this.ORDER_NONE);
         const from = this.valueToCode(block, 'FROM', this.ORDER_NONE);
         const to = this.valueToCode(block, 'TO', this.ORDER_NONE);
-        return `min(max(${data}, ${from}), ${to})`;
+        return [`min(max(${data}, ${from}), ${to})`, this.ORDER_FUNCTION_CALL];
       },
     },
     {
@@ -117,7 +111,8 @@ export default () => ({
         const fromhigh = this.valueToCode(block, 'FROMHIGH', this.ORDER_NONE);
         const tolow = this.valueToCode(block, 'TOLOW', this.ORDER_NONE);
         const tohigh = this.valueToCode(block, 'TOHIGHT', this.ORDER_NONE);
-        return `(${data} - ${fromlow}) * (${tohigh} - ${tolow}) // (${fromhigh} - ${fromlow}) + ${tolow}`;
+        const code = `(${data} - ${fromlow}) * (${tohigh} - ${tolow}) // (${fromhigh} - ${fromlow}) + ${tolow}`;
+        return [code, this.ORDER_FUNCTION_CALL];
       },
     },
     // 变量积木

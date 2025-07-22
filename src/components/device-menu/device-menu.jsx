@@ -49,15 +49,13 @@ const errorAlert = (err) => {
   setAlert('connectionError', 1000);
 };
 
-const downloadProgram = async (device, dfile) => {
+const downloadProgram = async (device, mainFile, assetFiles) => {
   const checker = MPYUtils.check(device).catch(() => {
     errorAlert();
     removeDownloading();
   });
 
-  let newFile = Object.assign({}, dfile);
-  newFile.id = 'main.py';
-  const projectFiles = [].concat(newFile);
+  const projectFiles = [].concat(mainFile, assetFiles);
 
   downloadingAlert('0.0');
 
@@ -81,7 +79,7 @@ const downloadProgram = async (device, dfile) => {
 };
 
 export function DeviceMenu({ itemClassName }) {
-  const { meta, file } = useProjectContext();
+  const { meta, file, assets } = useProjectContext();
 
   const handleDownload = useCallback(async () => {
     if (downloadAlertId) return;
@@ -95,7 +93,7 @@ export function DeviceMenu({ itemClassName }) {
       errorAlert(err.name);
     }
     if (!currentDevice) return;
-    downloadProgram(currentDevice, file.value);
+    downloadProgram(currentDevice, file.value, assets.value);
   }, []);
 
   const handleDownloadBLE = useCallback(async () => {
@@ -108,7 +106,7 @@ export function DeviceMenu({ itemClassName }) {
       errorAlert(err.name);
     }
     if (!currentDevice) return;
-    downloadProgram(currentDevice, file.value);
+    downloadProgram(currentDevice, file.value, assets.value);
   }, []);
 
   return (

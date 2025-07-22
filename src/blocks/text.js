@@ -21,7 +21,7 @@ export default () => ({
         },
         STRING2: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
       },
       mpy(block) {
@@ -43,7 +43,7 @@ export default () => ({
         },
         STRING: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
       },
       mpy(block) {
@@ -61,7 +61,7 @@ export default () => ({
       inputs: {
         STRING: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
       },
       mpy(block) {
@@ -78,11 +78,11 @@ export default () => ({
       inputs: {
         STRING1: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
         STRING2: {
           type: 'string',
-          defaultValue: 'ino',
+          defaultValue: 'e',
         },
       },
       mpy(block) {
@@ -100,11 +100,11 @@ export default () => ({
       inputs: {
         STRING1: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
         STRING2: {
           type: 'string',
-          defaultValue: 'Arduino',
+          defaultValue: 'ESP32',
         },
       },
       mpy(block) {
@@ -130,14 +130,14 @@ export default () => ({
         },
         STRING: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
       },
       mpy(block) {
         const from = this.getAdjustedInt(block, 'FROM');
         const to = this.valueToCode(block, 'TO', this.ORDER_NONE);
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
-        const code = `${str}[:${from}] + ${str}[${to}:]`;
+        const code = `${str}[:${from}] + ${str}[${to}:]\n`;
         return code;
       },
     },
@@ -152,7 +152,7 @@ export default () => ({
         },
         STRING2: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
         STRING3: {
           type: 'string',
@@ -163,7 +163,7 @@ export default () => ({
         const str1 = this.valueToCode(block, 'STRING1', this.ORDER_NONE);
         const str2 = this.valueToCode(block, 'STRING2', this.ORDER_NONE);
         const str3 = this.valueToCode(block, 'STRING3', this.ORDER_NONE);
-        const code = `${str2}.replace(${str1}, ${str3})`;
+        const code = `${str2}.replace(${str1}, ${str3})\n`;
         return code;
       },
     },
@@ -178,7 +178,7 @@ export default () => ({
         },
         STRING: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
         LETTER: {
           type: 'string',
@@ -189,7 +189,7 @@ export default () => ({
         const index = this.getAdjustedInt(block, 'INDEX');
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const letter = this.valueToCode(block, 'LETTER', this.ORDER_NONE);
-        const code = `${str}[:${index}] + ${letter} + ${str}[${index + 1}:]`;
+        const code = `${str}[:${index}] + ${letter} + ${str}[${index + 1}:]\n`;
         return code;
       },
     },
@@ -201,7 +201,7 @@ export default () => ({
       inputs: {
         STRING: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
         FROM: {
           type: 'integer',
@@ -228,7 +228,7 @@ export default () => ({
       inputs: {
         STRING1: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
         WITH: {
           type: 'string',
@@ -265,14 +265,14 @@ export default () => ({
         },
         STRING: {
           type: 'string',
-          defaultValue: 'Arduino',
+          defaultValue: 'ESP32',
         },
       },
       mpy(block) {
         const with_ = block.getFieldValue('WITH') || 'LOWER';
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const method = with_ === 'LOWER' ? 'lower' : 'upper';
-        const code = `${str}.${method}()`;
+        const code = `${str}.${method}()\n`;
         return code;
       },
     },
@@ -283,7 +283,7 @@ export default () => ({
       inputs: {
         STRING: {
           type: 'string',
-          defaultValue: 'arduino',
+          defaultValue: 'esp32',
         },
       },
       mpy(block) {
@@ -304,25 +304,17 @@ export default () => ({
           defaultValue: 'a',
         },
         TYPE: {
-          menu: ['int', 'float', 'char array', 'byte array'],
+          menu: [
+            ['esp32.blocks.dataConvert.int', 'int'],
+            ['esp32.blocks.dataConvert.float', 'float'],
+            ['esp32.blocks.dataConvert.list', 'list'],
+          ],
         },
       },
       mpy(block) {
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const type = block.getFieldValue('TYPE') || 'int';
-        let code;
-        if (type === 'int') {
-          code = `int(${str})`;
-        } else if (type === 'float') {
-          code = `float(${str})`;
-        } else if (type === 'char array') {
-          code = `list(${str})`;
-        } else if (type === 'byte array') {
-          code = `${str}.encode()`;
-        } else {
-          code = str;
-        }
-        return [code, this.ORDER_FUNCTION_CALL];
+        return [`${type}(${str})`, this.ORDER_FUNCTION_CALL];
       },
     },
     {

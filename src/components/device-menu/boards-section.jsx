@@ -55,21 +55,6 @@ export function BoardsSection({ itemClassName }) {
             defaultMessage="ESP32-S3"
           />
         </MenuItem>
-        <MenuItem
-          className={itemClassName}
-          onClick={chooseBoardHandler(ESP32Boards.ESP32C3)}
-        >
-          <img
-            className={classNames(styles.checkIcon, {
-              [styles.checked]: meta.value?.boardType === ESP32Boards.ESP32C3,
-            })}
-            src={checkIcon}
-          />
-          <Text
-            id="esp32.menubar.device.esp32c3"
-            defaultMessage="ESP32-C3"
-          />
-        </MenuItem>
       </MenuSection>
 
       <MenuSection>

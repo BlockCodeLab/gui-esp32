@@ -11,16 +11,16 @@ export default () => ({
     {
       // 等待
       id: 'wait',
-      text: translate('esp32.blocks.wait', 'wait %1 seconds'),
+      text: translate('esp32.blocks.wait', 'wait %1 milliseconds'),
       inputs: {
-        seconds: {
-          type: 'number',
-          defaultValue: 1,
+        MS: {
+          type: 'integer',
+          defaultValue: 1000,
         },
       },
       mpy(block) {
-        const seconds = this.valueToCode(block, 'seconds', this.ORDER_NONE);
-        const code = `await asyncio.sleep(${seconds})\n`;
+        const ms = this.valueToCode(block, 'MS', this.ORDER_NONE);
+        const code = `await asyncio.sleep_ms(${ms})\n`;
         return code;
       },
     },
@@ -31,8 +31,8 @@ export default () => ({
       repeat: true,
       end: true,
       mpy(block) {
-        let branchCode = this.statementToCode(block, 'SUBSTACK');
-        branchCode = this.addLoopTrap(branchCode, block.id) || this.PASS;
+        let branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
+        branchCode = this.addLoopTrap(branchCode, block.id);
         let code = '';
         code += 'while True:\n';
         code += branchCode;
@@ -53,11 +53,11 @@ export default () => ({
       },
       mpy(block) {
         const times = this.valueToCode(block, 'TIMES', this.ORDER_NONE);
-        let branchCode = this.statementToCode(block, 'SUBSTACK');
-        branchCode = this.addLoopTrap(branchCode, block.id) || this.PASS;
+        let branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
+        branchCode = this.addLoopTrap(branchCode, block.id);
 
         let code = '';
-        code += `for count in range(int(${times})):\n`;
+        code += `for _ in range(int(${times})):\n`;
         code += branchCode;
         code += '\n';
         return code;
@@ -169,8 +169,7 @@ export default () => ({
       text: translate('esp32.blocks.continue', 'continue'),
       end: true,
       mpy(block) {
-        let code = '';
-        code += 'continue\n';
+        const code = 'continue\n';
         return code;
       },
     },
@@ -180,8 +179,7 @@ export default () => ({
       text: translate('esp32.blocks.break', 'break'),
       end: true,
       mpy(block) {
-        let code = '';
-        code += 'break\n';
+        const code = 'break\n';
         return code;
       },
     },
@@ -202,7 +200,7 @@ export default () => ({
       ino(block) {
         const unit = block.getFieldValue('UNIT');
         const code = `(_times__${unit === 'SEC' ? '/1000' : ''})`;
-        return code;
+        return [code, this.ORDER_ATOMIC];
       },
     },
   ],
