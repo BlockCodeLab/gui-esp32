@@ -74,6 +74,7 @@ export default (boardType) => {
           const pin = block.getFieldValue('PIN') || 0;
           const pinName = `pin_${pin}`;
           const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
+          this.definitions_['import_pin'] = 'from machine import Pin';
           this.definitions_[pinName] = this.definitions_[pinName] ?? `${pinName} = Pin(${pin}, Pin.OUT)`;
           const code = `${pinName}.value(${value})\n`;
           return code;

@@ -1,5 +1,4 @@
 import { translate, themeColors } from '@blockcode/core';
-import { ScratchBlocks } from '@blockcode/blocks';
 
 export default () => ({
   id: 'protocol',

@@ -56,6 +56,7 @@ esp32.blocks.interruptChange: change
 esp32.blocks.interruptHigh: high
 esp32.blocks.interruptLow: low
 esp32.blocks.detachinterrupt: detach pin %1 interrupt
+esp32.blocks.network: Network
 esp32.blocks.protocols: Protocols
 esp32.blocks.serial: Serial
 esp32.blocks.serialBaudrate: set baudrate to %1
@@ -89,3 +90,13 @@ esp32.blocks.textUpperCase: upper-case
 esp32.blocks.textTrim: remove %1 leading and trailing whitespace
 esp32.blocks.textConvert: convert %1 to %2
 esp32.blocks.textConvertFrom: convert %1 to String
+esp32.blocks.connectWifi: "connect wi-fi ssid: %1 password: %2"
+esp32.blocks.disconnectWifi: disconnect wi-fi
+esp32.blocks.isWifiConnected: wi-fi is connected?
+esp32.blocks.wifiScan: start scan wi-fi
+esp32.blocks.wifiItem: "%2 of item %1 of available wi-fi"
+esp32.blocks.wifiItemSsid: ssid
+esp32.blocks.wifiItemMac: mac
+esp32.blocks.wifiItemRssi: rssi
+esp32.blocks.wifiItemSecurity: security
+esp32.blocks.wifiCounts: available wi-fi counts

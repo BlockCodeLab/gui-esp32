@@ -1,5 +1,4 @@
 import { translate, themeColors } from '@blockcode/core';
-import { ScratchBlocks } from '@blockcode/blocks';
 
 export default () => ({
   id: 'data',
@@ -21,10 +20,10 @@ export default () => ({
         },
         TYPE: {
           menu: [
-            ['esp32.blocks.dataConvert.int', 'int'],
-            ['esp32.blocks.dataConvert.float', 'float'],
-            ['esp32.blocks.dataConvert.string', 'str'],
-            ['esp32.blocks.dataConvert.list', 'list'],
+            [translate('esp32.blocks.dataConvert.int', 'int'), 'int'],
+            [translate('esp32.blocks.dataConvert.float', 'float'), 'float'],
+            [translate('esp32.blocks.dataConvert.string', 'str'), 'str'],
+            [translate('esp32.blocks.dataConvert.list', 'list'), 'list'],
           ],
         },
       },

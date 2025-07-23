@@ -57,7 +57,8 @@ esp32.blocks.interruptChange: 電平改變
 esp32.blocks.interruptHigh: 高電平
 esp32.blocks.interruptLow: 低電平
 esp32.blocks.detachinterrupt: 取消引腳 %1 中斷
-esp32.blocks.protocols: 通訊協議
+esp32.blocks.network: 網絡通訊
+esp32.blocks.protocols: 數據協議
 esp32.blocks.serial: 串口
 esp32.blocks.serialBaudrate: 將波特率設為 %1
 esp32.blocks.serialTimeout: 將超時設為 %1 毫秒
@@ -90,3 +91,13 @@ esp32.blocks.textUpperCase: 大寫
 esp32.blocks.textTrim: 清除 %1 前後空白字符
 esp32.blocks.textConvert: 將 %1 轉為 %2
 esp32.blocks.textConvertFrom: 將 %1 轉為文本
+esp32.blocks.connectWifi: "連接 Wi-Fi 網絡 SSID: %1 密碼: %2"
+esp32.blocks.disconnectWifi: 斷開 Wi-Fi 網絡
+esp32.blocks.isWifiConnected: Wi-Fi 網絡已連接？
+esp32.blocks.wifiScan: 開始掃描 Wi-Fi
+esp32.blocks.wifiItem: 可用 Wi-Fi 第 %1 項的 %2
+esp32.blocks.wifiItemSsid: SSID
+esp32.blocks.wifiItemMac: MAC
+esp32.blocks.wifiItemRssi: RSSI
+esp32.blocks.wifiItemSecurity: 加密類型
+esp32.blocks.wifiCounts: 可用 Wi-Fi 數量
