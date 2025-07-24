@@ -15,6 +15,9 @@ const deviceFilters = [
   {
     usbVendorId: 0x303a, // Espressif Vendor ID
   },
+  {
+    usbVendorId: 0x1a86, // QinHeng Vendor ID
+  },
 ];
 
 const removeDownloading = () => {

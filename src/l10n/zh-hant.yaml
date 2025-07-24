@@ -21,7 +21,6 @@ esp32.blocks.else: 否則
 esp32.blocks.runtime: 運行時長 %1
 esp32.blocks.runtimeMilliseconds: 毫秒
 esp32.blocks.runtimeSeconds: 秒
-esp32.blocks.data: 數據
 esp32.blocks.dataConvert: 將 %1 類型轉為 %2
 esp32.blocks.dataConvert.int: 整數
 esp32.blocks.dataConvert.float: 浮點數
@@ -95,9 +94,17 @@ esp32.blocks.connectWifi: "連接 Wi-Fi 網絡 SSID: %1 密碼: %2"
 esp32.blocks.disconnectWifi: 斷開 Wi-Fi 網絡
 esp32.blocks.isWifiConnected: Wi-Fi 網絡已連接？
 esp32.blocks.wifiScan: 開始掃描 Wi-Fi
-esp32.blocks.wifiItem: 可用 Wi-Fi 第 %1 項的 %2
+esp32.blocks.wifiItem: 第 %1 個可用 Wi-Fi 的 %2
 esp32.blocks.wifiItemSsid: SSID
 esp32.blocks.wifiItemMac: MAC
 esp32.blocks.wifiItemRssi: RSSI
 esp32.blocks.wifiItemSecurity: 加密類型
 esp32.blocks.wifiCounts: 可用 Wi-Fi 數量
+esp32.blocks.startap: "開啟 AP SSID: %1"
+esp32.blocks.stopap: 關閉 AP
+esp32.blocks.espnowSend: 發送 ESP-Now 消息 %1 到 %2
+esp32.blocks.espnowRecv: 等待 ESP-Now 接收消息
+esp32.blocks.espnowMsg: 接受到 %1
+esp32.blocks.espnowMsgText: 消息
+esp32.blocks.espnowMsgMac: MAC
+esp32.blocks.espnowRepeat: 重複等待 ESP-Now 接收消息

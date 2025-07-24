@@ -40,13 +40,5 @@ export default () => ({
         return code;
       },
     },
-    {
-      id: 'return_string',
-      mpy(block) {
-        const valueCode = this.valueToCode(block, 'STR', this.ORDER_NONE);
-        const code = `return str(${valueCode})\n`;
-        return code;
-      },
-    },
   ],
 });

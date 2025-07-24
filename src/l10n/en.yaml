@@ -20,7 +20,6 @@ esp32.blocks.else: else
 esp32.blocks.runtime: run time %1
 esp32.blocks.runtimeMilliseconds: milliseconds
 esp32.blocks.runtimeSeconds: seconds
-esp32.blocks.data: Data
 esp32.blocks.dataConvert: convert %1 to %2
 esp32.blocks.dataConvert.int: int
 esp32.blocks.dataConvert.float: float
@@ -100,3 +99,11 @@ esp32.blocks.wifiItemMac: mac
 esp32.blocks.wifiItemRssi: rssi
 esp32.blocks.wifiItemSecurity: security
 esp32.blocks.wifiCounts: available wi-fi counts
+esp32.blocks.startap: "start ap ssid: %1"
+esp32.blocks.stopap: stop ap
+esp32.blocks.espnowSend: send esp-now message %1 to %2
+esp32.blocks.espnowRecv: wait for esp-now incoming
+esp32.blocks.espnowMsg: "%1 of incoming"
+esp32.blocks.espnowMsgText: message
+esp32.blocks.espnowMsgMac: mac
+esp32.blocks.espnowRepeat: repeat wait for esp-now incoming

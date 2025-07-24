@@ -305,9 +305,9 @@ export default () => ({
         },
         TYPE: {
           menu: [
-            ['esp32.blocks.dataConvert.int', 'int'],
-            ['esp32.blocks.dataConvert.float', 'float'],
-            ['esp32.blocks.dataConvert.list', 'list'],
+            [translate('esp32.blocks.dataConvert.int', 'int'), 'int'],
+            [translate('esp32.blocks.dataConvert.float', 'float'), 'float'],
+            [translate('esp32.blocks.dataConvert.list', 'list'), 'list'],
           ],
         },
       },
