@@ -108,3 +108,14 @@ esp32.blocks.espnowMsg: 接受到 %1
 esp32.blocks.espnowMsgText: 消息
 esp32.blocks.espnowMsgMac: MAC
 esp32.blocks.espnowRepeat: 重複等待 ESP-Now 接收消息
+esp32.blocks.spiInit: 初始化SPI %1 頻率:%2Hz
+esp32.blocks.spiHSPI: HSPI
+esp32.blocks.spiVSPI: VSPI
+esp32.blocks.spiWrite: SPI %1 寫入 %2
+esp32.blocks.spiRead: SPI %1 讀取 %2 位元組
+esp32.blocks.i2cInit: 初始化I2C SDA:%1 SCL:%2 頻率:%3Hz
+esp32.blocks.i2cScan: I2C掃描設備
+esp32.blocks.i2cWrite: I2C寫入到 %1:%2
+esp32.blocks.i2cRead: I2C從 %1 讀取 %2 位元組
+esp32.blocks.i2sInit: 初始化I2S BCK:%1 WS:%2 DATA:%3 速率:%4Hz
+esp32.blocks.i2sPlay: I2S播放 %1

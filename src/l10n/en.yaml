@@ -107,3 +107,14 @@ esp32.blocks.espnowMsg: "%1 of incoming"
 esp32.blocks.espnowMsgText: message
 esp32.blocks.espnowMsgMac: mac
 esp32.blocks.espnowRepeat: repeat wait for esp-now incoming
+esp32.blocks.spiInit: initialize SPI %1 freq:%2Hz
+esp32.blocks.spiHSPI: HSPI
+esp32.blocks.spiVSPI: VSPI
+esp32.blocks.spiWrite: SPI %1 write %2
+esp32.blocks.spiRead: SPI %1 read %2 bytes
+esp32.blocks.i2cInit: initialize I2C SDA:%1 SCL:%2 freq:%3Hz
+esp32.blocks.i2cScan: I2C scan devices
+esp32.blocks.i2cWrite: I2C write to %1:%2
+esp32.blocks.i2cRead: I2C read from %1 :%2 bytes
+esp32.blocks.i2sInit: initialize I2S BCK:%1 WS:%2 DATA:%3 rate:%4Hz
+esp32.blocks.i2sPlay: I2S play %1
