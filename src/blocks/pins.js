@@ -248,18 +248,17 @@ export default (boardType) => {
         mpy(block) {
           const pin = block.getFieldValue('PIN') || 0;
           const pinName = `pin_${pin}`;
-          const eventName = `interrupt_${pin}_event`;
+          const flagName = `interrupt_${pin}_flag`;
           const interrupt = block.getFieldValue('INTERRUPT') || 'RISING';
           this.definitions_['import_pin'] = 'from machine import Pin';
           this.definitions_[pinName] = this.definitions_[pinName] ?? `${pinName} = Pin(${pin}, Pin.IN)`;
-          this.definitions_[eventName] = `${eventName} = asyncio.Event()`;
+          this.definitions_[flagName] = `${flagName} = asyncio.ThreadSafeFlag()`;
 
           // 定义中断回调函数
           let branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
           let code = '';
           code += 'while True:\n';
-          code += `${this.INDENT}await ${eventName}.wait()\n`;
-          code += `${this.INDENT}${eventName}.clear()\n`;
+          code += `${this.INDENT}await ${flagName}.wait()\n`;
           code += branchCode;
 
           branchCode = this.prefixLines(code, this.INDENT);
@@ -276,7 +275,7 @@ export default (boardType) => {
             LOW: 'Pin.IRQ_LOW_LEVEL',
           };
           const trigger = triggerMap[interrupt] || 'Pin.IRQ_RISING';
-          return `${pinName}.irq(trigger=${trigger}, handler=lambda _: ${eventName}.set())\n`;
+          return `${pinName}.irq(trigger=${trigger}, handler=lambda _: ${flagName}.set())\n`;
         },
       },
       {

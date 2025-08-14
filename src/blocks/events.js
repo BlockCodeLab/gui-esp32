@@ -40,10 +40,10 @@ export default (boardType) => {
       },
       '---',
       {
-        // 定时器
-        id: 'whentimer',
-        text: translate('esp32.blocks.whentimer', 'when timer # %1 per %2 milliseconds'),
-        hat: true,
+        // 设置定时器
+        id: 'timerset',
+        text: translate('esp32.blocks.timerset', 'set timer # %1 per %2 milliseconds'),
+        substack: true,
         inputs: {
           ID: {
             menu: timerIds,
@@ -60,49 +60,25 @@ export default (boardType) => {
             id = 0;
           }
           const timerName = `timer_${id}`;
-          const periodName = `period_${id}`;
-          const eventName = `period_${id}_event`;
+          const flagName = `period_${id}_flag`;
           this.definitions_['import_timer'] = 'from machine import Timer';
           this.definitions_[timerName] = `${timerName} = Timer(${id})`;
-          this.definitions_[periodName] = `${periodName} = ${period}`;
-          this.definitions_[eventName] = `${eventName} = asyncio.Event()`;
+          this.definitions_[flagName] = `${flagName} = asyncio.ThreadSafeFlag()`;
 
           // 定义定时器回调函数
-          let branchCode = this.statementToCode(block) || this.PASS;
+          let branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
           let code = '';
           code += 'while True:\n';
-          code += `${this.INDENT}await ${eventName}.wait()\n`;
-          code += `${this.INDENT}${eventName}.clear()\n`;
+          code += `${this.INDENT}await ${flagName}.wait()\n`;
           code += branchCode;
 
           branchCode = this.prefixLines(code, this.INDENT);
           branchCode = this.addEventTrap(branchCode, block.id);
           code = '@_tasks__.append\n';
           code += branchCode;
-          return code;
-        },
-      },
-      {
-        // 开启定时器
-        id: 'timeron',
-        text: translate('esp32.blocks.timeron', 'start timer # %1'),
-        inputs: {
-          ID: {
-            menu: timerIds,
-          },
-        },
-        mpy(block) {
-          let id = parseInt(block.getFieldValue('ID') || '1', 10) - 1;
-          if (id < 0) {
-            id = 0;
-          }
-          this.definitions_['import_timer'] = 'from machine import Timer';
+          this.definitions_[`period_${id}`] = code;
 
-          let code = '';
-          code += `timer_${id}.init(`;
-          code += `mode=Timer.PERIODIC, period=period_${id}, callback=lambda _: period_${id}_event.set()`;
-          code += ')\n';
-          return code;
+          return `${timerName}.init(mode=Timer.PERIODIC, period=${period}, callback=lambda _: ${flagName}.set())\n`;
         },
       },
       {
