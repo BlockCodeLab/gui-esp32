@@ -33,8 +33,10 @@ export default () => ({
       mpy(block) {
         let branchCode = this.statementToCode(block, 'SUBSTACK');
         branchCode = this.addLoopTrap(branchCode, block.id);
+
         let code = '';
         code += 'while True:\n';
+        code += `${this.INDENT}await asyncio.sleep(0)\n`;
         code += branchCode;
         return code;
       },
@@ -58,8 +60,8 @@ export default () => ({
 
         let code = '';
         code += `for _ in range(int(${times})):\n`;
+        code += `${this.INDENT}await asyncio.sleep(0)\n`;
         code += branchCode;
-        code += '\n';
         return code;
       },
     },
@@ -138,6 +140,7 @@ export default () => ({
 
         let code = '';
         code += `while not ${condition}:\n`;
+        code += `${this.INDENT}await asyncio.sleep(0)\n`;
         code += branchCode;
         return code;
       },
@@ -159,6 +162,7 @@ export default () => ({
 
         let code = '';
         code += `while ${condition}:\n`;
+        code += `${this.INDENT}await asyncio.sleep(0)\n`;
         code += branchCode;
         return code;
       },

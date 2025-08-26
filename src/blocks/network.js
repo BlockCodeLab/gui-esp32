@@ -22,16 +22,18 @@ export default () => ({
         },
       },
       mpy(block) {
-        const ssid = this.valueToCode(block, 'SSID', this.ORDER_NONE);
-        const pass = this.valueToCode(block, 'PASSWORD', this.ORDER_NONE);
         this.definitions_['import_threading'] = 'import _thread as threading';
         this.definitions_['import_network'] = 'import network';
         this.definitions_['wlan'] = 'wlan = network.WLAN(); wlan.active(True)';
 
+        let ssid = this.valueToCode(block, 'SSID', this.ORDER_NONE);
+        let pass = this.valueToCode(block, 'PASSWORD', this.ORDER_NONE);
+        ssid = isNaN(ssid) ? ssid : this.quote_(ssid);
+        pass = isNaN(pass) ? pass : this.quote_(pass);
+
         let code = '';
-        code += 'threading.start_new_thread(';
-        code += `lambda: wlan.connect(${ssid}, ${pass})`;
-        code += ', ())\n';
+        code += 'if not wlan.isconnected(): threading.start_new_thread(';
+        code += `lambda: wlan.connect(${ssid}, ${pass}), ())\n`;
         code += 'while wlan.active() and not wlan.isconnected(): '; // while 写在一行
         code += 'await asyncio.sleep_ms(500)\n'; // 每 500ms 检查一次
         return code;
@@ -70,8 +72,7 @@ export default () => ({
         this.definitions_['wifi_list'] = 'wifi_list = []';
         let code = '';
         code += 'threading.start_new_thread(';
-        code += `lambda: wifi_list.extend(wlan.scan())`;
-        code += ', ())\n';
+        code += 'lambda: wifi_list.extend(wlan.scan()), ())\n';
         return code;
       },
     },

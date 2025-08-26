@@ -8,7 +8,7 @@ const escape = (name) => name.replaceAll(/[^a-z0-9]/gi, '_');
 
 const generator = new ESP32Generator();
 
-const handleExtensionsFilter = () => ['device'];
+const handleExtensionsFilter = () => ['device', 'data'];
 
 export function ESP32BlocksEditor() {
   const { tabIndex } = useAppContext();
@@ -25,7 +25,9 @@ export function ESP32BlocksEditor() {
     // 导入使用的扩展
     for (const id in resources) {
       for (const extModule of resources[id]) {
-        define(`import_${id}_${extModule.name}`, `from ${escape(id)} import ${extModule.name}`);
+        if (extModule.name[0] !== '_') {
+          define(`import_${id}_${extModule.name}`, `from ${escape(id)} import ${extModule.name}`);
+        }
       }
     }
   }, []);
