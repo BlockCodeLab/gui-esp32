@@ -115,7 +115,7 @@ export function DeviceMenu({ itemClassName }) {
   return (
     <>
       <MenuSection>
-        {meta.value?.boardType === ESP32Boards.ESP32_IOT_BOARD && (
+        {meta.value.boardType === ESP32Boards.ESP32_IOT_BOARD && (
           <MenuItem
             disabled={downloadAlertId}
             className={classNames(itemClassName, styles.blankCheckItem)}

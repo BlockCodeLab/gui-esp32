@@ -4,7 +4,7 @@ import { ESP32Boards } from '../../lib/boards';
 export function DeviceLabel() {
   const { meta } = useProjectContext();
 
-  switch (meta.value?.boardType) {
+  switch (meta.value.boardType) {
     case ESP32Boards.ESP32S3:
       return (
         <Text

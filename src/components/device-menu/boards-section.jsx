@@ -10,7 +10,7 @@ export function BoardsSection({ itemClassName }) {
   const { meta } = useProjectContext();
 
   useEffect(() => {
-    if (!meta.value?.boardType) {
+    if (!meta.value.boardType) {
       setMeta('boardType', ESP32Boards.ESP32S3);
     }
   }, []);
@@ -31,7 +31,7 @@ export function BoardsSection({ itemClassName }) {
         >
           <img
             className={classNames(styles.checkIcon, {
-              [styles.checked]: meta.value?.boardType === ESP32Boards.ESP32,
+              [styles.checked]: meta.value.boardType === ESP32Boards.ESP32,
             })}
             src={checkIcon}
           />
@@ -46,7 +46,7 @@ export function BoardsSection({ itemClassName }) {
         >
           <img
             className={classNames(styles.checkIcon, {
-              [styles.checked]: meta.value?.boardType === ESP32Boards.ESP32S3,
+              [styles.checked]: meta.value.boardType === ESP32Boards.ESP32S3,
             })}
             src={checkIcon}
           />
@@ -64,7 +64,7 @@ export function BoardsSection({ itemClassName }) {
         >
           <img
             className={classNames(styles.checkIcon, {
-              [styles.checked]: meta.value?.boardType === ESP32Boards.ESP32_IOT_BOARD,
+              [styles.checked]: meta.value.boardType === ESP32Boards.ESP32_IOT_BOARD,
             })}
             src={checkIcon}
           />
