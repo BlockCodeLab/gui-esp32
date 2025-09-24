@@ -95,7 +95,7 @@ export default () => ({
         },
       },
       mpy(block) {
-        const index = this.getAdjustedInt(block, 'INDEX') || 0;
+        const index = this.getAdjusted(block, 'INDEX') || 0;
         const item = block.getFieldValue('ITEM') || 'SSID';
         this.definitions_['import_network'] = 'import network';
         this.definitions_['wlan'] = 'wlan = network.WLAN(); wlan.active(True)';

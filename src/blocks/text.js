@@ -47,7 +47,7 @@ export default () => ({
         },
       },
       mpy(block) {
-        const letterIndex = this.getAdjustedInt(block, 'LETTER'); // 将位置值换成下标值
+        const letterIndex = this.getAdjusted(block, 'LETTER'); // 将位置值换成下标值
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const code = `${str}[${letterIndex}]`;
         return [code, this.ORDER_FUNCTION_CALL];
@@ -134,7 +134,7 @@ export default () => ({
         },
       },
       mpy(block) {
-        const from = this.getAdjustedInt(block, 'FROM');
+        const from = this.getAdjusted(block, 'FROM');
         const to = this.valueToCode(block, 'TO', this.ORDER_NONE);
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const code = `${str}[:${from}] + ${str}[${to}:]\n`;
@@ -186,7 +186,7 @@ export default () => ({
         },
       },
       mpy(block) {
-        const index = this.getAdjustedInt(block, 'INDEX');
+        const index = this.getAdjusted(block, 'INDEX');
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const letter = this.valueToCode(block, 'LETTER', this.ORDER_NONE);
         const code = `${str}[:${index}] + ${letter} + ${str}[${index + 1}:]\n`;
@@ -213,7 +213,7 @@ export default () => ({
         },
       },
       mpy(block) {
-        const from = this.getAdjustedInt(block, 'FROM');
+        const from = this.getAdjusted(block, 'FROM');
         const to = this.valueToCode(block, 'TO', this.ORDER_NONE);
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const code = `${str}[${from}:${to}]`;
