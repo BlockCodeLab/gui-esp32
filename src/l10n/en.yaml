@@ -9,9 +9,14 @@ esp32.menubar.device.sync: Sync program
 
 esp32.menubar.device.download: Download program via USB
 esp32.menubar.device.downloadBle: Download program via Bluetooth
+esp32.menubar.device.iotboardFirmware: Restore IOT Board firmware
+esp32.menubar.device.firmware: Restore firmware
+esp32.menubar.device.erasing: Erasing...
+esp32.menubar.device.restoring: Firmware restoring...{progress}%
+esp32.menubar.device.recovering: Recovering...
+esp32.menubar.device.restoreDone: Firmware resotre completed! Now press RESET key
+esp32.menubar.device.caching: Caching latest firmware...
 
-esp32.blocks.displayMatrix: display %1
-esp32.blocks.clearDisplay: clear display
 esp32.blocks.wait: wait %1 milliseconds
 esp32.blocks.break: break
 esp32.blocks.continue: continue

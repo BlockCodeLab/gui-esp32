@@ -14,5 +14,5 @@
 }
 
 .blank-check-item>div {
-  padding-left: 14px;
+  padding-left: calc(var(--space) / 2 + 14px);
 }

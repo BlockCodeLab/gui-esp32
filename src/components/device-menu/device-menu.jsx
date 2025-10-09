@@ -4,21 +4,14 @@ import { useProjectContext, setAlert, delAlert } from '@blockcode/core';
 import { MPYUtils } from '@blockcode/board';
 import { sleepMs } from '@blockcode/utils';
 import { ESP32Boards } from '../../lib/boards';
+import deviceFilters from './device-filters.yaml';
 
 import { Spinner, Text, MenuSection, MenuItem } from '@blockcode/core';
 import { BoardsSection } from './boards-section';
+import { FirmwareSection } from './firmware-section';
 import styles from './device-menu.module.css';
 
 let downloadAlertId = null;
-
-const deviceFilters = [
-  {
-    usbVendorId: 0x303a, // Espressif Vendor ID
-  },
-  {
-    usbVendorId: 0x1a86, // QinHeng Vendor ID
-  },
-];
 
 const removeDownloading = () => {
   delAlert(downloadAlertId);
@@ -60,7 +53,7 @@ const downloadProgram = async (device, mainFile, assetFiles) => {
 
   const projectFiles = [].concat(mainFile, assetFiles);
 
-  downloadingAlert('0.0');
+  downloadingAlert(0);
 
   try {
     // 开始下载
@@ -142,6 +135,8 @@ export function DeviceMenu({ itemClassName }) {
       </MenuSection>
 
       <BoardsSection itemClassName={itemClassName} />
+
+      <FirmwareSection itemClassName={itemClassName} />
     </>
   );
 }

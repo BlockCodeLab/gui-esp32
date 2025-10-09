@@ -9,9 +9,14 @@ esp32.menubar.device.sync: 同步程序
 
 esp32.menubar.device.download: 通过 USB 下载程序
 esp32.menubar.device.downloadBle: 通过蓝牙下载程序
+esp32.menubar.device.iotboardFirmware: 还原 IOT Borad 出厂固件
+esp32.menubar.device.firmware: 还原固件
+esp32.menubar.device.erasing: 正在清除…
+esp32.menubar.device.restoring: 正在还原固件…{progress}%
+esp32.menubar.device.recovering: 恢复设备…
+esp32.menubar.device.restoreDone: 还原固件完成，请按下 RESET 键。
+esp32.menubar.device.caching: 正在缓存最新固件…
 
-esp32.blocks.displayMatrix: 显示 %1
-esp32.blocks.clearDisplay: 清除显示
 esp32.blocks.wait: 等待 %1 毫秒
 esp32.blocks.break: 跳出重复执行
 esp32.blocks.continue: 跳到下一次执行
