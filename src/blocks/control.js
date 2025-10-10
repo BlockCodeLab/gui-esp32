@@ -30,16 +30,6 @@ export default () => ({
       text: ScratchBlocks.Msg.CONTROL_FOREVER,
       repeat: true,
       end: true,
-      mpy(block) {
-        let branchCode = this.statementToCode(block, 'SUBSTACK');
-        branchCode = this.addLoopTrap(branchCode, block.id);
-
-        let code = '';
-        code += 'while True:\n';
-        code += `${this.INDENT}await asyncio.sleep(0)\n`;
-        code += branchCode;
-        return code;
-      },
     },
     '---',
     {
@@ -53,17 +43,6 @@ export default () => ({
           defaultValue: 10,
         },
       },
-      mpy(block) {
-        const times = this.valueToCode(block, 'TIMES', this.ORDER_NONE);
-        let branchCode = this.statementToCode(block, 'SUBSTACK');
-        branchCode = this.addLoopTrap(branchCode, block.id);
-
-        let code = '';
-        code += `for _ in range(int(${times})):\n`;
-        code += `${this.INDENT}await asyncio.sleep(0)\n`;
-        code += branchCode;
-        return code;
-      },
     },
     '---',
     {
@@ -75,15 +54,6 @@ export default () => ({
         CONDITION: {
           type: 'boolean',
         },
-      },
-      mpy(block) {
-        const condition = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'False';
-        const branchCode = this.statementToCode(block, 'SUBSTACK') || this.PASS;
-
-        let code = '';
-        code += `if ${condition}:\n`;
-        code += branchCode;
-        return code;
       },
     },
     {
@@ -133,17 +103,6 @@ export default () => ({
           type: 'boolean',
         },
       },
-      mpy(block) {
-        const condition = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'False';
-        let branchCode = this.statementToCode(block, 'SUBSTACK');
-        branchCode = this.addLoopTrap(branchCode, block.id);
-
-        let code = '';
-        code += `while not ${condition}:\n`;
-        code += `${this.INDENT}await asyncio.sleep(0)\n`;
-        code += branchCode;
-        return code;
-      },
     },
     {
       // 当重复
@@ -155,17 +114,6 @@ export default () => ({
           type: 'boolean',
         },
       },
-      mpy(block) {
-        const condition = this.valueToCode(block, 'CONDITION', this.ORDER_NONE) || 'True';
-        let branchCode = this.statementToCode(block, 'SUBSTACK');
-        branchCode = this.addLoopTrap(branchCode, block.id);
-
-        let code = '';
-        code += `while ${condition}:\n`;
-        code += `${this.INDENT}await asyncio.sleep(0)\n`;
-        code += branchCode;
-        return code;
-      },
     },
     {
       // continue
@@ -173,8 +121,7 @@ export default () => ({
       text: translate('esp32.blocks.continue', 'continue'),
       end: true,
       mpy(block) {
-        const code = 'continue\n';
-        return code;
+        return 'continue\n';
       },
     },
     {
@@ -183,8 +130,7 @@ export default () => ({
       text: translate('esp32.blocks.break', 'break'),
       end: true,
       mpy(block) {
-        const code = 'break\n';
-        return code;
+        return 'break\n';
       },
     },
     '---',

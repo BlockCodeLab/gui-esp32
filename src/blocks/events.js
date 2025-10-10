@@ -95,9 +95,7 @@ export default (boardType) => {
           if (id < 0) {
             id = 0;
           }
-          let code = '';
-          code += `timer_${id}.deinit()\n`;
-          code += 'return\n';
+          const code = `timer_${id}.deinit()\n`;
           return code;
         },
       },
