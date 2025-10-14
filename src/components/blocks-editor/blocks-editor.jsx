@@ -25,7 +25,7 @@ export function ESP32BlocksEditor() {
     // 导入使用的扩展
     for (const id in resources) {
       for (const extModule of resources[id]) {
-        if (extModule.name[0] !== '_') {
+        if (!extModule.common) {
           define(`import_${id}_${extModule.name}`, `from ${escape(id)} import ${extModule.name}`);
         }
       }
