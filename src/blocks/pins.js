@@ -107,7 +107,7 @@ export default (boardType) => {
             {
               // 0-255 滑块
               id: 'slider255',
-              inline: true,
+              shadow: true,
               output: 'integer',
               inputs: {
                 VALUE: {
@@ -209,7 +209,7 @@ export default (boardType) => {
       {
         // 0-1023 滑块
         id: 'slider1023',
-        inline: true,
+        shadow: true,
         output: 'integer',
         inputs: {
           VALUE: {
