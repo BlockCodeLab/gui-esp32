@@ -17,6 +17,15 @@ esp32.menubar.device.recovering: Recovering...
 esp32.menubar.device.restoreDone: Firmware resotre completed! Now press RESET key
 esp32.menubar.device.caching: Caching latest firmware...
 
+esp32.extension.tags.controllers: Controllers
+esp32.extension.tags.sensors: Sensors
+esp32.extension.tags.actuators: Actuators
+esp32.extension.tags.displays: Displays
+esp32.extension.tags.modules: Modules
+esp32.extension.tags.communication: Communication
+esp32.extension.tags.data: Data
+esp32.extension.tags.kits: Kits
+
 esp32.blocks.wait: wait %1 milliseconds
 esp32.blocks.break: break
 esp32.blocks.continue: continue
@@ -44,14 +53,14 @@ esp32.blocks.inputMode: input
 esp32.blocks.ouputMode: output
 esp32.blocks.inputPullUpMode: input pull-up
 esp32.blocks.inputPullDownMode: input pull-down
-esp32.blocks.setdigital: set digital pin %1 to %2
+esp32.blocks.setdigital: set pin %1 to %2
 esp32.blocks.digitalHigh: high
 esp32.blocks.digitalLow: low
-esp32.blocks.setpwmfreq: set pwm pin %1 frequency to %2 Hz
-esp32.blocks.setpwm: set pwm pin %1 to %2
-esp32.blocks.setanalog: set analog pin %1 to %2
-esp32.blocks.isDigitalHigh: digital pin %1 is high?
-esp32.blocks.analogValue: analog pin %1 value
+esp32.blocks.setpwmfreq: set pin %1 pwm frequency to %2 Hz
+esp32.blocks.setpwm: set pin %1 pwm to %2
+esp32.blocks.setanalog: set pin %1 analog to %2
+esp32.blocks.isDigitalHigh: pin %1 is high?
+esp32.blocks.analogValue: pin %1 analog value
 esp32.blocks.attachinterrupt: attach pin %1 interrupt to %2
 esp32.blocks.interruptRising: rising
 esp32.blocks.interruptFalling: falling

@@ -55,7 +55,7 @@ export default (boardType) => {
       {
         // 数字引脚设为
         id: 'setdigital',
-        text: translate('esp32.blocks.setdigital', 'set digital pin %1 to %2'),
+        text: translate('esp32.blocks.setdigital', 'set pin %1 to %2'),
         inputs: {
           PIN: {
             menu: ioPins,
@@ -85,7 +85,7 @@ export default (boardType) => {
             {
               // 模拟 引脚设为
               id: 'setDAC',
-              text: translate('esp32.blocks.setanalog', 'set analog pin %1 to %2'),
+              text: translate('esp32.blocks.setanalog', 'set pin %1 analog to %2'),
               inputs: {
                 PIN: {
                   menu: 'ESP32_DAC_PINS',
@@ -96,11 +96,12 @@ export default (boardType) => {
               },
               mpy(block) {
                 const pin = block.getFieldValue('PIN') || 0;
+                const pinName = `pin_${pin}`;
                 const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
                 this.definitions_['import_pin'] = 'from machine import Pin';
                 this.definitions_['import_dac'] = 'from machine import DAC';
-                this.definitions_[`dac_${pin}`] = `dac_${pin} = DAC(Pin(${pin}))`;
-                const code = `dac_${pin}.write(${value})\n`;
+                this.definitions_[pinName] = `${pinName} = DAC(Pin(${pin}))`;
+                const code = `${pinName}.write(${value})\n`;
                 return code;
               },
             },
@@ -128,7 +129,7 @@ export default (boardType) => {
       {
         // 数字引脚是否为高电平？
         id: 'digital',
-        text: translate('esp32.blocks.isDigitalHigh', 'digital pin %1 is high?'),
+        text: translate('esp32.blocks.isDigitalHigh', 'pin %1 is high?'),
         output: 'boolean',
         inputs: {
           PIN: {
@@ -146,7 +147,7 @@ export default (boardType) => {
       {
         // 模拟引脚值
         id: 'analog',
-        text: translate('esp32.blocks.analogValue', 'analog pin %1 value'),
+        text: translate('esp32.blocks.analogValue', 'pin %1 analog value'),
         output: 'integer',
         inputs: {
           PIN: {
@@ -155,16 +156,20 @@ export default (boardType) => {
         },
         mpy(block) {
           const pin = block.getFieldValue('PIN') || 0;
+          const pinName = `pin_${pin}`;
+          this.definitions_['import_pin'] = 'from machine import Pin';
           this.definitions_['import_adc'] = 'from machine import ADC';
-          this.definitions_[`adc_${pin}`] = `adc_${pin} = ADC(Pin(${pin}))`;
-          return [`adc_${pin}.read()`, this.ORD_FUNCTION_CALL];
+          this.definitions_[pinName] = `${pinName} = ADC(Pin(${pin}))`;
+          this.definitions_[`${pinName}_atten`] = `${pinName}.atten(ADC.ATTN_11DB)`;
+          this.definitions_[`${pinName}_width`] = `${pinName}.width(ADC.WIDTH_10BIT)`;
+          return [`${pinName}.read()`, this.ORD_FUNCTION_CALL];
         },
       },
       '---',
       {
         // PWM 引脚频率设为
         id: 'setPWMFreq',
-        text: translate('esp32.blocks.setpwmfreq', 'set pwm pin %1 frequency to %2 Hz'),
+        text: translate('esp32.blocks.setpwmfreq', 'set pin %1 pwm frequency to %2 Hz'),
         inputs: {
           PIN: {
             menu: ioPins,
@@ -176,18 +181,19 @@ export default (boardType) => {
         },
         mpy(block) {
           const pin = block.getFieldValue('PIN') || 0;
+          const pinName = `pin_${pin}`;
           const freq = this.valueToCode(block, 'FREQ', this.ORDER_NONE);
           this.definitions_['import_pin'] = 'from machine import Pin';
           this.definitions_['import_pwm'] = 'from machine import PWM';
-          this.definitions_[`pwm_${pin}`] = `pwm_${pin} = PWM(Pin(${pin}), freq=1000)`;
-          const code = `pwm_${pin}.freq(${freq})\n`;
+          this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000)`;
+          const code = `${pinName}.freq(${freq})\n`;
           return code;
         },
       },
       {
         // PWM 引脚设为
         id: 'setPWM',
-        text: translate('esp32.blocks.setpwm', 'set pwm pin %1 to %2'),
+        text: translate('esp32.blocks.setpwm', 'set pin %1 pwm to %2'),
         inputs: {
           PIN: {
             menu: ioPins,
@@ -198,11 +204,12 @@ export default (boardType) => {
         },
         mpy(block) {
           const pin = block.getFieldValue('PIN') || 0;
+          const pinName = `pin_${pin}`;
           const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
           this.definitions_['import_pin'] = 'from machine import Pin';
           this.definitions_['import_pwm'] = 'from machine import PWM';
-          this.definitions_[`pwm_${pin}`] = `pwm_${pin} = PWM(Pin(${pin}), freq=1000)`;
-          const code = `pwm_${pin}.duty_u16(${value} * 64)\n`;
+          this.definitions_[pinName] = `${pinName} = PWM(Pin(${pin}), freq=1000)`;
+          const code = `${pinName}.duty(${value})\n`;
           return code;
         },
       },

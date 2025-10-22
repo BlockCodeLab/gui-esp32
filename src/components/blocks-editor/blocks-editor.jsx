@@ -2,6 +2,7 @@ import { useCallback } from 'preact/hooks';
 import { useAppContext, useProjectContext } from '@blockcode/core';
 import { MicroPythonGenerator, BlocksEditor } from '@blockcode/blocks';
 import { ESP32Generator, buildBlocks } from '../../blocks/blocks';
+import { extensionTags } from './extension-tags';
 
 // 过滤字符
 const escape = (name) => name.replaceAll(/[^a-z0-9]/gi, '_');
@@ -38,6 +39,7 @@ export function ESP32BlocksEditor() {
       enableProcedureReturns
       disableSensingBlocks
       disableGenerateCode={tabIndex.value !== 0}
+      extensionTags={extensionTags}
       generator={generator}
       onBuildinExtensions={handleBuildinExtensions}
       onDefinitions={handleDefinitions}

@@ -288,7 +288,7 @@ export default () => ({
       },
       mpy(block) {
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
-        const code = `${str}.strip()`;
+        const code = `${str}.strip()\n`;
         return code;
       },
     },

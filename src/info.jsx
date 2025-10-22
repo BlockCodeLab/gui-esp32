@@ -6,7 +6,7 @@ addLocalesMessages({
   en: {
     'esp32.name': 'ESP32 Series',
     'esp32.description': 'ESP32 series programming via blocks.',
-    'esp32.collaborator': 'ESPRESSIF',
+    'esp32.collaborator': 'Espressif',
   },
   'zh-Hans': {
     'esp32.name': 'ESP32 系列',
@@ -16,7 +16,7 @@ addLocalesMessages({
   'zh-Hant': {
     'esp32.name': 'ESP32 系列',
     'esp32.description': '用積木為 ESP32 系列主控板編程。',
-    'esp32.collaborator': 'ESPRESSIF',
+    'esp32.collaborator': 'Espressif',
   },
 });
 
@@ -40,7 +40,7 @@ export default {
   collaborator: (
     <Text
       id="esp32.collaborator"
-      defaultMessage="ESPRESSIF"
+      defaultMessage="Espressif"
     />
   ),
   blocksRequired: true,

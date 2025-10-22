@@ -17,6 +17,15 @@ esp32.menubar.device.recovering: 恢复设备…
 esp32.menubar.device.restoreDone: 还原固件完成，请按下 RESET 键。
 esp32.menubar.device.caching: 正在缓存最新固件…
 
+esp32.extension.tags.controllers: 输入模块
+esp32.extension.tags.sensors: 传感器
+esp32.extension.tags.actuators: 执行器
+esp32.extension.tags.displays: 显示模块
+esp32.extension.tags.modules: 智能模块
+esp32.extension.tags.communication: 通讯
+esp32.extension.tags.data: 数据
+esp32.extension.tags.kits: 套件
+
 esp32.blocks.wait: 等待 %1 毫秒
 esp32.blocks.break: 跳出重复执行
 esp32.blocks.continue: 跳到下一次执行
@@ -44,14 +53,14 @@ esp32.blocks.inputMode: 输入
 esp32.blocks.ouputMode: 输出
 esp32.blocks.inputPullUpMode: 上拉输入
 esp32.blocks.inputPullDownMode: 下拉输入
-esp32.blocks.setdigital: 将数字引脚 %1 设为 %2
+esp32.blocks.setdigital: 将引脚 %1 设为 %2
 esp32.blocks.digitalHigh: 高电平
 esp32.blocks.digitalLow: 低电平
-esp32.blocks.setpwmfreq: 将 PWM 引脚 %1 频率设为 %2
-esp32.blocks.setpwm: 将 PWM 引脚 %1 设为 %2
-esp32.blocks.setanalog: 将模拟引脚 %1 设为 %2
-esp32.blocks.isDigitalHigh: 数字引脚 %1 是高电平？
-esp32.blocks.analogValue: 模拟引脚 %1 的值
+esp32.blocks.setpwmfreq: 将引脚 %1 PWM 频率设为 %2
+esp32.blocks.setpwm: 将引脚 %1 PWM 设为 %2
+esp32.blocks.setanalog: 将引脚 %1 模拟值设为 %2
+esp32.blocks.isDigitalHigh: 引脚 %1 是高电平？
+esp32.blocks.analogValue: 引脚 %1 模拟值
 esp32.blocks.attachinterrupt: 将引脚 %1 中断模式设为 %2
 esp32.blocks.interruptRising: 电平上升
 esp32.blocks.interruptFalling: 电平下降
