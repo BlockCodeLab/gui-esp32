@@ -2,8 +2,10 @@ import { translate, themeColors } from '@blockcode/core';
 import { ESP32Boards } from '../lib/boards';
 
 export default (boardType) => {
-  let ioPins = boardType === ESP32Boards.ESP32S3 ? 'ESP32S3_PINS' : 'ESP32_PINS';
-  let adcPins = boardType === ESP32Boards.ESP32S3 ? 'ESP32S3_ADC_PINS' : 'ESP32_ADC_PINS';
+  const isS3 = boardType === ESP32Boards.ESP32S3;
+  const ioPins = isS3 ? 'ESP32S3_PINS' : 'ESP32_PINS';
+  const pwmPins = isS3 ? 'ESP32S3_PINS' : 'ESP32_PWM_PINS';
+  const adcPins = isS3 ? 'ESP32S3_ADC_PINS' : 'ESP32_ADC_PINS';
 
   return {
     id: 'pin',
@@ -172,7 +174,7 @@ export default (boardType) => {
         text: translate('esp32.blocks.setpwmfreq', 'set pin %1 pwm frequency to %2 Hz'),
         inputs: {
           PIN: {
-            menu: ioPins,
+            menu: pwmPins,
           },
           FREQ: {
             type: 'integer',
@@ -196,7 +198,7 @@ export default (boardType) => {
         text: translate('esp32.blocks.setpwm', 'set pin %1 pwm to %2'),
         inputs: {
           PIN: {
-            menu: ioPins,
+            menu: pwmPins,
           },
           VALUE: {
             shadow: 'slider1023',
@@ -375,6 +377,38 @@ export default (boardType) => {
           ['46', '46'],
           ['47', '47'],
           ['48', '48'],
+        ],
+      },
+      ESP32_PWM_PINS: {
+        items: [
+          ['0', '0'],
+          ['1', '1'],
+          ['2', '2'],
+          ['3', '3'],
+          ['4', '4'],
+          ['5', '5'],
+          ['6', '6'],
+          ['7', '7'],
+          ['8', '8'],
+          ['9', '9'],
+          ['10', '10'],
+          ['11', '11'],
+          ['12', '12'],
+          ['13', '13'],
+          ['14', '14'],
+          ['15', '15'],
+          ['16', '16'],
+          ['17', '17'],
+          ['18', '18'],
+          ['19', '19'],
+          ['21', '21'],
+          ['22', '22'],
+          ['23', '23'],
+          ['25', '25'],
+          ['26', '26'],
+          ['27', '27'],
+          ['32', '32'],
+          ['33', '33'],
         ],
       },
       ESP32_ADC_PINS: {
