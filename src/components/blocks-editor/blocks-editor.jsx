@@ -5,7 +5,7 @@ import { ESP32Generator, buildBlocks } from '../../blocks/blocks';
 import { extensionTags } from './extension-tags';
 
 // 过滤字符
-const escape = (name) => name.replaceAll(/[^a-z0-9]/gi, '_');
+const escape = (name) => name.replaceAll(/[^a-z0-9]/gi, '_').replace(/^_/, '');
 
 const generator = new ESP32Generator();
 
