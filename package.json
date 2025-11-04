@@ -1,7 +1,7 @@
 {
   "name": "@blockcode/gui-esp32",
   "private": "true",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "type": "module",
   "module": "dist/index.js",
   "exports": {
@@ -18,10 +18,11 @@
     }
   },
   "dependencies": {
-    "@preact/signals": "^2.2.1",
-    "preact": "^10.26.9"
+    "@preact/signals": "^2.3.2",
+    "preact": "^10.27.2"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "playground-build": "git+https://github.com/BlockCodeLab/playground-build.git"
   }
 }

@@ -32,7 +32,6 @@ export default {
       meta: {
         extensions: Array.from(new Set(extensions.flat())),
         boardType: meta.boardType ?? ESP32Boards.ESP32,
-        classicEvents: meta.classicEvents ?? false,
       },
     };
   },
