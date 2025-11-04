@@ -161,11 +161,11 @@ export default () => ({
     '---',
     {
       id: 'espnowsend',
-      text: translate('esp32.blocks.espnowSend', 'send esp-now message %1 to %2'),
+      text: translate('esp32.blocks.espnowSend', 'send %1 to %2 via esp-now'),
       inputs: {
         MESSAGE: {
           type: 'string',
-          defaultValue: 'hello',
+          defaultValue: translate('esp32.blocks.espnowMsgText', 'message'),
         },
         MAC: {
           type: 'string',
@@ -227,6 +227,18 @@ export default () => ({
         this.definitions_['espnow'] = 'espnow = AIOESPNow(); espnow.active(True)';
         const code = type === 'MAC' ? 'peer' : 'msg';
         return [code, this.ORDER_ATOMIC];
+      },
+    },
+    '---',
+    {
+      id: 'espnowwhen',
+      text: translate('esp32.blocks.espnowWhen', 'when esp-now [MSG] incoming'),
+      hat: true,
+      inputs: {
+        MSG: {
+          type: 'string',
+          defaultValue: translate('esp32.blocks.espnowMsgText', 'message'),
+        },
       },
     },
     '---',

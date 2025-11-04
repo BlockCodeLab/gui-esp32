@@ -256,6 +256,7 @@ export default () => ({
       // 转换大小写
       id: 'case',
       text: translate('esp32.blocks.textCase', 'get %1 case of %2'),
+      output: 'string',
       inputs: {
         WITH: {
           menu: [
@@ -273,13 +274,14 @@ export default () => ({
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const method = with_ === 'LOWER' ? 'lower' : 'upper';
         const code = `${str}.${method}()\n`;
-        return code;
+        return [code, this.ORDER_FUNCTION_CALL];
       },
     },
     {
       // 清除空白
       id: 'trim',
       text: translate('esp32.blocks.textTrim', 'remove %1 leading and trailing whitespace'),
+      output: 'string',
       inputs: {
         STRING: {
           type: 'string',
@@ -289,7 +291,7 @@ export default () => ({
       mpy(block) {
         const str = this.valueToCode(block, 'STRING', this.ORDER_NONE);
         const code = `${str}.strip()\n`;
-        return code;
+        return [code, this.ORDER_FUNCTION_CALL];
       },
     },
     '---',

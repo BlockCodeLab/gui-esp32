@@ -147,7 +147,7 @@ export default () => ({
           ],
         },
       },
-      ino(block) {
+      mpy(block) {
         const unit = block.getFieldValue('UNIT');
         const code = `(_times__${unit === 'SEC' ? '/1000' : ''})`;
         return [code, this.ORDER_ATOMIC];

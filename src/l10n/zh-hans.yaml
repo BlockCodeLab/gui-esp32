@@ -34,7 +34,7 @@ esp32.blocks.else: 否则
 esp32.blocks.runtime: 运行时长 %1
 esp32.blocks.runtimeMilliseconds: 毫秒
 esp32.blocks.runtimeSeconds: 秒
-esp32.blocks.dataConvert: 将 %1 类型转为 %2
+esp32.blocks.dataConvert: 将 %1 转为 %2
 esp32.blocks.dataConvert.int: 整数
 esp32.blocks.dataConvert.float: 浮点数
 esp32.blocks.dataConvert.string: 字符串
@@ -114,12 +114,13 @@ esp32.blocks.wifiItemSecurity: 加密类型
 esp32.blocks.wifiCounts: 可用 Wi-Fi 数量
 esp32.blocks.startap: "开启热点 SSID: %1"
 esp32.blocks.stopap: 关闭热点
-esp32.blocks.espnowSend: 发送 ESP-Now 消息 %1 到 %2
+esp32.blocks.espnowSend: 发送 ESP-Now %1 到 %2
 esp32.blocks.espnowRecv: 等待 ESP-Now 接收消息
-esp32.blocks.espnowMsg: 接受到 %1
+esp32.blocks.espnowMsg: 接收到 %1
 esp32.blocks.espnowMsgText: 消息
 esp32.blocks.espnowMsgMac: MAC
 esp32.blocks.espnowRepeat: 重复等待 ESP-Now 接收消息
+esp32.blocks.espnowWhen: 当 ESP-Now 收到 %1
 esp32.blocks.spiInit: 初始化SPI %1 频率:%2Hz
 esp32.blocks.spiHSPI: HSPI
 esp32.blocks.spiVSPI: VSPI

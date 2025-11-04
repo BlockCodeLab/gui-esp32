@@ -114,12 +114,13 @@ esp32.blocks.wifiItemSecurity: security
 esp32.blocks.wifiCounts: available wi-fi counts
 esp32.blocks.startap: "start ap ssid: %1"
 esp32.blocks.stopap: stop ap
-esp32.blocks.espnowSend: send esp-now message %1 to %2
+esp32.blocks.espnowSend: send esp-now %1 to %2
 esp32.blocks.espnowRecv: wait for esp-now incoming
 esp32.blocks.espnowMsg: "%1 of incoming"
 esp32.blocks.espnowMsgText: message
 esp32.blocks.espnowMsgMac: mac
 esp32.blocks.espnowRepeat: repeat wait for esp-now incoming
+esp32.blocks.espnowWhen: when esp-now [MSG] incoming
 esp32.blocks.spiInit: initialize SPI %1 freq:%2Hz
 esp32.blocks.spiHSPI: HSPI
 esp32.blocks.spiVSPI: VSPI
