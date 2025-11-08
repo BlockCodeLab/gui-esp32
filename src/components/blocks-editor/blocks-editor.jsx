@@ -1,3 +1,4 @@
+import { basename, extname } from 'node:path';
 import { useCallback } from 'preact/hooks';
 import { useAppContext, useProjectContext } from '@blockcode/core';
 import { MicroPythonGenerator, BlocksEditor } from '@blockcode/blocks';
@@ -27,7 +28,8 @@ export function ESP32BlocksEditor() {
     for (const id in resources) {
       for (const extModule of resources[id]) {
         if (!extModule.common) {
-          define(`import_${id}_${extModule.name}`, `from ${escape(id)} import ${extModule.name}`);
+          const libId = basename(extModule.name, extname(extModule.name));
+          define(`import_${id}_${libId}`, `from ${escape(id)} import ${libId}`);
         }
       }
     }

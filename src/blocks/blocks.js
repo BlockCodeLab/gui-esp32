@@ -7,7 +7,6 @@ import getNetworkBlocks from './network';
 import getProtocolsBlocks from './protocols';
 import getOperatorsBlocks from './operators';
 import getDataBlocks from './data';
-import getMyBlocks from './procedures';
 
 export { ESP32Generator } from './generator';
 
@@ -21,7 +20,6 @@ export function buildBlocks(boardType) {
   const protocolsBlocks = getProtocolsBlocks();
   const operatorsBlocks = getOperatorsBlocks();
   const dataBlocks = getDataBlocks();
-  const myBlocks = getMyBlocks();
 
   return [
     pinsBlocks,
@@ -33,6 +31,5 @@ export function buildBlocks(boardType) {
     protocolsBlocks,
     operatorsBlocks,
     dataBlocks,
-    myBlocks,
   ];
 }

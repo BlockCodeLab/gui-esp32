@@ -51,7 +51,10 @@ const downloadProgram = async (device, mainFile, assetFiles) => {
     removeDownloading();
   });
 
-  const projectFiles = [].concat(mainFile, assetFiles);
+  const projectFiles = [].concat(mainFile, assetFiles).map((file) => ({
+    ...file,
+    filename: file.id,
+  }));
 
   downloadingAlert(0);
 
