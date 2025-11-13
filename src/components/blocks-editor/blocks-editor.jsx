@@ -10,7 +10,7 @@ const escape = (name) => name.replaceAll(/[^a-z0-9]/gi, '_').replace(/^_/, '');
 
 const generator = new ESP32Generator();
 
-const handleExtensionsFilter = () => [['device', '!scratch'], 'data'];
+const handleExtensionsFilter = () => ['device', 'data', 'ai'];
 
 export function ESP32BlocksEditor() {
   const { tabIndex } = useAppContext();
