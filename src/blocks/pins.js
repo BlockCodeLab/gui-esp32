@@ -4,7 +4,7 @@ import { ESP32Boards } from '../lib/boards';
 export default (boardType) => {
   const isS3 = boardType === ESP32Boards.ESP32S3;
   const ioPins = isS3 ? 'ESP32S3_PINS' : 'ESP32_PINS';
-  const pwmPins = isS3 ? 'ESP32S3_PINS' : 'ESP32_PWM_PINS';
+  const outPins = isS3 ? 'ESP32S3_PINS' : 'ESP32_OUT_PINS';
   const adcPins = isS3 ? 'ESP32S3_ADC_PINS' : 'ESP32_ADC_PINS';
 
   return {
@@ -60,7 +60,7 @@ export default (boardType) => {
         text: translate('esp32.blocks.setdigital', 'set pin %1 to %2'),
         inputs: {
           PIN: {
-            menu: ioPins,
+            menu: outPins,
           },
           VALUE: {
             inputMode: true,
@@ -174,7 +174,7 @@ export default (boardType) => {
         text: translate('esp32.blocks.setpwmfreq', 'set pin %1 pwm frequency to %2 Hz'),
         inputs: {
           PIN: {
-            menu: pwmPins,
+            menu: outPins,
           },
           FREQ: {
             type: 'integer',
@@ -198,7 +198,7 @@ export default (boardType) => {
         text: translate('esp32.blocks.setpwm', 'set pin %1 pwm to %2'),
         inputs: {
           PIN: {
-            menu: pwmPins,
+            menu: outPins,
           },
           VALUE: {
             shadow: 'slider1023',
@@ -379,7 +379,7 @@ export default (boardType) => {
           ['48', '48'],
         ],
       },
-      ESP32_PWM_PINS: {
+      ESP32_OUT_PINS: {
         items: [
           ['0', '0'],
           ['1', '1'],
@@ -459,8 +459,8 @@ export default (boardType) => {
       },
       ESP32_DAC_PINS: {
         items: [
-          ['17', '17'],
-          ['18', '18'],
+          ['25', '25'],
+          ['26', '26'],
         ],
       },
     },

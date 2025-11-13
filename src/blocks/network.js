@@ -225,8 +225,8 @@ export default () => ({
         this.definitions_['import_aioespnow'] = 'from aioespnow import AIOESPNow';
         this.definitions_['wlan'] = 'wlan = network.WLAN(); wlan.active(True)';
         this.definitions_['espnow'] = 'espnow = AIOESPNow(); espnow.active(True)';
-        const code = type === 'MAC' ? 'peer' : 'msg';
-        return [code, this.ORDER_ATOMIC];
+        const code = type === 'MAC' ? 'peer.hex(":")' : 'msg.decode()';
+        return [code, this.ORDER_FUNCTION_CALL];
       },
     },
     '---',
