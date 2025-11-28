@@ -114,12 +114,13 @@ esp32.blocks.wifiItemSecurity: 加密类型
 esp32.blocks.wifiCounts: 可用 Wi-Fi 数量
 esp32.blocks.startap: "开启热点 SSID: %1"
 esp32.blocks.stopap: 关闭热点
-esp32.blocks.espnowSend: 发送 ESP-Now %1 到 %2
+esp32.blocks.espnowBroadcast: ESP-Now 广播 %1
+esp32.blocks.espnowSend: ESP-Now 发送 %1 给 %2
 esp32.blocks.espnowRecv: 等待 ESP-Now 接收消息
-esp32.blocks.espnowMsg: 接收到 %1
+esp32.blocks.espnowMsg: 收到的 %1
 esp32.blocks.espnowMsgText: 消息
-esp32.blocks.espnowMsgMac: MAC
-esp32.blocks.espnowRepeat: 重复等待 ESP-Now 接收消息
+esp32.blocks.espnowMsgMac: MAC 地址
+esp32.blocks.espnowRepeat: 等待 ESP-Now 收到消息
 esp32.blocks.espnowWhen: 当 ESP-Now 收到 %1
 esp32.blocks.spiInit: 初始化SPI %1 频率:%2Hz
 esp32.blocks.spiHSPI: HSPI

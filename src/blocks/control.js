@@ -133,25 +133,5 @@ export default () => ({
         return 'break\n';
       },
     },
-    '---',
-    {
-      // 运行时长
-      id: 'runtime',
-      text: translate('esp32.blocks.runtime', 'run time %1'),
-      output: 'number',
-      inputs: {
-        UNIT: {
-          menu: [
-            [translate('esp32.blocks.runtimeMilliseconds', 'milliseconds'), 'MS'],
-            [translate('esp32.blocks.runtimeSeconds', 'seconds'), 'SEC'],
-          ],
-        },
-      },
-      mpy(block) {
-        const unit = block.getFieldValue('UNIT');
-        const code = `(_times__${unit === 'SEC' ? '/1000' : ''})`;
-        return [code, this.ORDER_ATOMIC];
-      },
-    },
   ],
 });

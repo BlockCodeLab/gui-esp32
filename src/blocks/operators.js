@@ -463,5 +463,28 @@ export default () => ({
         return [code, this.ORDER_FUNCTION_CALL];
       },
     },
+    '---',
+    {
+      // 运行时长
+      id: 'runtime',
+      text: translate('esp32.blocks.runtime', 'run time %1'),
+      output: 'number',
+      inputs: {
+        UNIT: {
+          menu: [
+            [translate('esp32.blocks.runtimeMilliseconds', 'milliseconds'), 'MS'],
+            [translate('esp32.blocks.runtimeSeconds', 'seconds'), 'SEC'],
+          ],
+        },
+      },
+      mpy(block) {
+        const unit = block.getFieldValue('UNIT');
+        let code = '(time.ticks_ms() - _times__)';
+        if (unit === 'SEC') {
+          code = `(${code} / 1000)`;
+        }
+        return [code, this.ORDER_ATOMIC];
+      },
+    },
   ],
 });
