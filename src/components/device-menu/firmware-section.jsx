@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'preact/hooks';
 import { useSignal } from '@preact/signals';
-import { nanoid, classNames, sleep, arrayBufferToBinaryString, getBinaryCache, setBinaryCache } from '@blockcode/utils';
+import { nanoid, classNames, sleep, Base64Utils, getBinaryCache, setBinaryCache } from '@blockcode/utils';
 import { useProjectContext, setAlert, delAlert, openPromptModal } from '@blockcode/core';
 import { ESPTool } from '@blockcode/board';
 import { ESP32Boards } from '../../lib/boards';
@@ -103,7 +103,7 @@ const getFirmwareCache = async (cacheName, downloadUrl, firmwareHash, firmwareVe
   await setBinaryCache(cacheName, {
     version: firmwareVersion,
     hash: firmwareHash,
-    binaryString: arrayBufferToBinaryString(buffer),
+    binaryString: Base64Utils.arrayBufferToBinaryString(buffer),
   });
   readyForUpdate.value = true;
 };
@@ -190,7 +190,7 @@ const uploadFirmware = async (firmwareCache) => {
     reader.addEventListener('load', (e) =>
       uploadData(esploader, [
         {
-          data: arrayBufferToBinaryString(e.target.result),
+          data: Base64Utils.arrayBufferToBinaryString(e.target.result),
           address: 0,
         },
       ]),
@@ -198,7 +198,7 @@ const uploadFirmware = async (firmwareCache) => {
   });
 };
 
-export function FirmwareSection({ itemClassName }) {
+export function FirmwareSection({ disabled, itemClassName }) {
   const { meta } = useProjectContext();
 
   const readyForUpdate = useSignal(false);
@@ -216,11 +216,12 @@ export function FirmwareSection({ itemClassName }) {
       return (
         <Text
           id="esp32.menubar.device.iotboardFirmware"
-          defaultMessage="Restore IOT Board firmware"
+          defaultMessage="Restore IOT Board firmware (v{version})"
+          version={firmwareJson.value?.version}
         />
       );
     }
-  }, [meta.value.boardType]);
+  }, [meta.value.boardType, firmwareJson.value?.version]);
 
   useEffect(() => (alertId = null), []);
 
@@ -239,7 +240,7 @@ export function FirmwareSection({ itemClassName }) {
   return (
     <MenuSection>
       <MenuItem
-        disabled={alertId || (firmwareLabel && !readyForUpdate.value)}
+        disabled={disabled || alertId || (firmwareLabel && !readyForUpdate.value)}
         className={classNames(itemClassName, styles.blankCheckItem)}
         onClick={() => uploadFirmware(cacheName)}
       >
@@ -255,7 +256,7 @@ export function FirmwareSection({ itemClassName }) {
         ) : (
           <Text
             id="esp32.menubar.device.firmware"
-            defaultMessage="Restore firmware"
+            defaultMessage="Restore MicroPython firmware"
           />
         )}
       </MenuItem>

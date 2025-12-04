@@ -7,10 +7,13 @@ esp32.menubar.device.esp32IotBoard: ESP32 IOT Board
 
 esp32.menubar.device.sync: 同步程式
 
-esp32.menubar.device.download: 通過 USB 下載程式
-esp32.menubar.device.downloadBle: 通過藍牙下載程式
-esp32.menubar.device.iotboardFirmware: 還原 IOT Borad 出廠固件
-esp32.menubar.device.firmware: 還原固件
+esp32.menubar.device.download: 下載程式
+esp32.menubar.device.reset: 重置
+esp32.menubar.device.resetDone: 設備已重置。
+esp32.menubar.device.connectUsb: 通過 USB 連接
+esp32.menubar.device.connectBle: 通過藍牙（BLE）連接
+esp32.menubar.device.iotboardFirmware: 還原 IOT Borad 固件（v{version}）
+esp32.menubar.device.firmware: 還原 MicroPython 固件
 esp32.menubar.device.erasing: 正在清除…
 esp32.menubar.device.restoring: 正在還原固件…{progress}%
 esp32.menubar.device.recovering: 恢復設備…
@@ -68,16 +71,15 @@ esp32.blocks.interruptChange: 電平改變
 esp32.blocks.interruptHigh: 高電平
 esp32.blocks.interruptLow: 低電平
 esp32.blocks.detachinterrupt: 取消引腳 %1 中斷
-esp32.blocks.network: 網絡通訊
-esp32.blocks.protocols: 數據協議
+esp32.blocks.network: 網絡
+esp32.blocks.protocols: 協議
 esp32.blocks.serial: 串口
 esp32.blocks.serialBaudrate: 將波特率設為 %1
-esp32.blocks.serialTimeout: 將超時設為 %1 毫秒
+esp32.blocks.serialTimeout: 將通訊超時設為 %1 毫秒
 esp32.blocks.serialPrint: 用 %2 模式打印 %1
 esp32.blocks.serialPrintWarp: 換行
 esp32.blocks.serialPrintNoWarp: 不換行
 esp32.blocks.serialPrintHEX: 16進制
-esp32.blocks.serialPrintNumber: 打印 %1
 esp32.blocks.serialAvailable: 存在可讀取數據?
 esp32.blocks.serialAvailableLength: 可讀取數據長度
 esp32.blocks.serialReadString: 讀取文本
@@ -93,6 +95,7 @@ esp32.blocks.textRemove: 刪除 %3 從第 %1 個到第 %2 個字符
 esp32.blocks.textReplace: 將 %2 中的 %1 替換為 %3
 esp32.blocks.textReplaceLetter: 將 %2 中的第 %1 個字符替換為 %3
 esp32.blocks.textSubstring: 截取 %1 從第 %2 個到第 %3 個字符
+esp32.blocks.textFind: 在 %2 中查找 %1 的位置
 esp32.blocks.textWith: "%1 %2 %3?"
 esp32.blocks.textStartsWith: 開始於
 esp32.blocks.textEndsWith: 結束於
@@ -133,3 +136,6 @@ esp32.blocks.i2cWrite: I2C寫入到 %1:%2
 esp32.blocks.i2cRead: I2C從 %1 讀取 %2 位元組
 esp32.blocks.i2sInit: 初始化I2S BCK:%1 WS:%2 DATA:%3 速率:%4Hz
 esp32.blocks.i2sPlay: I2S播放 %1
+esp32.blocks.terminal: 終端
+esp32.blocks.terminalPrint: 打印 %1
+esp32.blocks.temperature: 温度

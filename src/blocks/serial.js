@@ -3,10 +3,10 @@ import { translate, themeColors } from '@blockcode/core';
 export default () => ({
   id: 'serial',
   name: translate('esp32.blocks.serial', 'Serial'),
-  themeColor: themeColors.blocks.sounds.primary,
-  inputColor: themeColors.blocks.sounds.secondary,
-  otherColor: themeColors.blocks.sounds.tertiary,
-  order: 2,
+  themeColor: themeColors.blocks.looks.primary,
+  inputColor: themeColors.blocks.looks.secondary,
+  otherColor: themeColors.blocks.looks.tertiary,
+  order: 1,
   blocks: [
     {
       // 波特率
@@ -46,11 +46,10 @@ export default () => ({
         return `uart.timeout = ${timeout} / 1000\n`;
       },
     },
-    '---',
     {
       // 打印
       id: 'print',
-      text: translate('esp32.blocks.serialPrint', 'print %1 with %2'),
+      text: translate('esp32.blocks.serialPrint', 'send %1 with %2'),
       inputs: {
         STRING: {
           type: 'string',
@@ -70,30 +69,13 @@ export default () => ({
         this.definitions_['import_uart'] = 'from machine import UART';
         this.definitions_['uart'] = 'uart = UART(0)';
 
-        if (mode === 'WARP') {
-          return `uart.write(${str} + '\\n')\n`;
-        } else if (mode === 'NOWARP') {
-          return `uart.write(${str})\n`;
+        let code = `uart.write(str(${str}) + '\\n')\n`;
+        if (mode === 'NOWARP') {
+          code = `uart.write(str(${str}))\n`;
         } else if (mode === 'HEX') {
-          return `uart.write(hex(${str}))\n`;
+          code = `uart.write(hex(${str}))\n`;
         }
-      },
-    },
-    {
-      // 打印数字
-      id: 'print_number',
-      text: translate('esp32.blocks.serialPrintNumber', 'print %1'),
-      inputs: {
-        NUM: {
-          type: 'number',
-          defaultValue: 0,
-        },
-      },
-      mpy(block) {
-        const num = this.valueToCode(block, 'NUM', this.ORDER_NONE);
-        this.definitions_['import_uart'] = 'from machine import UART';
-        this.definitions_['uart'] = 'uart = UART(0)';
-        return `uart.write(str(${num}) + '\n')\n`;
+        return code;
       },
     },
     '---',
@@ -105,7 +87,7 @@ export default () => ({
       mpy(block) {
         this.definitions_['import_uart'] = 'from machine import UART';
         this.definitions_['uart'] = 'uart = UART(0)';
-        return [`uart.any() > 0`, this.ORDER_RELATIONAL];
+        return [`(uart.any() > 0)`, this.ORDER_RELATIONAL];
       },
     },
     {
@@ -149,7 +131,6 @@ export default () => ({
         return [`uart.readuntil(${char}).decode('utf-8')`, this.ORDER_FUNCTION_CALL];
       },
     },
-    '---',
     {
       // 读取数字
       id: 'read_parse',

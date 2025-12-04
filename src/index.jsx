@@ -2,7 +2,7 @@ import './l10n';
 
 import { svgAsDataUri } from '@blockcode/utils';
 import { ScratchBlocks, blocksTab, CodeReview } from '@blockcode/blocks';
-import { codeTab, terminalTab } from '@blockcode/code';
+import { codeTab, terminalTab, Terminal } from '@blockcode/code';
 
 import { ESP32BlocksEditor } from './components/blocks-editor/blocks-editor';
 import { DeviceIcon } from './components/device-menu/device-icon';
@@ -89,7 +89,7 @@ export default {
     },
     {
       ...terminalTab,
-      disabled: true,
+      Content: Terminal,
     },
   ],
 };

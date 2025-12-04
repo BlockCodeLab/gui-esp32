@@ -1,12 +1,14 @@
 import { useEffect, useCallback } from 'preact/hooks';
+import { batch } from '@preact/signals';
 import { classNames } from '@blockcode/utils';
-import { useProjectContext, setMeta, Text, MenuSection, MenuItem } from '@blockcode/core';
+import { useAppContext, useProjectContext, setAppState, setMeta, Text, MenuSection, MenuItem } from '@blockcode/core';
 import { ESP32Boards } from '../../lib/boards';
 import styles from './device-menu.module.css';
 
 import checkIcon from './icon-check.svg';
 
-export function BoardsSection({ itemClassName }) {
+export function BoardsSection({ disabled, itemClassName }) {
+  const { appState } = useAppContext();
   const { meta } = useProjectContext();
 
   useEffect(() => {
@@ -16,15 +18,18 @@ export function BoardsSection({ itemClassName }) {
   }, []);
 
   const chooseBoardHandler = useCallback(
-    (boardType) => () => {
-      setMeta({ boardType });
-    },
+    (boardType) => () =>
+      batch(() => {
+        appState.value?.currentDevice?.disconnect();
+        setAppState('currentDevice', null);
+        setMeta({ boardType });
+      }),
     [],
   );
 
   return (
     <>
-      <MenuSection>
+      <MenuSection disabled={disabled}>
         <MenuItem
           className={itemClassName}
           onClick={chooseBoardHandler(ESP32Boards.ESP32)}
@@ -55,9 +60,6 @@ export function BoardsSection({ itemClassName }) {
             defaultMessage="ESP32-S3"
           />
         </MenuItem>
-      </MenuSection>
-
-      <MenuSection>
         <MenuItem
           className={itemClassName}
           onClick={chooseBoardHandler(ESP32Boards.ESP32_IOT_BOARD)}

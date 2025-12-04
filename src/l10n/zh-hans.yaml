@@ -7,14 +7,17 @@ esp32.menubar.device.esp32IotBoard: ESP32 IOT Board
 
 esp32.menubar.device.sync: 同步程序
 
-esp32.menubar.device.download: 通过 USB 下载程序
-esp32.menubar.device.downloadBle: 通过蓝牙下载程序
-esp32.menubar.device.iotboardFirmware: 还原 IOT Borad 出厂固件
-esp32.menubar.device.firmware: 还原固件
+esp32.menubar.device.download: 下载程序
+esp32.menubar.device.reset: 复位
+esp32.menubar.device.resetDone: 设备已复位。
+esp32.menubar.device.connectUsb: 通过 USB 连接
+esp32.menubar.device.connectBle: 通过蓝牙（BLE）连接
+esp32.menubar.device.iotboardFirmware: 恢复 IOT Borad 固件（v{version}）
+esp32.menubar.device.firmware: 恢复 MicroPython 固件
 esp32.menubar.device.erasing: 正在清除…
-esp32.menubar.device.restoring: 正在还原固件…{progress}%
+esp32.menubar.device.restoring: 正在恢复固件…{progress}%
 esp32.menubar.device.recovering: 恢复设备…
-esp32.menubar.device.restoreDone: 还原固件完成，请按下 RESET 键。
+esp32.menubar.device.restoreDone: 恢复固件完成，请按下 RESET 键。
 esp32.menubar.device.caching: 正在缓存最新固件…
 
 esp32.extension.tags.controllers: 输入模块
@@ -68,16 +71,15 @@ esp32.blocks.interruptChange: 电平改变
 esp32.blocks.interruptHigh: 高电平
 esp32.blocks.interruptLow: 低电平
 esp32.blocks.detachinterrupt: 取消引脚 %1 中断
-esp32.blocks.network: 网络通讯
-esp32.blocks.protocols: 数据协议
+esp32.blocks.network: 网络
+esp32.blocks.protocols: 协议
 esp32.blocks.serial: 串口
 esp32.blocks.serialBaudrate: 将波特率设为 %1
-esp32.blocks.serialTimeout: 将超时设为 %1 毫秒
-esp32.blocks.serialPrint: 用 %2 模式打印 %1
+esp32.blocks.serialTimeout: 将通讯超时设为 %1 毫秒
+esp32.blocks.serialPrint: 用 %2 模式发送 %1
 esp32.blocks.serialPrintWarp: 换行
 esp32.blocks.serialPrintNoWarp: 不换行
 esp32.blocks.serialPrintHEX: 16进制
-esp32.blocks.serialPrintNumber: 打印 %1
 esp32.blocks.serialAvailable: 存在可读取数据?
 esp32.blocks.serialAvailableLength: 可读取数据长度
 esp32.blocks.serialReadString: 读取文本
@@ -93,6 +95,7 @@ esp32.blocks.textRemove: 删除 %3 从第 %1 个到第 %2 个字符
 esp32.blocks.textReplace: 将 %2 中的 %1 替换为 %3
 esp32.blocks.textReplaceLetter: 将 %2 中的第 %1 个字符替换为 %3
 esp32.blocks.textSubstring: 截取 %1 从第 %2 个到第 %3 个字符
+esp32.blocks.textFind: 在 %2 中查找 %1 的位置
 esp32.blocks.textWith: "%1 %2 %3?"
 esp32.blocks.textStartsWith: 开始于
 esp32.blocks.textEndsWith: 结束于
@@ -133,3 +136,6 @@ esp32.blocks.i2cWrite: I2C写入到 %1:%2
 esp32.blocks.i2cRead: I2C从 %1 读取 %2 字节
 esp32.blocks.i2sInit: 初始化I2S BCK:%1 WS:%2 DATA:%3 速率:%4Hz
 esp32.blocks.i2sPlay: I2S播放 %1
+esp32.blocks.terminal: 终端
+esp32.blocks.terminalPrint: 打印 %1
+esp32.blocks.temperature: 温度
