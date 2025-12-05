@@ -9,9 +9,9 @@ esp32.menubar.device.sync: 同步程序
 
 esp32.menubar.device.download: 下载程序
 esp32.menubar.device.reset: 复位
-esp32.menubar.device.resetDone: 设备已复位。
 esp32.menubar.device.connectUsb: 通过 USB 连接
 esp32.menubar.device.connectBle: 通过蓝牙（BLE）连接
+esp32.menubar.device.disconnect: 断开连接
 esp32.menubar.device.iotboardFirmware: 恢复 IOT Borad 固件（v{version}）
 esp32.menubar.device.firmware: 恢复 MicroPython 固件
 esp32.menubar.device.erasing: 正在清除…

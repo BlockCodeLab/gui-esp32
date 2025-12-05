@@ -1,7 +1,7 @@
-import { useEffect, useMemo } from 'preact/hooks';
+import { useEffect, useMemo, useCallback } from 'preact/hooks';
 import { useSignal } from '@preact/signals';
 import { nanoid, classNames, sleep, Base64Utils, getBinaryCache, setBinaryCache } from '@blockcode/utils';
-import { useProjectContext, setAlert, delAlert, openPromptModal } from '@blockcode/core';
+import { useAppContext, useProjectContext, setAlert, delAlert, setAppState } from '@blockcode/core';
 import { ESPTool } from '@blockcode/board';
 import { ESP32Boards } from '../../lib/boards';
 import { firmwares } from '../../../package.json';
@@ -138,7 +138,7 @@ const uploadData = async (esploader, data) => {
       message: (
         <Text
           id="esp32.menubar.device.restoreDone"
-          defaultMessage="Firmware resotre completed!"
+          defaultMessage="Firmware resotre completed! Now press RESET key"
         />
       ),
       onClose: closeAlert,
@@ -146,10 +146,9 @@ const uploadData = async (esploader, data) => {
   } catch (err) {
     errorAlert(err.name);
     closeAlert();
-  } finally {
-    checker.cancel();
   }
   await ESPTool.disconnect(esploader);
+  checker.cancel();
 };
 
 const uploadFirmware = async (firmwareCache) => {
@@ -199,6 +198,8 @@ const uploadFirmware = async (firmwareCache) => {
 };
 
 export function FirmwareSection({ disabled, itemClassName }) {
+  const { appState } = useAppContext();
+
   const { meta } = useProjectContext();
 
   const readyForUpdate = useSignal(false);
@@ -237,12 +238,18 @@ export function FirmwareSection({ disabled, itemClassName }) {
     getFirmwareCache(cacheName, downloadUrl, firmwareHash, firmwareJson.value.version, readyForUpdate);
   }, [cacheName]);
 
+  const handleUploadFirmware = useCallback(async () => {
+    setAppState('currentDevice', null);
+    await appState.value?.currentDevice?.disconnect();
+    uploadFirmware(cacheName);
+  }, [cacheName]);
+
   return (
     <MenuSection>
       <MenuItem
         disabled={disabled || alertId || (firmwareLabel && !readyForUpdate.value)}
         className={classNames(itemClassName, styles.blankCheckItem)}
-        onClick={() => uploadFirmware(cacheName)}
+        onClick={handleUploadFirmware}
       >
         {firmwareLabel ? (
           readyForUpdate.value ? (

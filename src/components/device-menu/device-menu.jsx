@@ -1,5 +1,5 @@
 import { useCallback } from 'preact/hooks';
-import { nanoid, classNames } from '@blockcode/utils';
+import { nanoid, classNames, sleepMs } from '@blockcode/utils';
 import { useAppContext, useProjectContext, setAlert, delAlert, setAppState } from '@blockcode/core';
 import { MPYUtils } from '@blockcode/board';
 import { ESP32Boards } from '../../lib/boards';
@@ -56,7 +56,6 @@ const downloadProgram = async (device, mainFile, assetFiles) => {
     // 开始下载
     await MPYUtils.write(device, projectFiles, downloadingAlert);
     device.reset();
-    // await MPYUtils.disconnect(device);
   } catch (err) {
     errorAlert(err.name);
   }
@@ -68,14 +67,19 @@ export function DeviceMenu({ itemClassName }) {
   const { appState } = useAppContext();
   const { meta, file, assets } = useProjectContext();
 
-  const connectDevice = useCallback((device) => {
-    device.on('disconnect', () => setAppState('currentDevice', null));
-    MPYUtils.check(device).catch(() => {
+  const connectDevice = useCallback(async (device) => {
+    await appState.value?.currentDevice?.disconnect();
+    const checker = MPYUtils.check(device).catch(() => {
       errorAlert();
       removeDownloading();
     });
+    device.on('disconnect', () => {
+      checker.cancel();
+      setAppState('currentDevice', null);
+    });
+    await sleepMs(500);
     setAppState('currentDevice', device);
-  });
+  }, []);
 
   const handleConnectUSB = useCallback(async () => {
     if (downloadAlertId) return;
@@ -99,27 +103,21 @@ export function DeviceMenu({ itemClassName }) {
     }
   }, []);
 
-  const handleDownload = useCallback(async () => {
+  const handleDownload = useCallback(() => {
     if (downloadAlertId) return;
     if (!appState.value?.currentDevice) return;
     downloadProgram(appState.value.currentDevice, file.value, assets.value);
   }, []);
 
-  const handleReset = useCallback(async () => {
+  const handleReset = useCallback(() => {
     if (downloadAlertId) return;
     appState.value?.currentDevice?.reset();
-    setAlert(
-      {
-        message: (
-          <Text
-            id="esp32.menubar.device.resetDone"
-            defaultMessage="Device reset successful"
-          />
-        ),
-      },
-      1000,
-    );
   }, []);
+
+  const handleDisconnect = useCallback(() => {
+    if (downloadAlertId) return;
+    appState.value?.currentDevice?.disconnect();
+  });
 
   return (
     <>
@@ -147,27 +145,42 @@ export function DeviceMenu({ itemClassName }) {
       </MenuSection>
 
       <MenuSection disabled={downloadAlertId}>
-        <MenuItem
-          className={classNames(itemClassName, styles.blankCheckItem)}
-          label={
-            <Text
-              id="esp32.menubar.device.connectUsb"
-              defaultMessage="Connect device with USB"
-            />
-          }
-          onClick={handleConnectUSB}
-        />
-        {meta.value.boardType === ESP32Boards.ESP32_IOT_BOARD && (
+        {appState.value?.currentDevice ? (
           <MenuItem
             className={classNames(itemClassName, styles.blankCheckItem)}
             label={
               <Text
-                id="esp32.menubar.device.connectBle"
-                defaultMessage="Connect device with Bluetooth (BLE)"
+                id="esp32.menubar.device.disconnect"
+                defaultMessage="Disconnect device"
               />
             }
-            onClick={handleConnectBLE}
+            onClick={handleDisconnect}
           />
+        ) : (
+          <>
+            <MenuItem
+              className={classNames(itemClassName, styles.blankCheckItem)}
+              label={
+                <Text
+                  id="esp32.menubar.device.connectUsb"
+                  defaultMessage="Connect device with USB"
+                />
+              }
+              onClick={handleConnectUSB}
+            />
+            {meta.value.boardType === ESP32Boards.ESP32_IOT_BOARD && (
+              <MenuItem
+                className={classNames(itemClassName, styles.blankCheckItem)}
+                label={
+                  <Text
+                    id="esp32.menubar.device.connectBle"
+                    defaultMessage="Connect device with Bluetooth (BLE)"
+                  />
+                }
+                onClick={handleConnectBLE}
+              />
+            )}
+          </>
         )}
       </MenuSection>
 
