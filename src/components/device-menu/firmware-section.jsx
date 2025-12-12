@@ -13,32 +13,13 @@ import styles from './device-menu.module.css';
 let alertId = null;
 
 const uploadingAlert = (progress) => {
-  if (!alertId) {
-    alertId = nanoid();
-  }
   if (progress < 100) {
-    setAlert({
+    setAlert('restoring', {
       id: alertId,
-      icon: <Spinner level="success" />,
-      message: (
-        <Text
-          id="esp32.menubar.device.restoring"
-          defaultMessage="Firmware restoring...{progress}%"
-          progress={progress}
-        />
-      ),
+      progress,
     });
   } else {
-    setAlert({
-      id: alertId,
-      icon: <Spinner level="success" />,
-      message: (
-        <Text
-          id="esp32.menubar.device.recovering"
-          defaultMessage="Recovering..."
-        />
-      ),
-    });
+    setAlert('recovering', { id: alertId });
   }
 };
 
@@ -111,32 +92,13 @@ const getFirmwareCache = async (firmwareName, downloadUrl, firmwareHash, firmwar
 };
 
 const uploadData = async (esploader, data) => {
-  if (!alertId) {
-    alertId = nanoid();
-  }
-  setAlert({
-    id: alertId,
-    icon: <Spinner level="success" />,
-    message: (
-      <Text
-        id="esp32.menubar.device.erasing"
-        defaultMessage="Erasing..."
-      />
-    ),
-  });
+  alertId = nanoid();
+  setAlert('erasing', { id: alertId });
 
   try {
-    await esploader.main();
     await ESPTool.writeFlash(esploader, data, true, (val) => uploadingAlert(val));
-    setAlert({
+    setAlert('restoreDone', {
       id: alertId,
-      icon: null,
-      message: (
-        <Text
-          id="esp32.menubar.device.restoreDone"
-          defaultMessage="Firmware resotre completed! Now press RESET key"
-        />
-      ),
       onClose: closeAlert,
     });
   } catch (err) {
@@ -239,15 +201,14 @@ export function FirmwareSection({ disabled, itemClassName }) {
   }, [firmwareName]);
 
   const handleUploadFirmware = useCallback(async () => {
-    setAppState('currentDevice', null);
-    await appState.value?.currentDevice?.disconnect();
+    if (appState.value?.currentDevice) return;
     uploadFirmware(firmwareName);
   }, [firmwareName]);
 
   return (
     <MenuSection>
       <MenuItem
-        disabled={disabled || alertId || (firmwareLabel && !readyForUpdate.value)}
+        disabled={disabled || alertId || appState.value?.currentDevice || (firmwareLabel && !readyForUpdate.value)}
         className={classNames(itemClassName, styles.blankCheckItem)}
         onClick={handleUploadFirmware}
       >
