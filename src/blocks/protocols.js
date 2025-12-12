@@ -1,12 +1,12 @@
 import { translate, themeColors } from '@blockcode/core';
 
-export default () => ({
+export default (i) => ({
   id: 'protocol',
   name: translate('esp32.blocks.protocols', 'Protocols'),
   themeColor: themeColors.blocks.sounds.primary,
   inputColor: themeColors.blocks.sounds.secondary,
   otherColor: themeColors.blocks.sounds.tertiary,
-  order: 2,
+  order: i,
   blocks: [],
   // blocks: [
   //   // SPI相关积木

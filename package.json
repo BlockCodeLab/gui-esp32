@@ -15,6 +15,9 @@
   "firmwares": {
     "iotboard": {
       "download": "https://firmware.blockcode.fun/iotboard"
+    },
+    "esp32s3cam": {
+      "download": "https://firmware.blockcode.fun/esp32s3cam"
     }
   },
   "dependencies": {

@@ -1,8 +1,8 @@
 import './l10n';
 
 import { svgAsDataUri } from '@blockcode/utils';
-import { ScratchBlocks, blocksTab, CodeReview } from '@blockcode/blocks';
-import { codeTab, terminalTab } from '@blockcode/code';
+import { ScratchBlocks, blocksTab, codeReviewTab } from '@blockcode/blocks';
+import { terminalTab } from '@blockcode/code';
 
 import { ESP32BlocksEditor } from './components/blocks-editor/blocks-editor';
 import { DeviceIcon } from './components/device-menu/device-icon';
@@ -84,7 +84,7 @@ export default {
       Content: ESP32BlocksEditor,
     },
     {
-      ...codeTab,
+      ...codeReviewTab,
     },
     {
       ...terminalTab,

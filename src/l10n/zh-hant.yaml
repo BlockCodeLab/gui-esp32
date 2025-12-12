@@ -3,17 +3,16 @@ esp32.menubar.device.esp32: ESP32
 esp32.menubar.device.esp32s3: ESP32-S3
 esp32.menubar.device.esp32c3: ESP32-C3
 esp32.menubar.device.esp32c6: ESP32-C6
+
+esp32.menubar.device.nulllab: 空想實驗室
 esp32.menubar.device.esp32IotBoard: ESP32 IOT Board
+esp32.menubar.device.esp32s3Cam: ESP32S3 CAM
 
-esp32.menubar.device.sync: 同步程式
+esp32.menubar.device.m5stack: M5Stack
+esp32.menubar.device.atomS3rCam: AtomS3R CAM
 
-esp32.menubar.device.download: 下載程式
-esp32.menubar.device.reset: 重置
-esp32.menubar.device.connectUsb: 通過 USB 連接
-esp32.menubar.device.connectBle: 通過藍牙（BLE）連接
-esp32.menubar.device.disconnect: 斷開連接
-esp32.menubar.device.iotboardFirmware: 還原 IOT Borad 固件（v{version}）
-esp32.menubar.device.firmware: 還原 MicroPython 固件
+esp32.menubar.device.firmware: 還原 v{version} 固件…
+esp32.menubar.device.micropythonFirmware: 還原 MicroPython 固件…
 esp32.menubar.device.erasing: 正在清除…
 esp32.menubar.device.restoring: 正在還原固件…{progress}%
 esp32.menubar.device.recovering: 恢復設備…
@@ -138,4 +137,65 @@ esp32.blocks.i2sInit: 初始化I2S BCK:%1 WS:%2 DATA:%3 速率:%4Hz
 esp32.blocks.i2sPlay: I2S播放 %1
 esp32.blocks.terminal: 終端
 esp32.blocks.terminalPrint: 打印 %1
+esp32.blocks.terminalEval: 執行 %1
 esp32.blocks.temperature: 温度
+esp32.blocks.turnon: 開啟
+esp32.blocks.turnoff: 關閉
+esp32.blocks.camera: 攝像頭
+esp32.blocks.cameraCapture: 拍攝
+esp32.blocks.cameraFlashlamp: 閃光燈 %1
+esp32.blocks.cameraFlip: 上下翻轉 %1
+esp32.blocks.cameraMirror: 左右鏡像 %1
+esp32.blocks.cameraEffect: 將特效設為 %1
+esp32.blocks.cameraFramesize: 將分辨率設為 %1
+esp32.blocks.cameraFormat: 將圖片格式設為 %1
+esp32.blocks.cameraQuality: 將圖片質量設為 %1
+esp32.blocks.cameraContrast: 將對比度設為 %1
+esp32.blocks.cameraSaturation: 將飽和度設為 %1
+esp32.blocks.cameraBrightness: 將亮度設為 %1
+esp32.blocks.cameraWhiteBalance: 將白平衡設為 %1
+esp32.blocks.cameraFramesize96X96: 96×96
+esp32.blocks.cameraFramesizeQQVGA: 160×120
+esp32.blocks.cameraFramesizeQCIF: 176×144
+esp32.blocks.cameraFramesizeHQVGA: 240×160
+esp32.blocks.cameraFramesize240X240: 240×240
+esp32.blocks.cameraFramesizeQVGA: 320×240
+esp32.blocks.cameraFramesizeCIF: 352×288
+esp32.blocks.cameraFramesizeHVGA: 480×320
+esp32.blocks.cameraFramesizeVGA: 640×480
+esp32.blocks.cameraFramesizeSVGA: 800×600
+esp32.blocks.cameraFramesizeXGA: 1024×768
+esp32.blocks.cameraFramesizeHD: 1280×720
+esp32.blocks.cameraFramesizeSXGA: 1280×1024
+esp32.blocks.cameraFramesizeUXGA: 1900×1200
+esp32.blocks.cameraFramesizeFHD: 1920×1080
+esp32.blocks.cameraFramesizePHD: 2560×1440
+esp32.blocks.cameraFramesizeP3MP: 2048×1536
+esp32.blocks.cameraFramesizeQXGA: 2048×1536
+esp32.blocks.cameraFramesizeQHD: 2560×1440
+esp32.blocks.cameraFramesizeWQXGA: 2560×1600
+esp32.blocks.cameraFramesizePFHD: 2560×1600
+esp32.blocks.cameraFramesizeQSXGA: 2560×2048
+esp32.blocks.cameraFormatJPEG: JPEG
+esp32.blocks.cameraFormatYUV422: YUV422
+esp32.blocks.cameraFormatRGB565: RGB565
+esp32.blocks.cameraFormatGrayscale: 灰度
+esp32.blocks.cameraEffectNone: 原圖
+esp32.blocks.cameraEffectNegative: 負片
+esp32.blocks.cameraEffectGrayscale: 灰度
+esp32.blocks.cameraEffectSepia: 棕褐色
+esp32.blocks.cameraEffectRed: 紅色
+esp32.blocks.cameraEffectGreen: 綠色
+esp32.blocks.cameraEffectBlue: 藍色
+esp32.blocks.cameraEffectAntique: 復古
+esp32.blocks.cameraEffectSketch: 素描
+esp32.blocks.cameraEffectSolarize: 日光
+esp32.blocks.cameraEffectPosterize: 海報
+esp32.blocks.cameraEffectWhiteboard: 白板
+esp32.blocks.cameraEffectBlackboard: 黑板
+esp32.blocks.cameraEffectAqua: 水晶
+esp32.blocks.cameraWBNone: 原始
+esp32.blocks.cameraWBSunny: 晴天
+esp32.blocks.cameraWBCloudy: 陰天
+esp32.blocks.cameraWBOffice: 辦公室
+esp32.blocks.cameraWBHome: 家中

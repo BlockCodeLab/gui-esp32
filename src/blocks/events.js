@@ -13,6 +13,12 @@ export default (boardType) => {
     case ESP32Boards.ESP32_IOT_BOARD:
       boardName = translate('esp32.menubar.device.esp32IotBoard', 'ESP32 IOT Board');
       break;
+    case ESP32Boards.ESP32S3_CAM:
+      boardName = translate('esp32.menubar.device.esp32s3Cam', 'ESP32S3 CAM');
+      break;
+    case ESP32Boards.ATOMS3R_CAM:
+      boardName = translate('esp32.menubar.device.atomS3rCam', 'AtomS3R CAM');
+      break;
   }
 
   const timerIds = ['1', '2', '3', '4'];

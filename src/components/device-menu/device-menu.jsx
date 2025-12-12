@@ -69,15 +69,19 @@ export function DeviceMenu({ itemClassName }) {
 
   const connectDevice = useCallback(async (device) => {
     await appState.value?.currentDevice?.disconnect();
-    const checker = MPYUtils.check(device).catch(() => {
-      errorAlert();
-      removeDownloading();
-    });
-    device.on('disconnect', () => {
-      checker.cancel();
-      setAppState('currentDevice', null);
-    });
-    await sleepMs(500);
+    if (!device.binding) {
+      device.binding = true;
+      device.on('connect', () => {
+        connectDevice(device);
+      });
+      device.on('disconnect', (err) => {
+        if (err) {
+          errorAlert();
+        }
+        setAppState('currentDevice', null);
+      });
+      await sleepMs(500);
+    }
     setAppState('currentDevice', device);
   }, []);
 
@@ -126,7 +130,7 @@ export function DeviceMenu({ itemClassName }) {
           className={classNames(itemClassName, styles.blankCheckItem)}
           label={
             <Text
-              id="esp32.menubar.device.download"
+              id="gui.menubar.device.download"
               defaultMessage="Download program"
             />
           }
@@ -136,7 +140,7 @@ export function DeviceMenu({ itemClassName }) {
           className={classNames(itemClassName, styles.blankCheckItem)}
           label={
             <Text
-              id="esp32.menubar.device.reset"
+              id="gui.menubar.device.reset"
               defaultMessage="Reset device"
             />
           }
@@ -150,7 +154,7 @@ export function DeviceMenu({ itemClassName }) {
             className={classNames(itemClassName, styles.blankCheckItem)}
             label={
               <Text
-                id="esp32.menubar.device.disconnect"
+                id="gui.menubar.device.disconnect"
                 defaultMessage="Disconnect device"
               />
             }
@@ -162,8 +166,8 @@ export function DeviceMenu({ itemClassName }) {
               className={classNames(itemClassName, styles.blankCheckItem)}
               label={
                 <Text
-                  id="esp32.menubar.device.connectUsb"
-                  defaultMessage="Connect device with USB"
+                  id="gui.menubar.device.connectUsb"
+                  defaultMessage="Connect device with USB..."
                 />
               }
               onClick={handleConnectUSB}
@@ -173,8 +177,8 @@ export function DeviceMenu({ itemClassName }) {
                 className={classNames(itemClassName, styles.blankCheckItem)}
                 label={
                   <Text
-                    id="esp32.menubar.device.connectBle"
-                    defaultMessage="Connect device with Bluetooth (BLE)"
+                    id="gui.menubar.device.connectBle"
+                    defaultMessage="Connect device with Bluetooth (BLE)..."
                   />
                 }
                 onClick={handleConnectBLE}

@@ -1,12 +1,12 @@
 import { translate, themeColors } from '@blockcode/core';
 
-export default () => ({
+export default (i) => ({
   id: 'serial',
   name: translate('esp32.blocks.serial', 'Serial'),
   themeColor: themeColors.blocks.looks.primary,
   inputColor: themeColors.blocks.looks.secondary,
   otherColor: themeColors.blocks.looks.tertiary,
-  order: 1,
+  order: i,
   blocks: [
     {
       // 波特率
@@ -15,15 +15,12 @@ export default () => ({
       inputs: {
         BAUDRATE: {
           menu: {
-            inputMode: true,
-            type: 'integer',
-            defaultValue: '115200',
-            items: ['4800', '9600', '38400', '57600', '115200'],
+            items: ['115200', '57600', '38400', '19200', '9600', '4800'],
           },
         },
       },
       mpy(block) {
-        const baud = this.valueToCode(block, 'BAUDRATE', this.ORDER_NONE);
+        const baud = block.getFieldValue('BAUDRATE');
         this.definitions_['import_uart'] = 'from machine import UART';
         this.definitions_['uart'] = 'uart = UART(0)';
         return `uart.init(${baud})\n`;

@@ -3,17 +3,16 @@ esp32.menubar.device.esp32: ESP32
 esp32.menubar.device.esp32s3: ESP32-S3
 esp32.menubar.device.esp32c3: ESP32-C3
 esp32.menubar.device.esp32c6: ESP32-C6
+
+esp32.menubar.device.nulllab: NULLLAB
 esp32.menubar.device.esp32IotBoard: ESP32 IOT Board
+esp32.menubar.device.esp32s3Cam: ESP32S3 CAM
 
-esp32.menubar.device.sync: Sync program
+esp32.menubar.device.m5stack: M5Stack
+esp32.menubar.device.atomS3rCam: AtomS3R CAM
 
-esp32.menubar.device.download: Download program
-esp32.menubar.device.reset: Reset device
-esp32.menubar.device.connectUsb: Connect device with USB
-esp32.menubar.device.connectBle: Connect device with Bluetooth (BLE)
-esp32.menubar.device.disconnect: Disconnect device
-esp32.menubar.device.iotboardFirmware: Restore IOT Board firmware (v{version})
-esp32.menubar.device.firmware: Restore MicroPython firmware
+esp32.menubar.device.firmware: Restore v{version} firmware ...
+esp32.menubar.device.micropythonFirmware: Restore MicroPython firmware...
 esp32.menubar.device.erasing: Erasing...
 esp32.menubar.device.restoring: Firmware restoring...{progress}%
 esp32.menubar.device.recovering: Recovering...
@@ -138,4 +137,65 @@ esp32.blocks.i2sInit: initialize I2S BCK:%1 WS:%2 DATA:%3 rate:%4Hz
 esp32.blocks.i2sPlay: I2S play %1
 esp32.blocks.terminal: Terminal
 esp32.blocks.terminalPrint: print %1
+esp32.blocks.terminalEval: eval %1
 esp32.blocks.temperature: temperature
+esp32.blocks.turnon: on
+esp32.blocks.turnoff: off
+esp32.blocks.camera: Camera
+esp32.blocks.cameraCapture: capture
+esp32.blocks.cameraFlashlamp: flashlamp %1
+esp32.blocks.cameraFlip: flip %1
+esp32.blocks.cameraMirror: mirror %1
+esp32.blocks.cameraEffect: set effect to %1
+esp32.blocks.cameraFramesize: set framesize to %1
+esp32.blocks.cameraFormat: set picture format to %1
+esp32.blocks.cameraQuality: set picture quality to %1
+esp32.blocks.cameraContrast: set contrast to %1
+esp32.blocks.cameraSaturation: set saturation to %1
+esp32.blocks.cameraBrightness: set brightness to %1
+esp32.blocks.cameraWhiteBalance: set white balance to %1
+esp32.blocks.cameraFramesize96X96: 96×96
+esp32.blocks.cameraFramesizeQQVGA: 160×120
+esp32.blocks.cameraFramesizeQCIF: 176×144
+esp32.blocks.cameraFramesizeHQVGA: 240×160
+esp32.blocks.cameraFramesize240X240: 240×240
+esp32.blocks.cameraFramesizeQVGA: 320×240
+esp32.blocks.cameraFramesizeCIF: 352×288
+esp32.blocks.cameraFramesizeHVGA: 480×320
+esp32.blocks.cameraFramesizeVGA: 640×480
+esp32.blocks.cameraFramesizeSVGA: 800×600
+esp32.blocks.cameraFramesizeXGA: 1024×768
+esp32.blocks.cameraFramesizeHD: 1280×720
+esp32.blocks.cameraFramesizeSXGA: 1280×1024
+esp32.blocks.cameraFramesizeUXGA: 1900×1200
+esp32.blocks.cameraFramesizeFHD: 1920×1080
+esp32.blocks.cameraFramesizePHD: 2560×1440
+esp32.blocks.cameraFramesizeP3MP: 2048×1536
+esp32.blocks.cameraFramesizeQXGA: 2048×1536
+esp32.blocks.cameraFramesizeQHD: 2560×1440
+esp32.blocks.cameraFramesizeWQXGA: 2560×1600
+esp32.blocks.cameraFramesizePFHD: 2560×1600
+esp32.blocks.cameraFramesizeQSXGA: 2560×2048
+esp32.blocks.cameraFormatJPEG: JPEG
+esp32.blocks.cameraFormatYUV422: YUV422
+esp32.blocks.cameraFormatRGB565: RGB565
+esp32.blocks.cameraFormatGrayscale: Grayscale
+esp32.blocks.cameraEffectNone: none
+esp32.blocks.cameraEffectNegative: negative
+esp32.blocks.cameraEffectGrayscale: grayscale
+esp32.blocks.cameraEffectSepia: sepia
+esp32.blocks.cameraEffectRed: red
+esp32.blocks.cameraEffectGreen: green
+esp32.blocks.cameraEffectBlue: blue
+esp32.blocks.cameraEffectAntique: antique
+esp32.blocks.cameraEffectSketch: sketch
+esp32.blocks.cameraEffectSolarize: solarize
+esp32.blocks.cameraEffectPosterize: posterize
+esp32.blocks.cameraEffectWhiteboard: whiteboard
+esp32.blocks.cameraEffectBlackboard: blackboard
+esp32.blocks.cameraEffectAqua: aqua
+esp32.blocks.cameraWBNone: none
+esp32.blocks.cameraWBSunny: sunny
+esp32.blocks.cameraWBCloudy: cloudy
+esp32.blocks.cameraWBOffice: office
+esp32.blocks.cameraWBHome: home

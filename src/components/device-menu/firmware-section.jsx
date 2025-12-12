@@ -65,8 +65,10 @@ const getFirmware = async (downloadUrl) => {
 };
 
 // 查询是否有缓存固件
-const getFirmwareCache = async (cacheName, downloadUrl, firmwareHash, firmwareVersion, readyForUpdate) => {
+const getFirmwareCache = async (firmwareName, downloadUrl, firmwareHash, firmwareVersion, readyForUpdate) => {
   if (readyForUpdate.value) return;
+
+  const cacheName = `${firmwareName}Firmware`;
 
   const data = await getBinaryCache(cacheName);
 
@@ -95,7 +97,7 @@ const getFirmwareCache = async (cacheName, downloadUrl, firmwareHash, firmwareVe
     .map((b) => b.toString(16).padStart(2, '0'))
     .join('');
   if (hash !== firmwareHash) {
-    getFirmwareCache(cacheName, downloadUrl, firmwareHash, firmwareVersion, readyForUpdate);
+    getFirmwareCache(firmwareName, downloadUrl, firmwareHash, firmwareVersion, readyForUpdate);
     return;
   }
 
@@ -123,12 +125,6 @@ const uploadData = async (esploader, data) => {
     ),
   });
 
-  const checker = ESPTool.check(esploader).catch(() => {
-    errorAlert();
-    closeAlert();
-    ESPTool.disconnect(esploader);
-  });
-
   try {
     await esploader.main();
     await ESPTool.writeFlash(esploader, data, true, (val) => uploadingAlert(val));
@@ -148,10 +144,9 @@ const uploadData = async (esploader, data) => {
     closeAlert();
   }
   await ESPTool.disconnect(esploader);
-  checker.cancel();
 };
 
-const uploadFirmware = async (firmwareCache) => {
+const uploadFirmware = async (firmwareName) => {
   if (alertId) return;
 
   let esploader;
@@ -163,8 +158,8 @@ const uploadFirmware = async (firmwareCache) => {
   if (!esploader) return;
 
   // 从缓存中升级到最新固件
-  if (firmwareCache) {
-    const data = await getBinaryCache(firmwareCache);
+  if (firmwareName) {
+    const data = await getBinaryCache(`${firmwareName}Firmware`);
     if (data) {
       uploadData(esploader, [
         {
@@ -206,18 +201,23 @@ export function FirmwareSection({ disabled, itemClassName }) {
 
   const firmwareJson = useSignal(null);
 
-  const cacheName = useMemo(() => {
+  const firmwareName = useMemo(() => {
     if (meta.value.boardType === ESP32Boards.ESP32_IOT_BOARD) {
-      return 'iotboardFirmware';
+      firmwareJson.value = null;
+      return 'iotboard';
+    }
+    if (meta.value.boardType === ESP32Boards.ESP32S3_CAM) {
+      firmwareJson.value = null;
+      return 'esp32s3cam';
     }
   }, [meta.value.boardType]);
 
   const firmwareLabel = useMemo(() => {
-    if (meta.value.boardType === ESP32Boards.ESP32_IOT_BOARD) {
+    if ([ESP32Boards.ESP32_IOT_BOARD, ESP32Boards.ESP32S3_CAM].includes(meta.value.boardType)) {
       return (
         <Text
-          id="esp32.menubar.device.iotboardFirmware"
-          defaultMessage="Restore IOT Board firmware (v{version})"
+          id="esp32.menubar.device.firmware"
+          defaultMessage="Restore v{version} firmware..."
           version={firmwareJson.value?.version}
         />
       );
@@ -227,22 +227,22 @@ export function FirmwareSection({ disabled, itemClassName }) {
   useEffect(() => (alertId = null), []);
 
   useEffect(async () => {
-    if (!cacheName) return;
+    if (!firmwareName || !firmwares[firmwareName]) return;
     readyForUpdate.value = false;
-    const baseUrl = firmwares.iotboard.download;
+    const baseUrl = firmwares[firmwareName].download;
     if (!firmwareJson.value) {
       firmwareJson.value = await fetch(`${baseUrl}/version.json`).then((res) => res.json());
     }
     const downloadUrl = `${baseUrl}/${firmwareJson.value.download}`.replaceAll('{version}', firmwareJson.value.version);
     const firmwareHash = firmwareJson.value.hash;
-    getFirmwareCache(cacheName, downloadUrl, firmwareHash, firmwareJson.value.version, readyForUpdate);
-  }, [cacheName]);
+    getFirmwareCache(firmwareName, downloadUrl, firmwareHash, firmwareJson.value.version, readyForUpdate);
+  }, [firmwareName]);
 
   const handleUploadFirmware = useCallback(async () => {
     setAppState('currentDevice', null);
     await appState.value?.currentDevice?.disconnect();
-    uploadFirmware(cacheName);
-  }, [cacheName]);
+    uploadFirmware(firmwareName);
+  }, [firmwareName]);
 
   return (
     <MenuSection>
@@ -262,7 +262,7 @@ export function FirmwareSection({ disabled, itemClassName }) {
           )
         ) : (
           <Text
-            id="esp32.menubar.device.firmware"
+            id="esp32.menubar.device.micropythonFirmware"
             defaultMessage="Restore MicroPython firmware"
           />
         )}

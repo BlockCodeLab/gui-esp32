@@ -28,6 +28,22 @@ export function DeviceLabel() {
           defaultMessage="ESP32 IOT Board"
         />
       );
+
+    case ESP32Boards.ESP32S3_CAM:
+      return (
+        <Text
+          id="esp32.menubar.device.esp32s3Cam"
+          defaultMessage="ESP32S3 CAM"
+        />
+      );
+
+    case ESP32Boards.ATOMS3R_CAM:
+      return (
+        <Text
+          id="esp32.menubar.device.atomS3RCam"
+          defaultMessage="AtomS3R CAM"
+        />
+      );
   }
 
   return (
