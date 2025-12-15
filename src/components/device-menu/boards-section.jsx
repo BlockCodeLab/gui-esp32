@@ -76,21 +76,6 @@ export function BoardsSection({ disabled, itemClassName }) {
       >
         <MenuItem
           className={itemClassName}
-          onClick={chooseBoardHandler(ESP32Boards.ESP32S3_CAM)}
-        >
-          <img
-            className={classNames(styles.checkIcon, {
-              [styles.checked]: meta.value.boardType === ESP32Boards.ESP32S3_CAM,
-            })}
-            src={checkIcon}
-          />
-          <Text
-            id="esp32.menubar.device.esp32s3Cam"
-            defaultMessage="ESP32S3 CAM"
-          />
-        </MenuItem>
-        <MenuItem
-          className={itemClassName}
           onClick={chooseBoardHandler(ESP32Boards.ESP32_IOT_BOARD)}
         >
           <img
@@ -102,6 +87,21 @@ export function BoardsSection({ disabled, itemClassName }) {
           <Text
             id="esp32.menubar.device.esp32IotBoard"
             defaultMessage="ESP32 IOT Board"
+          />
+        </MenuItem>
+        <MenuItem
+          className={itemClassName}
+          onClick={chooseBoardHandler(ESP32Boards.ESP32S3_CAM)}
+        >
+          <img
+            className={classNames(styles.checkIcon, {
+              [styles.checked]: meta.value.boardType === ESP32Boards.ESP32S3_CAM,
+            })}
+            src={checkIcon}
+          />
+          <Text
+            id="esp32.menubar.device.esp32s3Cam"
+            defaultMessage="ESP32S3 CAM"
           />
         </MenuItem>
       </MenuSection>

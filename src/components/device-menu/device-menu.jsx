@@ -21,22 +21,10 @@ const downloadingAlert = (progress) => {
   if (!downloadAlertId) {
     downloadAlertId = nanoid();
   }
-  if (progress < 100) {
-    setAlert({
-      id: downloadAlertId,
-      icon: <Spinner level="success" />,
-      message: (
-        <Text
-          id="gui.alert.downloadingProgress"
-          defaultMessage="Downloading...{progress}%"
-          progress={progress}
-        />
-      ),
-    });
-  } else {
-    setAlert('downloadCompleted', { id: downloadAlertId });
-    setTimeout(removeDownloading, 2000);
-  }
+  setAlert('downloading', {
+    id: downloadAlertId,
+    progress,
+  });
 };
 
 const errorAlert = (err) => {
@@ -45,22 +33,22 @@ const errorAlert = (err) => {
 };
 
 const downloadProgram = async (device, mainFile, assetFiles) => {
-  const projectFiles = [].concat(mainFile, assetFiles).map((file) => ({
-    ...file,
-    filename: file.id,
-  }));
-
   downloadingAlert(0);
-
   try {
+    const projectFiles = [].concat(mainFile, assetFiles).map((file) => ({
+      ...file,
+      filename: file.id,
+    }));
+
     // 开始下载
     await MPYUtils.write(device, projectFiles, downloadingAlert);
     device.reset();
+    setAlert('downloadCompleted', { id: downloadAlertId });
+    setTimeout(removeDownloading, 2000);
   } catch (err) {
     errorAlert(err.name);
+    removeDownloading();
   }
-
-  removeDownloading();
 };
 
 export function DeviceMenu({ itemClassName }) {
@@ -69,19 +57,17 @@ export function DeviceMenu({ itemClassName }) {
 
   const connectDevice = useCallback(async (device) => {
     await appState.value?.currentDevice?.disconnect();
-    if (!device.binding) {
-      device.binding = true;
-      device.on('connect', () => {
-        connectDevice(device);
-      });
-      device.on('disconnect', (err) => {
-        if (err) {
-          errorAlert();
-        }
-        setAppState('currentDevice', null);
-      });
-      await sleepMs(500);
-    }
+    await sleepMs(500);
+    const handleConnect = () => connectDevice(device);
+    const handleDisconnect = (err) => {
+      if (err) errorAlert();
+      setAppState('currentDevice', null);
+      device.off('connect', handleConnect);
+      device.off('disconnect', handleDisconnect);
+    };
+    device.on('connect', handleConnect);
+    device.on('disconnect', handleDisconnect);
+    setAlert('connected', 1000);
     setAppState('currentDevice', device);
   }, []);
 
@@ -115,6 +101,7 @@ export function DeviceMenu({ itemClassName }) {
 
   const handleReset = useCallback(() => {
     if (downloadAlertId) return;
+    setAlert('reseting', 1000);
     appState.value?.currentDevice?.reset();
   }, []);
 

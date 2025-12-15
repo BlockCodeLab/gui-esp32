@@ -7,7 +7,7 @@ import { ESP32Boards } from '../../lib/boards';
 import { firmwares } from '../../../package.json';
 import deviceFilters from './device-filters.yaml';
 
-import { Text, Spinner, MenuSection, MenuItem } from '@blockcode/core';
+import { Text, MenuSection, MenuItem } from '@blockcode/core';
 import styles from './device-menu.module.css';
 
 let alertId = null;
@@ -97,7 +97,7 @@ const uploadData = async (esploader, data) => {
 
   try {
     await ESPTool.writeFlash(esploader, data, true, (val) => uploadingAlert(val));
-    setAlert('restoreDone', {
+    setAlert('restoreCompleted', {
       id: alertId,
       onClose: closeAlert,
     });
