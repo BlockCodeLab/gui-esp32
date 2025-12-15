@@ -17,20 +17,10 @@ export default {
   },
 
   onSave(files, assets, meta) {
-    const extensions = [];
-    files = files.map((file) => {
-      extensions.push(file.extensions);
-      return {
-        id: file.id,
-        type: file.type,
-        xml: file.xml,
-      };
-    });
     return {
       files,
       assets,
       meta: {
-        extensions: Array.from(new Set(extensions.flat())),
         boardType: meta.boardType ?? ESP32Boards.ESP32,
       },
     };

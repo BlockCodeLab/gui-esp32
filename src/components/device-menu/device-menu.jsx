@@ -56,19 +56,19 @@ export function DeviceMenu({ itemClassName }) {
   const { meta, file, assets } = useProjectContext();
 
   const connectDevice = useCallback(async (device) => {
-    await appState.value?.currentDevice?.disconnect();
+    await appState.value?.device?.disconnect();
     await sleepMs(500);
     const handleConnect = () => connectDevice(device);
     const handleDisconnect = (err) => {
       if (err) errorAlert();
-      setAppState('currentDevice', null);
+      setAppState('device', null);
       device.off('connect', handleConnect);
       device.off('disconnect', handleDisconnect);
     };
     device.on('connect', handleConnect);
     device.on('disconnect', handleDisconnect);
     setAlert('connected', 1000);
-    setAppState('currentDevice', device);
+    setAppState('device', device);
   }, []);
 
   const handleConnectUSB = useCallback(async () => {
@@ -95,24 +95,24 @@ export function DeviceMenu({ itemClassName }) {
 
   const handleDownload = useCallback(() => {
     if (downloadAlertId) return;
-    if (!appState.value?.currentDevice) return;
-    downloadProgram(appState.value.currentDevice, file.value, assets.value);
+    if (!appState.value?.device) return;
+    downloadProgram(appState.value.device, file.value, assets.value);
   }, []);
 
   const handleReset = useCallback(() => {
     if (downloadAlertId) return;
     setAlert('reseting', 1000);
-    appState.value?.currentDevice?.reset();
+    appState.value?.device?.reset();
   }, []);
 
   const handleDisconnect = useCallback(() => {
     if (downloadAlertId) return;
-    appState.value?.currentDevice?.disconnect();
+    appState.value?.device?.disconnect();
   });
 
   return (
     <>
-      <MenuSection disabled={downloadAlertId || !appState.value?.currentDevice}>
+      <MenuSection disabled={downloadAlertId || !appState.value?.device}>
         <MenuItem
           className={classNames(itemClassName, styles.blankCheckItem)}
           label={
@@ -136,7 +136,7 @@ export function DeviceMenu({ itemClassName }) {
       </MenuSection>
 
       <MenuSection disabled={downloadAlertId}>
-        {appState.value?.currentDevice ? (
+        {appState.value?.device ? (
           <MenuItem
             className={classNames(itemClassName, styles.blankCheckItem)}
             label={

@@ -201,14 +201,14 @@ export function FirmwareSection({ disabled, itemClassName }) {
   }, [firmwareName]);
 
   const handleUploadFirmware = useCallback(async () => {
-    if (appState.value?.currentDevice) return;
+    if (appState.value?.device) return;
     uploadFirmware(firmwareName);
   }, [firmwareName]);
 
   return (
     <MenuSection>
       <MenuItem
-        disabled={disabled || alertId || appState.value?.currentDevice || (firmwareLabel && !readyForUpdate.value)}
+        disabled={disabled || alertId || appState.value?.device || (firmwareLabel && !readyForUpdate.value)}
         className={classNames(itemClassName, styles.blankCheckItem)}
         onClick={handleUploadFirmware}
       >

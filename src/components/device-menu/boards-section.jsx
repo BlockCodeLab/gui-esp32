@@ -20,9 +20,9 @@ export function BoardsSection({ disabled, itemClassName }) {
   const chooseBoardHandler = useCallback(
     (boardType) => () =>
       batch(() => {
-        appState.value?.currentDevice?.disconnect();
+        appState.value?.device?.disconnect();
         batch(() => {
-          setAppState('currentDevice', null);
+          setAppState('device', null);
           setMeta({ boardType });
         });
       }),
