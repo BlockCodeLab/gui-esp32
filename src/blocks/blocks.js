@@ -8,6 +8,7 @@ import getOperatorsBlocks from './operators';
 import getDataBlocks from './data';
 import getTerminalBlocks from './terminal';
 import getSensingBlocks from './sensing';
+import getTextBlocks from './text';
 
 import { ESP32Boards } from '../lib/boards';
 export { ESP32Generator } from './generator';
@@ -23,7 +24,8 @@ export function buildBlocks(boardType) {
   const networkBlocks = getNetworkBlocks(4 + isCamera);
   const sensingBlocks = getSensingBlocks();
   const operatorsBlocks = getOperatorsBlocks();
-  const terminalBlocks = getTerminalBlocks(7 + isCamera);
+  const textBlocks = getTextBlocks(7 + isCamera);
+  const terminalBlocks = getTerminalBlocks(8 + isCamera);
   const dataBlocks = getDataBlocks();
 
   return [
@@ -35,6 +37,7 @@ export function buildBlocks(boardType) {
     networkBlocks,
     sensingBlocks,
     operatorsBlocks,
+    textBlocks,
     terminalBlocks,
     dataBlocks,
   ].filter(Boolean);

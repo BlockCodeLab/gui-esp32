@@ -5,6 +5,7 @@ export default (i) => ({
   name: translate('esp32.blocks.terminal', 'Terminal'),
   themeColor: themeColors.blocks.debug.primary,
   inputColor: themeColors.blocks.debug.secondary,
+  otherColor: themeColors.blocks.debug.tertiary,
   order: i,
   blocks: [
     {
