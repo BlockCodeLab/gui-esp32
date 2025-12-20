@@ -108,7 +108,7 @@ const uploadData = async (esploader, data) => {
   await ESPTool.disconnect(esploader);
 };
 
-const uploadFirmware = async (firmwareName) => {
+const uploadFirmware = async (firmwareName, address = 0) => {
   if (alertId) return;
 
   let esploader;
@@ -125,8 +125,8 @@ const uploadFirmware = async (firmwareName) => {
     if (data) {
       uploadData(esploader, [
         {
+          address,
           data: data.binaryString,
-          address: 0,
         },
       ]);
     }
@@ -146,8 +146,8 @@ const uploadFirmware = async (firmwareName) => {
     reader.addEventListener('load', (e) =>
       uploadData(esploader, [
         {
+          address,
           data: Base64Utils.arrayBufferToBinaryString(e.target.result),
-          address: 0,
         },
       ]),
     );
@@ -202,7 +202,11 @@ export function FirmwareSection({ disabled, itemClassName }) {
 
   const handleUploadFirmware = useCallback(async () => {
     if (appState.value?.device) return;
-    uploadFirmware(firmwareName);
+    let address = 0;
+    if (meta.value.boardType === ESP32Boards.ESP32) {
+      address = 0x1000;
+    }
+    uploadFirmware(firmwareName, address);
   }, [firmwareName]);
 
   return (

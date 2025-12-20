@@ -123,30 +123,32 @@ export function DeviceMenu({ itemClassName }) {
           }
           onClick={handleDownload}
         />
-        <MenuItem
-          className={classNames(itemClassName, styles.blankCheckItem)}
-          label={
-            <Text
-              id="gui.menubar.device.reset"
-              defaultMessage="Reset device"
-            />
-          }
-          onClick={handleReset}
-        />
       </MenuSection>
 
       <MenuSection disabled={downloadAlertId}>
         {appState.value?.device ? (
-          <MenuItem
-            className={classNames(itemClassName, styles.blankCheckItem)}
-            label={
-              <Text
-                id="gui.menubar.device.disconnect"
-                defaultMessage="Disconnect device"
-              />
-            }
-            onClick={handleDisconnect}
-          />
+          <>
+            <MenuItem
+              className={classNames(itemClassName, styles.blankCheckItem)}
+              label={
+                <Text
+                  id="gui.menubar.device.disconnect"
+                  defaultMessage="Disconnect device"
+                />
+              }
+              onClick={handleDisconnect}
+            />
+            <MenuItem
+              className={classNames(itemClassName, styles.blankCheckItem)}
+              label={
+                <Text
+                  id="gui.menubar.device.reset"
+                  defaultMessage="Reset device"
+                />
+              }
+              onClick={handleReset}
+            />
+          </>
         ) : (
           <>
             <MenuItem
