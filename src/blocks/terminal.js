@@ -23,20 +23,5 @@ export default (i) => ({
         return code;
       },
     },
-    {
-      id: 'eval',
-      text: translate('esp32.blocks.terminalEval', 'eval %1'),
-      inputs: {
-        CODE: {
-          type: 'string',
-          defaultValue: 'print("hello")',
-        },
-      },
-      mpy(block) {
-        let code = this.valueToCode(block, 'CODE', this.ORDER_NONE);
-        code = `${code.replace(/^["']/, '').replace(/["']$/, '')}\n`;
-        return code;
-      },
-    },
   ],
 });

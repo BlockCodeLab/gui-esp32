@@ -38,6 +38,7 @@ export function ESP32BlocksEditor() {
   return (
     <BlocksEditor
       enableCodePreview
+      enableProcedureExecute
       enableProcedureReturns
       disableSensingBlocks
       disableGenerateCode={tabIndex.value !== 0}
