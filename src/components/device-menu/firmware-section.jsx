@@ -178,7 +178,7 @@ export function FirmwareSection({ disabled, itemClassName }) {
     if ([ESP32Boards.ESP32_IOT_BOARD, ESP32Boards.ESP32S3_CAM].includes(meta.value.boardType)) {
       return (
         <Text
-          id="esp32.menubar.device.firmware"
+          id="gui.menubar.device.firmwareVersion"
           defaultMessage="Restore v{version} firmware..."
           version={firmwareJson.value?.version}
         />
@@ -221,7 +221,7 @@ export function FirmwareSection({ disabled, itemClassName }) {
             firmwareLabel
           ) : (
             <Text
-              id="esp32.menubar.device.caching"
+              id="gui.menubar.device.caching"
               defaultMessage="Caching latest firmware..."
             />
           )

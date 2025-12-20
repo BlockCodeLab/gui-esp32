@@ -11,9 +11,7 @@ esp32.menubar.device.esp32s3Cam: ESP32S3 CAM
 esp32.menubar.device.m5stack: M5Stack
 esp32.menubar.device.atomS3rCam: AtomS3R CAM
 
-esp32.menubar.device.firmware: 恢复 v{version} 固件…
 esp32.menubar.device.micropythonFirmware: 恢复 MicroPython 固件…
-esp32.menubar.device.caching: 正在缓存最新固件…
 
 esp32.extension.tags.controllers: 输入模块
 esp32.extension.tags.sensors: 传感器
@@ -133,7 +131,6 @@ esp32.blocks.i2sInit: 初始化I2S BCK:%1 WS:%2 DATA:%3 速率:%4Hz
 esp32.blocks.i2sPlay: I2S播放 %1
 esp32.blocks.terminal: 终端
 esp32.blocks.terminalPrint: 打印 %1
-esp32.blocks.terminalEval: 执行 %1
 esp32.blocks.temperature: 温度
 esp32.blocks.turnon: 开启
 esp32.blocks.turnoff: 关闭

@@ -11,9 +11,7 @@ esp32.menubar.device.esp32s3Cam: ESP32S3 CAM
 esp32.menubar.device.m5stack: M5Stack
 esp32.menubar.device.atomS3rCam: AtomS3R CAM
 
-esp32.menubar.device.firmware: Restore v{version} firmware ...
 esp32.menubar.device.micropythonFirmware: Restore MicroPython firmware...
-esp32.menubar.device.caching: Caching latest firmware...
 
 esp32.extension.tags.controllers: Controllers
 esp32.extension.tags.sensors: Sensors
@@ -133,7 +131,6 @@ esp32.blocks.i2sInit: initialize I2S BCK:%1 WS:%2 DATA:%3 rate:%4Hz
 esp32.blocks.i2sPlay: I2S play %1
 esp32.blocks.terminal: Terminal
 esp32.blocks.terminalPrint: print %1
-esp32.blocks.terminalEval: eval %1
 esp32.blocks.temperature: temperature
 esp32.blocks.turnon: on
 esp32.blocks.turnoff: off
