@@ -37,7 +37,7 @@ export default (boardType) => {
         hat: true,
         mpy(block) {
           let branchCode = this.statementToCode(block) || this.PASS;
-          branchCode = this.addEventTrap(branchCode, block.id);
+          branchCode = this.addEventTrap(branchCode, 'start');
           let code = '';
           code += '@_tasks__.append\n';
           code += branchCode;
@@ -66,7 +66,7 @@ export default (boardType) => {
             id = 0;
           }
           const timerName = `timer_${id}`;
-          const flagName = `period_${id}_flag`;
+          const flagName = this.createName('event_flag');
           this.definitions_['import_timer'] = 'from machine import Timer';
           this.definitions_[timerName] = `${timerName} = Timer(${id})`;
           this.definitions_[flagName] = `${flagName} = asyncio.ThreadSafeFlag()`;
@@ -79,10 +79,10 @@ export default (boardType) => {
           code += branchCode;
 
           branchCode = this.prefixLines(code, this.INDENT);
-          branchCode = this.addEventTrap(branchCode, block.id);
+          branchCode = this.addEventTrap(branchCode, 'timer');
           code = '@_tasks__.append\n';
           code += branchCode;
-          this.definitions_[`period_${id}`] = code;
+          this.definitions_[`${flagName}_callback`] = code;
 
           return `${timerName}.init(mode=Timer.PERIODIC, period=${period}, callback=lambda _: ${flagName}.set())\n`;
         },
