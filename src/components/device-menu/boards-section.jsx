@@ -6,6 +6,7 @@ import { ESP32Boards } from '../../lib/boards';
 import styles from './device-menu.module.css';
 
 import checkIcon from './icon-check.svg';
+import { getBoardPins } from '../../blocks/pins';
 
 export function BoardsSection({ disabled, itemClassName }) {
   const { appState } = useAppContext();

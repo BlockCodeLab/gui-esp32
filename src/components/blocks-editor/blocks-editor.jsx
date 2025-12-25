@@ -1,8 +1,9 @@
 import { basename, extname } from 'node:path';
-import { useCallback } from 'preact/hooks';
-import { useAppContext, useProjectContext } from '@blockcode/core';
+import { useCallback, useEffect } from 'preact/hooks';
+import { useAppContext, useProjectContext, setMeta } from '@blockcode/core';
 import { MicroPythonGenerator, BlocksEditor } from '@blockcode/blocks';
 import { ESP32Generator, buildBlocks } from '../../blocks/blocks';
+import { getBoardPins } from '../../blocks/pins';
 import { extensionTags } from './extension-tags';
 
 // 过滤字符
@@ -16,6 +17,10 @@ export function ESP32BlocksEditor() {
   const { tabIndex } = useAppContext();
 
   const { meta } = useProjectContext();
+
+  useEffect(() => {
+    setMeta('boardPins', getBoardPins(meta.value.boardType));
+  }, [meta.value.boardType]);
 
   const handleBuildinExtensions = useCallback(() => {
     return buildBlocks(meta.value.boardType, meta.value.classicEvents);

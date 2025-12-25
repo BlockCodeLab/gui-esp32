@@ -1,19 +1,185 @@
 import { translate, themeColors } from '@blockcode/core';
 import { ESP32Boards } from '../lib/boards';
 
-export default (boardType) => {
-  const isESP32 = [ESP32Boards.ESP32, ESP32Boards.ESP32_IOT_BOARD].includes(boardType);
+const isESP32 = (boardType) => [ESP32Boards.ESP32, ESP32Boards.ESP32_IOT_BOARD].includes(boardType);
+const isS3Cam = (boardType) => boardType === ESP32Boards.ESP32S3_CAM;
 
-  let ioPins = isESP32 ? 'ESP32_PINS' : 'ESP32S3_PINS';
-  let outPins = isESP32 ? 'ESP32_OUT_PINS' : 'ESP32S3_PINS';
-  let adcPins = isESP32 ? 'ESP32_ADC_PINS' : 'ESP32S3_ADC_PINS';
+const ESP32_PINS = [
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '21',
+  '22',
+  '23',
+  '25',
+  '26',
+  '27',
+  '32',
+  '33',
+  '34',
+  '35',
+  '36',
+  '39',
+];
+const ESP32_OUT_PINS = [
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '21',
+  '22',
+  '23',
+  '25',
+  '26',
+  '27',
+  '32',
+  '33',
+];
+const ESP32_ADC_PINS = [
+  '0',
+  '2',
+  '4',
+  '12',
+  '13',
+  '14',
+  '15',
+  '25',
+  '26',
+  '27',
+  '32',
+  '33',
+  '34',
+  '35',
+  '36',
+  '37',
+  '38',
+  '39',
+];
+const ESP32_DAC_PINS = ['25', '26'];
+const ESP32S3_PINS = [
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+  '21',
+  '35',
+  '36',
+  '37',
+  '38',
+  '39',
+  '40',
+  '41',
+  '42',
+  '43',
+  '44',
+  '45',
+  '46',
+  '47',
+  '48',
+];
+const ESP32S3_ADC_PINS = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+];
+const ESP32S3_CAM_PINS = ['0', '1', '2', '14', '41', '42', '43', '44', '46', '47', '48'];
+const ESP32S3_CAM_ADC_PINS = ['1', '2', '14'];
 
-  if (boardType === ESP32Boards.ESP32S3_CAM) {
-    ioPins = 'ESP32S3_CAM_PINS';
-    outPins = 'ESP32S3_CAM_PINS';
-    adcPins = 'ESP32S3_CAM_ADC_PINS';
+export const getBoardPins = (boardType) => {
+  // isESP32S3(boardType)
+  let all = ESP32S3_PINS;
+  let adc = ESP32S3_ADC_PINS;
+  let out = all;
+  let dac;
+  if (isESP32(boardType)) {
+    all = ESP32_PINS;
+    adc = ESP32_ADC_PINS;
+    dac = ESP32_DAC_PINS;
+    out = ESP32_OUT_PINS;
   }
+  if (isS3Cam(boardType)) {
+    all = ESP32S3_CAM_PINS;
+    adc = ESP32S3_CAM_ADC_PINS;
+  }
+  return {
+    all,
+    out,
+    adc,
+    dac,
+    pwm: out,
+    in: all,
+  };
+};
 
+export default (boardType) => {
+  const boardPins = getBoardPins(boardType);
   return {
     id: 'pin',
     name: translate('esp32.blocks.pin', 'Pins'),
@@ -28,7 +194,7 @@ export default (boardType) => {
         text: translate('esp32.blocks.setmode', 'set pin %1 mode to %2'),
         inputs: {
           PIN: {
-            menu: ioPins,
+            menu: boardPins.all,
           },
           MODE: {
             menu: [
@@ -67,7 +233,7 @@ export default (boardType) => {
         text: translate('esp32.blocks.setdigital', 'set pin %1 to %2'),
         inputs: {
           PIN: {
-            menu: outPins,
+            menu: boardPins.all,
           },
           VALUE: {
             inputMode: true,
@@ -89,52 +255,49 @@ export default (boardType) => {
           return code;
         },
       },
-      ...(boardType === ESP32Boards.ESP32_IOT_BOARD || boardType === ESP32Boards.ESP32
-        ? [
-            {
-              // 模拟 引脚设为
-              id: 'setDAC',
-              text: translate('esp32.blocks.setanalog', 'set pin %1 analog to %2'),
-              inputs: {
-                PIN: {
-                  menu: 'ESP32_DAC_PINS',
-                },
-                VALUE: {
-                  shadow: 'slider255',
-                },
-              },
-              mpy(block) {
-                const pin = block.getFieldValue('PIN') || 0;
-                const pinName = `pin_${pin}`;
-                const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
-                this.definitions_['import_pin'] = 'from machine import Pin';
-                this.definitions_['import_dac'] = 'from machine import DAC';
-                this.definitions_[pinName] = `${pinName} = DAC(Pin(${pin}))`;
-                const code = `${pinName}.write(${value})\n`;
-                return code;
-              },
-            },
-            {
-              // 0-255 滑块
-              id: 'slider255',
-              shadow: true,
-              output: 'integer',
-              inputs: {
-                VALUE: {
-                  type: 'slider',
-                  min: 0,
-                  max: 255,
-                  step: 1,
-                  defaultValue: 128,
-                },
-              },
-              mpy(block) {
-                const value = block.getFieldValue('VALUE') || 0;
-                return [value, this.ORDER_ATOMIC];
-              },
-            },
-          ]
-        : []),
+      {
+        // 模拟 引脚设为
+        id: 'setDAC',
+        hidden: !isESP32(boardType),
+        text: translate('esp32.blocks.setanalog', 'set pin %1 analog to %2'),
+        inputs: {
+          PIN: {
+            menu: boardPins.dac,
+          },
+          VALUE: {
+            shadow: 'slider255',
+          },
+        },
+        mpy(block) {
+          const pin = block.getFieldValue('PIN') || 0;
+          const pinName = `pin_${pin}`;
+          const value = this.valueToCode(block, 'VALUE', this.ORDER_NONE);
+          this.definitions_['import_pin'] = 'from machine import Pin';
+          this.definitions_['import_dac'] = 'from machine import DAC';
+          this.definitions_[pinName] = `${pinName} = DAC(Pin(${pin}))`;
+          const code = `${pinName}.write(${value})\n`;
+          return code;
+        },
+      },
+      {
+        // 0-255 滑块
+        id: 'slider255',
+        shadow: true,
+        output: 'integer',
+        inputs: {
+          VALUE: {
+            type: 'slider',
+            min: 0,
+            max: 255,
+            step: 1,
+            defaultValue: 128,
+          },
+        },
+        mpy(block) {
+          const value = block.getFieldValue('VALUE') || 0;
+          return [value, this.ORDER_ATOMIC];
+        },
+      },
       {
         // 数字引脚是否为高电平？
         id: 'digital',
@@ -142,7 +305,7 @@ export default (boardType) => {
         output: 'boolean',
         inputs: {
           PIN: {
-            menu: ioPins,
+            menu: boardPins.all,
           },
         },
         mpy(block) {
@@ -160,7 +323,7 @@ export default (boardType) => {
         output: 'integer',
         inputs: {
           PIN: {
-            menu: adcPins,
+            menu: boardPins.adc,
           },
         },
         mpy(block) {
@@ -181,7 +344,7 @@ export default (boardType) => {
         text: translate('esp32.blocks.setpwmfreq', 'set pin %1 pwm frequency to %2 Hz'),
         inputs: {
           PIN: {
-            menu: outPins,
+            menu: boardPins.pwm,
           },
           FREQ: {
             type: 'integer',
@@ -205,7 +368,7 @@ export default (boardType) => {
         text: translate('esp32.blocks.setpwm', 'set pin %1 pwm to %2'),
         inputs: {
           PIN: {
-            menu: outPins,
+            menu: boardPins.pwm,
           },
           VALUE: {
             shadow: 'slider1023',
@@ -249,7 +412,7 @@ export default (boardType) => {
         substack: true,
         inputs: {
           PIN: {
-            menu: ioPins,
+            menu: boardPins.all,
           },
           INTERRUPT: {
             menu: [
@@ -300,7 +463,7 @@ export default (boardType) => {
         text: translate('esp32.blocks.detachinterrupt', 'detach pin %1 interrupt'),
         inputs: {
           PIN: {
-            menu: ioPins,
+            menu: boardPins.all,
           },
         },
         mpy(block) {
@@ -309,170 +472,5 @@ export default (boardType) => {
         },
       },
     ],
-    menus: {
-      ESP32_PINS: {
-        items: [
-          '0',
-          '1',
-          '2',
-          '3',
-          '4',
-          '5',
-          '6',
-          '7',
-          '8',
-          '9',
-          '10',
-          '11',
-          '12',
-          '13',
-          '14',
-          '15',
-          '16',
-          '17',
-          '18',
-          '19',
-          '21',
-          '22',
-          '23',
-          '25',
-          '26',
-          '27',
-          '32',
-          '33',
-          '34',
-          '35',
-          '36',
-          '39',
-        ],
-      },
-      ESP32_OUT_PINS: {
-        items: [
-          '0',
-          '1',
-          '2',
-          '3',
-          '4',
-          '5',
-          '6',
-          '7',
-          '8',
-          '9',
-          '10',
-          '11',
-          '12',
-          '13',
-          '14',
-          '15',
-          '16',
-          '17',
-          '18',
-          '19',
-          '21',
-          '22',
-          '23',
-          '25',
-          '26',
-          '27',
-          '32',
-          '33',
-        ],
-      },
-      ESP32_ADC_PINS: {
-        items: [
-          '0',
-          '2',
-          '4',
-          '12',
-          '13',
-          '14',
-          '15',
-          '25',
-          '26',
-          '27',
-          '32',
-          '33',
-          '34',
-          '35',
-          '36',
-          '37',
-          '38',
-          '39',
-        ],
-      },
-      ESP32_DAC_PINS: {
-        items: ['25', '26'],
-      },
-      ESP32S3_PINS: {
-        items: [
-          '0',
-          '1',
-          '2',
-          '3',
-          '4',
-          '5',
-          '6',
-          '7',
-          '8',
-          '9',
-          '10',
-          '11',
-          '12',
-          '13',
-          '14',
-          '15',
-          '16',
-          '17',
-          '18',
-          '19',
-          '20',
-          '21',
-          '35',
-          '36',
-          '37',
-          '38',
-          '39',
-          '40',
-          '41',
-          '42',
-          '43',
-          '44',
-          '45',
-          '46',
-          '47',
-          '48',
-        ],
-      },
-      ESP32S3_ADC_PINS: {
-        items: [
-          '1',
-          '2',
-          '3',
-          '4',
-          '5',
-          '6',
-          '7',
-          '8',
-          '9',
-          '10',
-          '11',
-          '12',
-          '13',
-          '14',
-          '15',
-          '16',
-          '17',
-          '18',
-          '19',
-          '20',
-        ],
-      },
-      ESP32S3_CAM_PINS: {
-        items: ['0', '1', '2', '14', '41', '42', '43', '44', '46', '47', '48'],
-      },
-      ESP32S3_CAM_ADC_PINS: {
-        items: ['1', '2', '14'],
-      },
-    },
   };
 };
