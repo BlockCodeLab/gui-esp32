@@ -48,7 +48,7 @@ export default (boardType) => {
       {
         // 设置定时器
         id: 'timerset',
-        text: translate('esp32.blocks.timerset', 'set timer # %1 per %2 milliseconds'),
+        text: translate('esp32.blocks.timerset', 'trigger timer #%1 per %2 milliseconds'),
         substack: true,
         inputs: {
           ID: {
