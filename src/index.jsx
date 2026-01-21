@@ -5,11 +5,12 @@ import { ScratchBlocks, blocksTab, codeReviewTab } from '@blockcode/blocks';
 import { terminalTab } from '@blockcode/code';
 
 import { ESP32BlocksEditor } from './components/blocks-editor/blocks-editor';
+import { DownloadLabel } from './components/bar-items/download-label';
 import { DeviceIcon } from './components/device-menu/device-icon';
 import { DeviceLabel } from './components/device-menu/device-label';
 import { DeviceMenu } from './components/device-menu/device-menu';
-import { defaultProject } from './lib/default-project';
 import { ESP32Boards } from './lib/boards';
+import { defaultProject } from './lib/default-project';
 
 export default {
   onNew() {
@@ -65,6 +66,12 @@ export default {
       icon: <DeviceIcon />,
       label: <DeviceLabel />,
       Menu: DeviceMenu,
+    },
+  ],
+
+  barItems: [
+    {
+      Label: DownloadLabel,
     },
   ],
 
