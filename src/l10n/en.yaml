@@ -11,7 +11,7 @@ esp32.menubar.device.esp32s3Cam: ESP32S3 CAM
 esp32.menubar.device.m5stack: M5Stack
 esp32.menubar.device.atomS3rCam: AtomS3R CAM
 
-esp32.menubar.device.micropythonFirmware: Restore MicroPython firmware...
+esp32.menubar.device.micropythonFirmware: "Restore MicroPython firmware..."
 
 esp32.extension.tags.controllers: Controllers
 esp32.extension.tags.sensors: Sensors
