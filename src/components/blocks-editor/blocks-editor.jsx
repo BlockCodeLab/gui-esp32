@@ -14,13 +14,13 @@ const generator = new ESP32Generator();
 const handleExtensionsFilter = () => ['device', 'data', 'ai'];
 
 export function ESP32BlocksEditor() {
-  const { tabIndex } = useAppContext();
+  const { splashVisible, tabIndex } = useAppContext();
 
   const { meta } = useProjectContext();
 
   useEffect(() => {
     setMeta('boardPins', getBoardPins(meta.value.boardType));
-  }, [meta.value.boardType]);
+  }, [splashVisible.value, meta.value.boardType]);
 
   const handleBuildinExtensions = useCallback(() => {
     return buildBlocks(meta.value.boardType, meta.value.classicEvents);
