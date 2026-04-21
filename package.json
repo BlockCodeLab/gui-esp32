@@ -1,7 +1,7 @@
 {
   "name": "@blockcode/gui-esp32",
+  "version": "0.2.4",
   "private": "true",
-  "version": "0.2.3",
   "type": "module",
   "module": "dist/index.js",
   "exports": {
@@ -12,14 +12,6 @@
       "import": "./dist/info.js"
     }
   },
-  "firmwares": {
-    "iotboard": {
-      "download": "https://firmware.blockcode.fun/iotboard"
-    },
-    "esp32s3cam": {
-      "download": "https://firmware.blockcode.fun/esp32s3cam"
-    }
-  },
   "dependencies": {
     "@preact/signals": "^2.8.1",
     "preact": "^10.28.4"
@@ -27,5 +19,13 @@
   "devDependencies": {
     "@types/bun": "latest",
     "playground-build": "git+https://github.com/BlockCodeLab/playground-build.git"
+  },
+  "firmwares": {
+    "iotboard": {
+      "download": "https://firmware.blockcode.fun/iotboard"
+    },
+    "esp32s3cam": {
+      "download": "https://firmware.blockcode.fun/esp32s3cam"
+    }
   }
 }
