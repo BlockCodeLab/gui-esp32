@@ -63,6 +63,10 @@ export default {
 
   menuItems: [
     {
+      id: 'view',
+      autoDisplayPanel: true,
+    },
+    {
       icon: <DeviceIcon />,
       label: <DeviceLabel />,
       Menu: DeviceMenu,
