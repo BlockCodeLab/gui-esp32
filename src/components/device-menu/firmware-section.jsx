@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useCallback } from 'preact/hooks';
-import { useSignal } from '@preact/signals';
+import { useSignal, useComputed } from '@preact/signals';
 import { nanoid, classNames, sleep, Base64Utils, getBinaryCache, setBinaryCache } from '@blockcode/utils';
-import { useAppContext, useProjectContext, setAlert, delAlert, setAppState } from '@blockcode/core';
-import { ESPTool } from '@blockcode/board';
+import { useAppContext, useProjectContext, setAlert, delAlert, setAppState, logger } from '@blockcode/core';
+import { ESPTool, MPYBoard } from '@blockcode/board';
 import { ESP32Boards } from '../../lib/boards';
 import { firmwares } from '../../../package.json';
 import deviceFilters from './device-filters.yaml';
@@ -10,22 +10,17 @@ import deviceFilters from './device-filters.yaml';
 import { Text, MenuSection, MenuItem } from '@blockcode/core';
 import styles from './device-menu.module.css';
 
-let alertId = null;
-
-const uploadingAlert = (progress) => {
+const uploadingAlert = (progress, id) => {
   if (progress < 100) {
-    setAlert('restoring', {
-      id: alertId,
-      progress,
-    });
+    setAlert('restoring', { id, progress });
   } else {
-    setAlert('recovering', { id: alertId });
+    setAlert('recovering', { id });
   }
 };
 
-const closeAlert = () => {
-  delAlert(alertId);
-  alertId = null;
+const closeAlert = (id) => {
+  delAlert(id);
+  setAppState('deviceAlertId', null);
 };
 
 const errorAlert = (err) => {
@@ -92,28 +87,35 @@ const getFirmwareCache = async (firmwareName, downloadUrl, firmwareHash, firmwar
 };
 
 const uploadData = async (esploader, data) => {
-  alertId = nanoid();
+  const alertId = nanoid();
   setAlert('erasing', { id: alertId });
 
   try {
-    await ESPTool.writeFlash(esploader, data, true, (val) => uploadingAlert(val));
+    await ESPTool.writeFlash(esploader, data, true, (val) => uploadingAlert(val, alertId));
     setAlert('restoreCompleted', {
       id: alertId,
-      onClose: closeAlert,
+      onClose() {
+        closeAlert(alertId);
+      },
     });
   } catch (err) {
     errorAlert(err.name);
-    closeAlert();
+    closeAlert(alertId);
   }
   await ESPTool.disconnect(esploader);
+
+  logger.warn(translate('gui.logs.disconnected', 'Device disconnected'));
+  setAppState('device', null);
 };
 
-const uploadFirmware = async (firmwareName, address = 0) => {
-  if (alertId) return;
-
+const uploadFirmware = async (device, firmwareName, address = 0) => {
   let esploader;
   try {
-    esploader = await ESPTool.connect(deviceFilters, 460800);
+    if (device) {
+      esploader = await ESPTool.reconnect(device, 460800);
+    } else {
+      esploader = await ESPTool.connect(deviceFilters, 460800);
+    }
   } catch (err) {
     errorAlert(err.name);
   }
@@ -159,6 +161,8 @@ export function FirmwareSection({ disabled, itemClassName }) {
 
   const { meta } = useProjectContext();
 
+  const device = useComputed(() => appState.value?.device);
+
   const readyForUpdate = useSignal(false);
 
   const firmwareJson = useSignal(null);
@@ -186,8 +190,6 @@ export function FirmwareSection({ disabled, itemClassName }) {
     }
   }, [meta.value.boardType, firmwareJson.value?.version]);
 
-  useEffect(() => (alertId = null), []);
-
   useEffect(async () => {
     if (!firmwareName || !firmwares[firmwareName]) return;
     readyForUpdate.value = false;
@@ -200,19 +202,19 @@ export function FirmwareSection({ disabled, itemClassName }) {
     getFirmwareCache(firmwareName, downloadUrl, firmwareHash, firmwareJson.value.version, readyForUpdate);
   }, [firmwareName]);
 
-  const handleUploadFirmware = useCallback(async () => {
-    if (appState.value?.device) return;
+  const handleUploadFirmware = useCallback(() => {
+    if (disabled || device.value?.type === 'ble') return;
     let address = 0;
     if (meta.value.boardType === ESP32Boards.ESP32) {
       address = 0x1000;
     }
-    uploadFirmware(firmwareName, address);
+    uploadFirmware(device.value, firmwareName, address);
   }, [firmwareName]);
 
   return (
     <MenuSection>
       <MenuItem
-        disabled={disabled || alertId || appState.value?.device || (firmwareLabel && !readyForUpdate.value)}
+        disabled={disabled || device.value?.type === 'ble' || (firmwareLabel && !readyForUpdate.value)}
         className={classNames(itemClassName, styles.blankCheckItem)}
         onClick={handleUploadFirmware}
       >
