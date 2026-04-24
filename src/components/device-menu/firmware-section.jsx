@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useCallback } from 'preact/hooks';
 import { useSignal, useComputed } from '@preact/signals';
 import { nanoid, classNames, sleep, Base64Utils, getBinaryCache, setBinaryCache } from '@blockcode/utils';
-import { useAppContext, useProjectContext, setAlert, delAlert, setAppState, logger } from '@blockcode/core';
-import { ESPTool, MPYBoard } from '@blockcode/board';
+import { useAppContext, useProjectContext, setAlert, delAlert, setAppState, logger, translate } from '@blockcode/core';
+import { ESPTool } from '@blockcode/board';
 import { ESP32Boards } from '../../lib/boards';
 import { firmwares } from '../../../package.json';
 import deviceFilters from './device-filters.yaml';
@@ -89,6 +89,7 @@ const getFirmwareCache = async (firmwareName, downloadUrl, firmwareHash, firmwar
 const uploadData = async (esploader, data) => {
   const alertId = nanoid();
   setAlert('erasing', { id: alertId });
+  setAppState('deviceAlertId', alertId);
 
   try {
     await ESPTool.writeFlash(esploader, data, true, (val) => uploadingAlert(val, alertId));
