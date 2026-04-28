@@ -25,7 +25,7 @@ export function BoardsSection({ disabled, itemClassName }) {
     if (!meta.value.boardType) {
       setMeta('boardType', ESP32Boards.ESP32S3);
     }
-  }, []);
+  }, [meta.value.boardType]);
 
   const chooseBoardHandler = useCallback(
     (boardType) => () =>
