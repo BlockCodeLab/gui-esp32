@@ -235,6 +235,25 @@ export function FirmwareSection({ disabled, itemClassName }) {
           />
         )}
       </MenuItem>
+
+      {[ESP32Boards.ESP32, ESP32Boards.ESP32S3].includes(meta.value.boardType) && (
+        <MenuItem
+          disabled={disabled || device.value?.type === 'ble'}
+          className={classNames(itemClassName, styles.blankCheckItem)}
+          onClick={useCallback(() => {
+            if (meta.value.boardType === ESP32Boards.ESP32) {
+              window.open('https://micropython.org/download/ESP32_GENERIC');
+            } else if (meta.value.boardType === ESP32Boards.ESP32S3) {
+              window.open('https://micropython.org/download/ESP32_GENERIC_S3');
+            }
+          }, [])}
+        >
+          <Text
+            id="esp32.menubar.device.downloadMicropythonFirmware"
+            defaultMessage="Download MicroPython firmware"
+          />
+        </MenuItem>
+      )}
     </MenuSection>
   );
 }
