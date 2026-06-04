@@ -58,6 +58,7 @@ esp32.blocks.setpwmfreq: 將引腳 %1 PWM 頻率設為 %2
 esp32.blocks.setpwm: 將引腳 %1 PWM 設為 %2
 esp32.blocks.setanalog: 將引腳 %1 模擬值設為 %2
 esp32.blocks.isDigitalHigh: 引腳 %1 是高電平？
+esp32.blocks.isDigitalLow: 引腳 %1 是低電平？
 esp32.blocks.analogValue: 引腳 %1 模擬值
 esp32.blocks.attachinterrupt: 將引腳 %1 中斷模式設為 %2
 esp32.blocks.interruptRising: 電平上升
