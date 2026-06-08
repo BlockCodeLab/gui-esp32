@@ -164,6 +164,18 @@ export function FirmwareSection({ disabled, itemClassName }) {
 
   const device = useComputed(() => appState.value?.device);
 
+  const deviceName = useMemo(() => {
+    if (meta.value.boardType === ESP32Boards.ESP32) {
+      return translate('esp32.menubar.device.esp32', 'ESP32');
+    }
+    if (meta.value.boardType === ESP32Boards.ESP32S3) {
+      return translate('esp32.menubar.device.esp32s3', 'ESP32-S3');
+    }
+    if (meta.value.boardType === ESP32Boards.ESP32C3) {
+      return translate('esp32.menubar.device.esp32c3', 'ESP32-C3');
+    }
+  }, [meta.value.boardType]);
+
   const readyForUpdate = useSignal(false);
 
   const firmwareJson = useSignal(null);
@@ -231,7 +243,8 @@ export function FirmwareSection({ disabled, itemClassName }) {
         ) : (
           <Text
             id="esp32.menubar.device.micropythonFirmware"
-            defaultMessage="Restore MicroPython firmware"
+            defaultMessage="Restore {name} firmware..."
+            name={deviceName}
           />
         )}
       </MenuItem>
