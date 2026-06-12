@@ -6,7 +6,6 @@ import getNetworkBlocks from './network';
 import getProtocolsBlocks from './protocols';
 import getOperatorsBlocks from './operators';
 import getDataBlocks from './data';
-import getTerminalBlocks from './terminal';
 import getSensingBlocks from './sensing';
 import getTextBlocks from './text';
 
@@ -25,7 +24,6 @@ export function buildBlocks(boardType) {
   const sensingBlocks = getSensingBlocks();
   const operatorsBlocks = getOperatorsBlocks();
   const textBlocks = getTextBlocks(7 + isCamera);
-  const terminalBlocks = getTerminalBlocks(8 + isCamera);
   const dataBlocks = getDataBlocks();
 
   return [
@@ -38,7 +36,6 @@ export function buildBlocks(boardType) {
     sensingBlocks,
     operatorsBlocks,
     textBlocks,
-    terminalBlocks,
     dataBlocks,
   ].filter(Boolean);
 }
