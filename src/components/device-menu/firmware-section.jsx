@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useCallback } from 'preact/hooks';
 import { useSignal, useComputed } from '@preact/signals';
-import { nanoid, classNames, sleep, Base64Utils, getBinaryCache, setBinaryCache } from '@blockcode/utils';
+import { nanoid, classNames, sleep, sleepMs, Base64Utils, getBinaryCache, setBinaryCache } from '@blockcode/utils';
 import { useAppContext, useProjectContext, setAlert, delAlert, setAppState, logger, translate } from '@blockcode/core';
-import { ESPTool } from '@blockcode/board';
+import { ESPTool, MPYBoard } from '@blockcode/board';
 import { ESP32Boards } from '../../lib/boards';
 import { firmwares } from '../../../package.json';
 import deviceFilters from './device-filters.yaml';
@@ -86,14 +86,14 @@ const getFirmwareCache = async (firmwareName, downloadUrl, firmwareHash, firmwar
   readyForUpdate.value = true;
 };
 
-const uploadData = async (esploader, data) => {
+const uploadData = async (esploader, needReset, data) => {
   const alertId = nanoid();
   setAlert('erasing', { id: alertId });
   setAppState('deviceAlertId', alertId);
 
   try {
     await ESPTool.writeFlash(esploader, data, true, (val) => uploadingAlert(val, alertId));
-    setAlert('restoreCompleted', {
+    setAlert(needReset ? 'restoreCompleted' : 'restoreCompletedNotReset', {
       id: alertId,
       onClose() {
         closeAlert(alertId);
@@ -105,11 +105,11 @@ const uploadData = async (esploader, data) => {
   }
   await ESPTool.disconnect(esploader);
 
-  logger.warn(translate('gui.logs.disconnected', 'Device disconnected'));
-  setAppState('device', null);
+  // logger.warn(translate('gui.logs.disconnected', 'Device disconnected'));
+  // setAppState('device', null);
 };
 
-const uploadFirmware = async (device, firmwareName, address = 0) => {
+const uploadFirmware = async (device, needReset, firmwareName, address = 0) => {
   let esploader;
   try {
     if (device) {
@@ -126,34 +126,36 @@ const uploadFirmware = async (device, firmwareName, address = 0) => {
   if (firmwareName) {
     const data = await getBinaryCache(`${firmwareName}Firmware`);
     if (data) {
-      uploadData(esploader, [
+      return await uploadData(esploader, needReset, [
         {
           address,
           data: data.binaryString,
         },
       ]);
     }
-    return;
   }
 
   // 用户自选固件
-  const fileInput = document.createElement('input');
-  fileInput.type = 'file';
-  fileInput.accept = '.bin';
-  fileInput.multiple = false;
-  fileInput.click();
-  fileInput.addEventListener('cancel', () => ESPTool.disconnect(esploader));
-  fileInput.addEventListener('change', async (e) => {
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(e.target.files[0]);
-    reader.addEventListener('load', (e) =>
-      uploadData(esploader, [
-        {
-          address,
-          data: Base64Utils.arrayBufferToBinaryString(e.target.result),
-        },
-      ]),
-    );
+  return new Promise((resolve) => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.bin';
+    fileInput.multiple = false;
+    fileInput.click();
+    fileInput.addEventListener('cancel', () => ESPTool.disconnect(esploader));
+    fileInput.addEventListener('change', async (e) => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(e.target.files[0]);
+      reader.addEventListener('load', async (e) => {
+        await uploadData(esploader, needReset, [
+          {
+            address,
+            data: Base64Utils.arrayBufferToBinaryString(e.target.result),
+          },
+        ]);
+        resolve();
+      });
+    });
   });
 };
 
@@ -203,6 +205,26 @@ export function FirmwareSection({ disabled, itemClassName }) {
     }
   }, [meta.value.boardType, firmwareJson.value?.version]);
 
+  const connectDevice = useCallback(async (newDevice) => {
+    if (newDevice === device.value) return;
+    await device.value?.disconnect();
+    await sleepMs(500);
+    const handleConnect = () => connectDevice(newDevice);
+    const handleDisconnect = (err) => {
+      if (err) {
+        errorAlert(err, deviceAlertId.value);
+        logger.warn(translate('gui.logs.disconnected', 'Device disconnected') + ': ' + err.message);
+      }
+      setAppState('device', null);
+      setAppState('deviceAlertId', null);
+      newDevice.off('connect', handleConnect);
+      newDevice.off('disconnect', handleDisconnect);
+    };
+    newDevice.on('connect', handleConnect);
+    newDevice.on('disconnect', handleDisconnect);
+    setAppState('device', newDevice);
+  }, []);
+
   useEffect(async () => {
     if (!firmwareName || !firmwares[firmwareName]) return;
     readyForUpdate.value = false;
@@ -215,13 +237,31 @@ export function FirmwareSection({ disabled, itemClassName }) {
     getFirmwareCache(firmwareName, downloadUrl, firmwareHash, firmwareJson.value.version, readyForUpdate);
   }, [firmwareName]);
 
-  const handleUploadFirmware = useCallback(() => {
+  const handleUploadFirmware = useCallback(async () => {
     if (disabled || device.value?.type === 'ble') return;
     let address = 0;
     if (meta.value.boardType === ESP32Boards.ESP32) {
       address = 0x1000;
     }
-    uploadFirmware(device.value, firmwareName, address);
+    const needReset = meta.value.boardType !== ESP32Boards.ESP32_IOT_BOARD;
+    await uploadFirmware(device.value, needReset, firmwareName, address);
+
+    if (needReset) return;
+
+    let currentDevice = device.value;
+    if (!currentDevice) {
+      currentDevice = MPYBoard.fromPort(esploader.transport.device);
+    }
+    await currentDevice.connect({
+      baudRate: 115200,
+    });
+    await connectDevice(currentDevice);
+    setAppState('device', currentDevice);
+    // reset
+    await sleepMs(500);
+    await device.value.setSignals({ dataTerminalReady: false, requestToSend: true });
+    await sleepMs(100);
+    await device.value.setSignals({ dataTerminalReady: true });
   }, [firmwareName]);
 
   return (
