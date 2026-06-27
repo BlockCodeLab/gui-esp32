@@ -11,7 +11,7 @@ esp32.menubar.device.esp32s3Cam: ESP32S3 CAM
 esp32.menubar.device.m5stack: M5Stack
 esp32.menubar.device.atomS3rCam: AtomS3R CAM
 
-esp32.menubar.device.micropythonFirmware: 還原 {name} 固件…
+esp32.menubar.device.micropythonFirmware: 恢復 {name} 自製固件…
 esp32.menubar.device.downloadMicropythonFirmware: 下載 MicroPython 固件
 
 esp32.extension.tags.controllers: 輸入模組
