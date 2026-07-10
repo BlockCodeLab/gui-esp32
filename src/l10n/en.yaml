@@ -14,15 +14,6 @@ esp32.menubar.device.atomS3rCam: AtomS3R CAM
 esp32.menubar.device.micropythonFirmware: Restore {name} custom firmware...
 esp32.menubar.device.downloadMicropythonFirmware: Download MicroPython firmware
 
-esp32.extension.tags.controllers: Controllers
-esp32.extension.tags.sensors: Sensors
-esp32.extension.tags.actuators: Actuators
-esp32.extension.tags.displays: Displays
-esp32.extension.tags.modules: Modules
-esp32.extension.tags.communication: Communication
-esp32.extension.tags.data: Data
-esp32.extension.tags.kits: Kits
-
 esp32.blocks.wait: wait %1 milliseconds
 esp32.blocks.break: break
 esp32.blocks.continue: continue

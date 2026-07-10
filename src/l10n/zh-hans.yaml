@@ -14,15 +14,6 @@ esp32.menubar.device.atomS3rCam: AtomS3R CAM
 esp32.menubar.device.micropythonFirmware: 烧录 {name} 自制固件…
 esp32.menubar.device.downloadMicropythonFirmware: 下载 MicroPython 固件
 
-esp32.extension.tags.controllers: 输入模块
-esp32.extension.tags.sensors: 传感器
-esp32.extension.tags.actuators: 执行器
-esp32.extension.tags.displays: 显示模块
-esp32.extension.tags.modules: 智能模块
-esp32.extension.tags.communication: 通讯
-esp32.extension.tags.data: 数据
-esp32.extension.tags.kits: 套件
-
 esp32.blocks.wait: 等待 %1 毫秒
 esp32.blocks.break: 跳出重复执行
 esp32.blocks.continue: 跳到下一次执行
